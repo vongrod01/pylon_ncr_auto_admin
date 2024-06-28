@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/part.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="Datatables/datatables.min.css" />
+    <link rel="stylesheet" href="css/jquery/jquery-ui.css">
+
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="Datatables/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="css/datetimepicker/jquery.datetimepicker.min.css">
+    <script type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.js"></script>
+
+    <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/fontawesome/all.min.js"></script>
+
+    <script type="text/javascript" src="js/sweetalert/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
+
+    <title>Part</title>
+</head>
+
+<body>
+    <div class="mb-2" id="pnlHeader">
+        <h2 class="ms-2">LIST  OF  PART</h2>
+    </div>
+
+
+
+    <div class="box-shadow4 m-1 mb-2 rounded-2 p-2 overflow-auto" id="pnlSearch">
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtRxNo_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">RxNo</span>
+            <input type="text" class="form-control search-border" name="edtRxNo_Search" id="edtRxNo_Search"
+                placeholder="RxNo" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtPartNo_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">PartNo</span>
+            <input type="text" class="form-control search-border" name="edtPartNo_Search" id="edtPartNo_Search"
+                placeholder="PartNo" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtPartName_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">PartName</span>
+            <input type="text" class="form-control search-border" name="edtPartName_Search" id="edtPartName_Search"
+                placeholder="PartName" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtModel_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Model</span>
+            <input type="text" class="form-control search-border" name="edtModel_Search" id="edtModel_Search"
+                placeholder="Model" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtProduction_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Production</span>
+            <input type="text" class="form-control search-border" name="edtProduction_Search" id="edtProduction_Search"
+                placeholder="Production" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtSectionCode_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">SectionCode</span>
+            <input type="text" class="form-control search-border" name="edtSectionCode_Search" id="edtSectionCode_Search"
+                placeholder="SectionCode" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtInputText1" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">InspectedQTY</span>
+            <input type="number" class="form-control search-border" name="edtInspectedQTY_Search" id="edtInspectedQTY_Search"
+                placeholder="InspectedQTY" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtDetail_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Detail</span>
+            <input type="text" class="form-control search-border" name="edtDetail_Search" id="edtDetail_Search"
+                placeholder="Detail" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtDetail2_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Detail2</span>
+            <input type="text" class="form-control search-border" name="edtDetail2_Search" id="edtDetail2_Search"
+                placeholder="Detail2" />
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="chkActive_Search" checked>
+            <label class="form-check-label" for="chkActive_Search">
+                Active
+            </label>
+        </div>
+
+        <button type="button" class="btn btn-primary me-2 rounded-2" role="button" id="btnSearchPart">
+            <i class="fas fa-search"></i>
+            Search
+        </button>
+        <button class="btn btn-secondary me-2" onclick="" id="btnResetPart">
+            <i class="fas fa-redo"></i>
+            Reset
+        </button>
+
+
+
+    </div>
+    <div class="m-1 rounded-2 p-2 grid-items-left mb-2" id="pnlButton">
+        <button type="button" class="btn btn-secondary me-2 rounded-2" data-bs-toggle="modal"
+            data-bs-target="#modalPartDataEntry" role="button" id="btnPartAdd">
+            <i class="fas fa-plus"></i>
+            Add
+        </button>
+        <button class="btn btn-secondary me-2" onclick="" id="btnPartEdit">
+            <i class="fas fa-edit"></i>
+            Edit
+        </button>
+        <button class="btn btn-danger me-2">
+            <i class="fas fa-window-close"></i>
+            Delete
+        </button>
+
+
+    </div>
+    <div class="box-shadow4 m-1 rounded-1 p-2 mb-2" id="pnlContentTableView">
+        <table id="part_table" class="table table-striped table-bordered table-hover w-100">
+            <thead class="position-sticky top-0">
+                <tr>
+
+                    <th class="text-center align-middle">RxNo</th>
+                    <th class="text-center align-middle">PartNo</th>
+                    <th class="text-center align-middle">PartName</th>
+                    <th class="text-center align-middle">Model</th>
+                    <th class="text-center align-middle">Production</th>
+                    <th class="text-center align-middle">SectionCode</th>
+                    <th class="text-center align-middle">InspectedQTY</th>
+                    <th class="text-center align-middle">Detail</th>
+                    <th class="text-center align-middle">Detail2</th>
+                    <th class="text-center align-middle">Active</th>
+                    <th class="text-center align-middle">AddDate</th>
+                    <th class="text-center align-middle">UpdateDate</th>
+                    <th class="text-center align-middle">AddBy</th>
+                    <th class="text-center align-middle">UpdateBy</th>
+
+                </tr>
+            </thead>
+            <tbody id="part_body">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between" id="pnlDetail">
+
+        <div class="ms-2">
+            <i class="fas fa-user me-1"></i>
+            Login by : FName LName<b> [ Role/Plant ] </b>
+        </div>
+        <div class="me-2">
+            Create by : Redtech System Co., Ltd.
+            <img src="file/img/redtech_logo.png" class="img-fluid" style="height: 30px;width: 80px;">
+        </div>
+
+
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade bd-example-modal-fullscreen" id="modalPartDataEntry" aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel">
+        <div class="modal-dialog modal-fullscreen page_font_family" id="ModalDisplay">
+            <div class="modal-content">
+                <div class="modal-header display-part-header p-0">
+                    <h3 class="modal-title">
+                        <span id="modal-title-label">PART</span>
+                        <span id="modal-title-label-control">NONE</span>
+
+                    </h3>
+
+                    <div class="btn" data-bs-dismiss="modal" aria-label="Close">
+
+                        <i class="fas fa-window-close fa-2x"></i>
+                    </div>
+                </div>
+                <div class="p-1 pb-0 modal-body overflow-hidden">
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">RxNo</span>
+                        <input type="text" class="form-control" name="edtRxNo_Entry" id="edtRxNo_Entry" placeholder="RxNo" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">PartNo</span>
+                        <input type="text" class="form-control" name="edtPartNo_Entry" id="edtPartNo_Entry" placeholder="PartNo" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">PartName</span>
+                        <input type="text" class="form-control" name="edtPartName_Entry" id="edtPartName_Entry"
+                            placeholder="PartName" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Model</span>
+                        <input type="text" class="form-control" name="edtModel_Entry" id="edtModel_Entry" placeholder="Model" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Production</span>
+                        <input type="text" class="form-control" name="edtProduction_Entry" id="edtProduction_Entry"
+                            placeholder="Production" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">SectionCode</span>
+                        <input type="text" class="form-control" name="edtSectionCode_Entry" id="edtSectionCode_Entry"
+                            placeholder="SectionCode" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">InspectedQTY</span>
+                        <input type="number" class="form-control" name="edtInspectedQTY_Entry" id="edtInspectedQTY_Entry"
+                            placeholder="InspectedQTY" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Detail</span>
+                        <textarea class="form-control" name="edtDetail_Entry" id="edtDetail_Entry" placeholder="Detail"></textarea>
+
+
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Detail2</span>
+                        <textarea class="form-control" name="edtDetail2_Entry" id="edtDetail2_Entry"
+                            placeholder="Detail2"></textarea>
+
+                    </div>
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="chkActive_Entry" checked>
+                        <label class="form-check-label" for="chkActive_Entry">
+                            Active
+                        </label>
+                    </div>
+
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">AddBy</span>
+                        <input type="text" class="form-control" name="edtAddBy_Entry" id="edtAddBy_Entry"
+                            placeholder="AddBy" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">UpdateBy</span>
+                        <input type="text" class="form-control" name="edtUpdateBy_Entry" id="edtUpdateBy_Entry"
+                            placeholder="UpdateBy" />
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" btnPartSave onclick="dataEntry_Part()">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-target="#itemModal" data-bs-toggle="modal"
+                        data-bs-dismiss="modal" id="btnPartClose">
+                        <i class="fas fa-window-close"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="js/part_fe.js"></script>
+
+</html>

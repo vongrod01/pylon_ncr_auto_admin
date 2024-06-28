@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="Datatables/datatables.min.css" />
+    <link rel="stylesheet" href="css/jquery/jquery-ui.css">
+
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="Datatables/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="css/datetimepicker/jquery.datetimepicker.min.css">
+    <script type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.js"></script>
+
+    <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/fontawesome/all.min.js"></script>
+
+    <script type="text/javascript" src="js/sweetalert/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
+
+    <title>NCR Link</title>
+</head>
+
+<body>
+    <div class="mb-2" id="pnlHeader">
+        <h2 class="ms-2 fw-bold">NCR AUTO ADMIN</h2>
+    </div>
+
+
+
+        
+    <div class="box-shadow4 m-1 rounded-1 p-2 mb-2" id="pnlContentTableView">
+        <div class="my-container">
+            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto" target="_blank" class="my-btn">NCR Auto Master</a>
+            <br>
+            <a href="http://<%=host%>:<%=port%>/pylon_product_ncr" target="_blank" class="my-btn">Product NCR Mapping</a>
+            <br>
+            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto_admin" target="_blank" class="my-btn">NCR Auto Admin</a>
+            <br>
+            <a href="#" target="_blank" class="my-btn">NCR Auto Admin Apply</a>
+        </div>
+        
+    </div>
+    <div class="d-flex justify-content-between" id="pnlDetail">
+
+        <div class="ms-2">
+            <i class="fas fa-user me-1"></i>
+            Login by : FName LName<b> [ Role/Plant ] </b>
+        </div>
+        <div class="me-2">
+            Developed by : <b>
+                <%=developer%>
+            </b>
+            <!-- <img src="file/img/redtech_logo.png" class="img-fluid" style="height: 30px;width: 80px;"> -->
+        </div>
+
+
+    </div>
+
+    
+
+</body>
+<script>
+    let myDomain = '<%=host%>:<%=port%>'
+    let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
+    let urlNCRParam = `http://${myDomain}/pylon_ncr_auto_param`
+</script>
+
+
+</html>

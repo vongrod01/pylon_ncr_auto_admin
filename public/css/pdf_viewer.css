@@ -1,0 +1,31 @@
+:root {
+    --h-scanimg-header: 55px;
+    --theme-scanimg-color: #002244;
+    --theme-scanimg-font-color: #fff;
+
+}
+
+iframe {
+    display: block;
+    /* iframes are inline by default */
+    background: #000;
+    border: none;
+    /* Reset default border */
+    height: calc(100vh - var(--h-scanimg-header) - 12px);
+    /* Viewport-relative units */
+    width: 100%;
+}
+
+.scanimg-header {
+    height: var(--h-scanimg-header);
+}
+
+.scanimg-header * .input-group-text {
+    background-color: var(--theme-scanimg-color) !important;
+    color: var(--theme-scanimg-font-color) !important;
+    border: var(--theme-scanimg-color) solid 1px !important;
+
+}
+.span-layout{
+    justify-content: end;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/pdf_viewer.css">
+  <link rel="stylesheet" href="css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="Datatables/datatables.min.css" />
+  <link rel="stylesheet" href="css/jquery/jquery-ui.css">
+
+  <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery/jquery-1.12.4.js"></script>
+  <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+  <script type="text/javascript" src="Datatables/datatables.min.js"></script>
+
+  <link rel="stylesheet" href="css/datetimepicker/jquery.datetimepicker.min.css">
+  <script type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.js"></script>
+
+  <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+  <script type="text/javascript" src="js/fontawesome/all.min.js"></script>
+
+  <script type="text/javascript" src="js/sweetalert/sweetalert2.min.js"></script>
+  <script type="text/javascript" src="js/helper.js"></script>
+
+  <title>PDF Viewer</title>
+</head>
+
+<body>
+
+  <div class="scanimg-header box-shadow4 m-1 mb-2 rounded-2 p-2">
+
+    <div class="d-flex justify-content-center">
+
+      <div class="input-group input-group-form w-25 me-2">
+        <span for="txtRequestNo_pdf_view" class="input-group-text span-width110 span-layout">Request
+          No.</span>
+        <input type="text" class="form-control fw-bold" name=" txtRequestNo_pdf_view" id="txtRequestNo_pdf_view"
+          placeholder="RequestNo" maxlength="50" value="" readonly />
+      </div>
+      <div class="input-group input-group-form w-50">
+        <span for="filename" class="input-group-text span-width110 span-layout">File Name</span>
+        <input type="text" class="form-control fw-bold" placeholder="filename" name="filename" id="filename" value=""
+          readonly />
+      </div>
+
+
+      <button class="btn btn-danger ms-2" id="btnCloseScanImg" onClick="btnClose_click()">
+        <i class="fas fa-window-close"></i>
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <iframe id="viewPDF" src="file/pdf/example.pdf" type="application/pdf"></iframe>
+
+
+
+</body>
+<script>
+  // document.getElementById("viewPDF").src = blobtoURL(dataRes.data_res["ContentImage"], contentTypePDF);
+</script>
+
+
+</html>

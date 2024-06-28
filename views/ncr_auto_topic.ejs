@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/global.css">
+    <!-- <link rel="stylesheet" href="../public/css/global.css"> -->
+    <link rel="stylesheet" href="css/ncr_auto_topic.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="Datatables/datatables.min.css" />
+    <link rel="stylesheet" href="css/jquery/jquery-ui.css">
+
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="Datatables/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="css/datetimepicker/jquery.datetimepicker.min.css">
+    <script type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.js"></script>
+
+    <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/fontawesome/all.min.js"></script>
+
+    <script type="text/javascript" src="js/sweetalert/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
+
+    <title>NCR Auto Master</title>
+</head>
+
+<body>
+    <div class="mb-2" id="pnlHeader">
+        <h2 class="ms-2 fw-bold">LIST OF NCR AUTO TOPIC</h2>
+    </div>
+
+
+
+    <div class="box-shadow4 m-1 mb-2 rounded-2 p-2 overflow-auto" id="pnlSearch">
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtPrcessNo_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Process No</span>
+            <input type="number" min="0" class="form-control search-border" name="edtPrcessNo_Search"
+                id="edtPrcessNo_Search" placeholder="ProcessNo" />
+        </div>
+        <div class="input-group me-1 mb-1" style="width: 50%;">
+            <span for="edtPrcessCaseNo_Search" class="input-group-text span-layout search-border text-end"
+                style="width: 100px;">Case No</span>
+            <input type="number" min="0" class="form-control search-border" name="edtPrcessCaseNo_Search"
+                id="edtPrcessCaseNo_Search" placeholder="Case No" />
+        </div>
+
+
+        <button type="button" class="btn btn-primary me-2 rounded-2" role="button" id="btnSearchNCRAutoTopic">
+            <i class="fas fa-search"></i>
+            Search
+        </button>
+        <button class="btn btn-secondary me-2" onclick="" id="btnResetNCRAutoTopic">
+            <i class="fas fa-redo"></i>
+            Reset
+        </button>
+
+
+
+    </div>
+    <div class="m-1 rounded-2 p-2 grid-items-left mb-2" id="pnlButton">
+        <button type="button" class="btn btn-primary me-2 rounded-2" data-bs-toggle="modal"
+            data-bs-target="#modalNCRAutoTopicDataEntry" role="button" id="btnNCRAutoTopicAdd">
+            <i class="fas fa-plus"></i>
+            Add
+        </button>
+        <button class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#modalNCRAutoTopicDataEntry"
+            role="button" id="btnNCRAutoTopicEdit">
+            <i class="fas fa-edit"></i>
+            Edit
+        </button>
+        <button class="btn btn-secondary me-2" 
+            role="button" id="btnParam">
+            <i class="fas fa-list"></i>
+            Parameter
+        </button>
+        <button class="btn btn-danger me-2" id="btnNCRAutoTopicDelete">
+            <i class="fas fa-trash-alt"></i>
+            Delete
+        </button>
+
+
+    </div>
+    <div class="box-shadow4 m-1 rounded-1 p-2 mb-2" id="pnlContentTableView">
+        <table id="ncr_auto_topic_table" class="table table-striped table-bordered table-hover w-100">
+            <thead class="position-sticky top-0">
+                <tr>
+
+                    <th class="text-center align-middle">ID</th>
+                    <th class="text-center align-middle">Active</th>
+                    <th class="text-center align-middle">ProcessNo</th>
+                    <th class="text-center align-middle">ProcessCaseNo</th>
+                    <th class="text-center align-middle">ConditionDetial_TH</th>
+                    <th class="text-center align-middle">ConditionDetial_EN</th>
+                    <th class="text-center align-middle">NCR_Message_TH</th>
+                    <th class="text-center align-middle">NCR_Message_EN</th>
+                    <th class="text-center align-middle">Formula</th>
+                    <th class="text-center align-middle">Remark</th>
+
+                    <th class="text-center align-middle">UpdateDate</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="ncr_auto_topic_body">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between" id="pnlDetail">
+
+        <div class="ms-2">
+            <i class="fas fa-user me-1"></i>
+            Login by : FName LName<b> [ Role/Plant ] </b>
+        </div>
+        <div class="me-2">
+            Developed by : <b>
+                <%=developer%>
+            </b>
+            <!-- <img src="file/img/redtech_logo.png" class="img-fluid" style="height: 30px;width: 80px;"> -->
+        </div>
+
+
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade bd-example-modal-fullscreen" id="modalNCRAutoTopicDataEntry" aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel">
+        <div class="modal-dialog modal-fullscreen page_font_family" id="ModalNCRAutoTopic">
+            <div class="modal-content">
+                <div class="modal-header display-ncr-auto-topic-header p-0">
+                    <h3 class="modal-title">
+                        <span id="modal-title-label">NCR AUTO TOPIC</span>
+                        <span id="modal-title-label-control">NONE</span>
+
+                    </h3>
+
+                    <div class="btn" data-bs-dismiss="modal" aria-label="Close">
+
+                        <i class="fas fa-window-close fa-2x"></i>
+                    </div>
+                </div>
+                <div class="p-1 pb-0 modal-body overflow-hidden">
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">ProcessNo</span>
+                        <input type="number" min="0" class="form-control" name="edtProcessNo_Entry"
+                            id="edtProcessNo_Entry" placeholder="ProcessNo" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">ProcessCaseNo</span>
+                        <input type="number" min="0" class="form-control" name="edtProcessCaseNo_Entry"
+                            id="edtProcessCaseNo_Entry" placeholder="ProcessCaseNo" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">ConditionDetial_TH</span>
+                        <input type="text" class="form-control" name="edtConditionDetial_TH_Entry"
+                            id="edtConditionDetial_TH_Entry" placeholder="ConditionDetial_TH" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">ConditionDetial_EN</span>
+                        <input type="text" class="form-control" name="edtConditionDetial_EN_Entry"
+                            id="edtConditionDetial_EN_Entry" placeholder="ConditionDetial_EN" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">NCR_Message_TH</span>
+                        <input type="text" class="form-control" name="edtNCR_Message_TH_Entry" id="edtNCR_Message_TH_Entry"
+                            placeholder="NCR_Message_TH" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">NCR_Message_EN</span>
+                        <input type="text" class="form-control" name="edtNCR_Message_EN_Entry" id="edtNCR_Message_EN_Entry"
+                            placeholder="NCR_Message_EN" />
+
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Formula</span>
+                        <input type="text" class="form-control" name="edtFormula_Entry" id="edtFormula_Entry"
+                            placeholder="Formula" />
+
+                    </div>
+
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Detail</span>
+                        <textarea class="form-control" name="edtDetail_Entry" id="edtDetail_Entry"
+                            placeholder="Detail"></textarea>
+                    </div>
+                    <div class="input-group input-group-form">
+                        <span class="input-group-text span-layout text-end">Remark</span>
+                        <textarea class="form-control" name="edtRemark_Entry" id="edtRemark_Entry"
+                            placeholder="Remark"></textarea>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="chkActive_Entry">
+                        <label class="form-check-label" for="chkActive_Entry">
+                            Active
+                        </label>
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" btnPartSave onclick="dataEntry_NCRAutoTopic()">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-target="#modalNCRAutoTopicDataEntry" data-bs-toggle="modal"
+                        data-bs-dismiss="modal" id="btnNCRAutoTopicClose">
+                        <i class="fas fa-window-close"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    let myDomain = '<%=host%>:<%=port%>'
+    let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
+    let urlNCRParam = `http://${myDomain}/pylon_ncr_auto_param`
+</script>
+<script type="text/javascript" src="js/ncr_auto_topic.js"></script>
+
+</html>
