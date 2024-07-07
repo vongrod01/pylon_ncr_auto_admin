@@ -11,11 +11,11 @@ let objNCRAutoAdminTopicEntry = {
     "Remark": "",
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 let objNCRAutoAdminTopicSearch = {
     "ID": 0,
@@ -28,11 +28,11 @@ let objNCRAutoAdminTopicSearch = {
     "Remark": "",
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 let dataControlNCRAutoAdminTopicEntry = ''
 function clearNCRAutoAdminTopicEntry() {
@@ -69,8 +69,8 @@ function collectNCRAutoTopicSearch() {
     // objNCRAutoAdminTopicSearch.Detail = document.getElementById('edtDetail_Search').value
     // objNCRAutoAdminTopicSearch.Detail2 = document.getElementById('edtDetail2_Search').value
     // objNCRAutoAdminTopicSearch.Cancel = document.getElementById('chkCancel_Search').checked ? 1 : 0
-    // objNCRAutoAdminTopicSearch.AddDate = ''
-    // objNCRAutoAdminTopicSearch.UpdateDate = ''
+    // objNCRAutoAdminTopicSearch.AddWhen = ''
+    // objNCRAutoAdminTopicSearch.UpdateWhen = ''
     // objNCRAutoAdminTopicSearch.AddBy = ''
     // objNCRAutoAdminTopicSearch.UpdateBy = ''
 }
@@ -142,8 +142,8 @@ async function showDataTopic() {
         //         <td>${data.Detail}</td>
         //         <td>${data.Detail2}</td>
         //         <td>${data.Cancel}</td>
-        //         <td>${data.AddDate}</td>
-        //         <td>${data.UpdateDate}</td>
+        //         <td>${data.AddWhen}</td>
+        //         <td>${data.UpdateWhen}</td>
         //         <td>${data.AddBy}</td>
         //         <td>${data.UpdateBy}</td>
         //       </tr>
@@ -164,7 +164,7 @@ async function showDataTopic() {
                     // data.NCR_Message_EN,
                     data.Formula,
                     // data.Remark,
-                    // data.UpdateDate,
+                    // data.UpdateWhen,
                 ]
             )
         });
@@ -173,7 +173,12 @@ async function showDataTopic() {
     $("#topic_table").dataTable({
         data: rows,
         createdRow: function (row, data, dataIndex) {
-            row.onclick = function () { showDataParam(row, data) }
+            row.onclick = function () { 
+                objNCRAutoAdminTopicEntry.ID = data[0]
+                // console.table([objNCRAutoAdminTopicEntry])
+                document.getElementById('edtAdminFormula').value = data[5]
+                showDataAdminParam(objNCRAutoAdminTopicEntry.ID) 
+            }
 
             // หลังจากสร้าง table เสร็จ
         },
@@ -227,7 +232,7 @@ function startPage() {
     showDataTopic()
 }
 
-document.getElementById('btnAdminParamFormulaMapping_TopicAdd').onclick = function () {
+document.getElementById('btnNCRAutoAdminTopicAdd').onclick = function () {
     dataControlNCRAutoAdminTopicEntry = 'Add'
     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
     clearNCRAutoAdminTopicEntry()
@@ -243,19 +248,17 @@ document.getElementById('selNCRAutoTopic_Entry').onchange = function (){
     document.getElementById('edtRemark_Entry').value = ncr.Remark
 
 }
-// document.getElementById('btnNCRAutoTopicEdit').onclick = function () {
-//     // let table = new DataTable('#topic_table');
-//     let rowData = new DataTable('#topic_table').rows({ selected: true }).data();
-//     let id = rowData[0][0]
-//     reqAndRes(urlNCRAutoTopic, 'GET', { ID: id }, function (dataRes) {
-//         clearNCRAutoAdminTopicEntry()
-//         console.log(dataRes)
-//         objNCRAutoAdminTopicEntry = dataRes
-//         displayNCRAutoAdminTopicEntry()
-//         dataControlNCRAutoAdminTopicEntry = 'Edit'
-//         document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
-//     })
-// }
+document.getElementById('btnNCRAutoAdminTopicEdit').onclick = function () {
+
+    reqAndRes(urlNCRAutoAdminTopic, 'GET', objNCRAutoAdminTopicEntry, function (dataRes) {
+        clearNCRAutoAdminTopicEntry()
+        console.log(dataRes)
+        objNCRAutoAdminTopicEntry = dataRes
+        displayNCRAutoAdminTopicEntry()
+        dataControlNCRAutoAdminTopicEntry = 'Edit'
+        document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
+    })
+}
 
 // document.getElementById('btnSearchNCRAutoTopic').onclick = function () {
 //     showDataTopic()
@@ -295,71 +298,7 @@ async function setSelectNCRAutoTopic() {
     })
 }
 
-async function showDataParam(el, data) {
 
-
-    let ID_NCRAutoAdminTopic = data[0]
-    // console.log(`ID_NCRAutoAdminTopic : ${ID_NCRAutoAdminTopic}`)
-    let dataReq = {
-        ID_NCRAutoAdminTopic: ID_NCRAutoAdminTopic,
-        IsConst: 2,
-        Active: 2
-    }
-    $("#param_table").DataTable().destroy()
-    let innerHTML = ''
-    let tbody = document.getElementById('param_body')
-    tbody.innerHTML = innerHTML
-    // collectNCRAutoTopicSearch()
-
-    let rows = []
-    await reqAndRes(urlAdminParamFormulaMapping, 'GET', dataReq, function (dataRes) {
-        dataSet = dataRes
-        dataSet.forEach(data => {
-            rows.push(
-                [
-                    data.ID,
-                    data.ParamName,
-                    data.ParamType,
-                    data.IsConst,
-                    data.ConstVal,
-                ]
-            )
-        });
-    })
-
-    $("#param_table").dataTable({
-        data: rows,
-        // createdRow: function (row, data, dataIndex) {
-        //     // หลังจากสร้าง table เสร็จ
-        // },
-        ordering: false,
-        "lengthMenu": [
-            [25, 50, 100, -1],
-            [25, 50, 100, "All"]
-        ],
-        "pageLength": 25,
-        select: {
-            items: 'row',
-
-        },
-    })
-
-    document.getElementById('param_table_wrapper').classList.add('p-2')
-    // let thead = document.querySelector('#tbTableTroubleAndActionHistory thead')
-    let row = document.querySelectorAll('#param_table_wrapper .row')
-
-    row[1].classList.add('mb-2', 'mt-2')
-    row[1].querySelector('div').id = 'boxAdminParamFormulaMapping'
-    row[1].classList.remove('row')
-
-    document.querySelectorAll('#param_table_wrapper thead tr th.sorting_asc').forEach(th => {
-        th.classList.remove('sorting_asc')
-    });
-
-    document.querySelectorAll('#param_body tr td')[0].click()
-
-
-}
 
 
 

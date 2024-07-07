@@ -12,6 +12,8 @@ const param_formula_mapping_api = require('./routers/param_formula_mapping_api')
 const product_ncr_mapping_api = require('./routers/product_ncr_mapping_api')
 const ncr_auto_admin_topic_api = require('./routers/ncr_auto_admin_topic_api')
 const admin_param_formula_mapping_api = require('./routers/admin_param_formula_mapping_api')
+const ncr_auto_admin_project_apply_api = require('./routers/ncr_auto_admin_project_apply_api')
+const ncr_auto_admin_apply_api = require('./routers/ncr_auto_admin_apply_api')
 const common_api = require('./routers/common_api')
 
 app.use(express.json());
@@ -28,7 +30,10 @@ app.use(
     common_api,
     product_ncr_mapping_api,
     ncr_auto_admin_topic_api,
-    admin_param_formula_mapping_api
+    admin_param_formula_mapping_api,
+    ncr_auto_admin_project_apply_api,
+    ncr_auto_admin_apply_api,
+
 )
 
 let systemConfig = JSON.parse(fs.readFileSync('SystemConfig.json', 'utf-8'))

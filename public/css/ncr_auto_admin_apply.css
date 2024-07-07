@@ -106,17 +106,17 @@
   }
   
   /* :nth-child */
-  :where(#ModalNCRAutoAdminTopic,#ModalAdminParamFormulaMapping) .modal-content .modal-body {
+  :where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content .modal-body {
     background-color: var(--bs-gray-500);
   }
-:where(#ModalNCRAutoAdminTopic,#ModalAdminParamFormulaMapping) .modal-content *:where(input[type=text],input[type=number],textarea,select)
+:where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content *:where(input[type=text],input[type=number],textarea,select)
 {
     border: var(--theme-part-color) solid 1px !important;
     margin-bottom: 2px;
     background-color: #fff;
     color: var(--theme-part-color);
 }
-:where(#ModalNCRAutoAdminTopic,#ModalAdminParamFormulaMapping) .modal-content *:where(span.input-group-text)
+:where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content *:where(span.input-group-text)
 {
     border: var(--theme-part-color) solid 1px !important;
     margin-bottom: 2px;
@@ -129,29 +129,51 @@
   }
 
 
-  :where(#topic_table,#param_table) tbody tr.selected td {
+  :where(#project_apply_table,#apply_table) tbody tr.selected td {
     background-color: var(--theme-table-view-color) !important;
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-table-view-font-color);
   }
   
-  :where(#topic_table,#param_table) tbody tr td {
+  :where(#project_apply_table,#apply_table) tbody tr td {
     white-space: nowrap;
   }
   
-  :where(#topic_table,#param_table) {
+  :where(#project_apply_table,#apply_table) {
     border-collapse: separate;
   
     border-spacing: 0 !important;
     margin-top: 0 !important;
   }
-  /* :where(#topic_table,#param_table) thead tr{
+  /* :where(#project_apply_table,#apply_table) thead tr{
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-part-font-color) !important;
   } */
   
-  #boxNCRAutoAdminTopicTable,#boxAdminParamFormulaMapping {
+  #boxApplyProjectTable,#boxApplyTable {
     height: calc(var(--h-content-table-view) - 50px);
     overflow: auto;
+  }
+
+  #pnlSelectProductApply{
+    height: calc(100vh - 180px);
+  }
+
+  #pnlTableSelectProduct{
+    height: calc(100vh - 350px);
+  }
+  #pnlTableSelectedProduct{
+    height: calc(100vh - 240px);
+  }
+
+  :where(#pnlTableSelectProduct,#pnlTableSelectedProduct) table thead tr th {
+    background-color: black !important;
+    color: white !important;
+  }
+
+  .box-btn-select-apply{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
   

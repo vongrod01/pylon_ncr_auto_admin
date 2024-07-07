@@ -12,11 +12,11 @@ let objNCRAutoTopicEntry = {
     "Remark": "",
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 let objNCRAutoTopicSearch = {
     "ID": 0,
@@ -31,11 +31,11 @@ let objNCRAutoTopicSearch = {
     "Remark": "",
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 let dataControlNCRAutoTopicEntry = ''
 function clearNCRAutoTopicEntry() {
@@ -78,8 +78,8 @@ function collectNCRAutoTopicSearch() {
     // objNCRAutoTopicSearch.Detail = document.getElementById('edtDetail_Search').value
     // objNCRAutoTopicSearch.Detail2 = document.getElementById('edtDetail2_Search').value
     // objNCRAutoTopicSearch.Active = document.getElementById('chkActive_Search').checked ? 1 : 0
-    // objNCRAutoTopicSearch.AddDate = ''
-    // objNCRAutoTopicSearch.UpdateDate = ''
+    // objNCRAutoTopicSearch.AddWhen = ''
+    // objNCRAutoTopicSearch.UpdateWhen = ''
     // objNCRAutoTopicSearch.AddBy = ''
     // objNCRAutoTopicSearch.UpdateBy = ''
 }
@@ -153,8 +153,8 @@ async function showDataSearch() {
         //         <td>${data.Detail}</td>
         //         <td>${data.Detail2}</td>
         //         <td>${data.Active}</td>
-        //         <td>${data.AddDate}</td>
-        //         <td>${data.UpdateDate}</td>
+        //         <td>${data.AddWhen}</td>
+        //         <td>${data.UpdateWhen}</td>
         //         <td>${data.AddBy}</td>
         //         <td>${data.UpdateBy}</td>
         //       </tr>
@@ -174,7 +174,7 @@ async function showDataSearch() {
                     data.NCR_Message_EN,
                     data.Formula,
                     data.Remark,
-                    data.UpdateDate,
+                    data.UpdateWhen,
                 ]
             )
         });

@@ -7,16 +7,17 @@
 */
 const BaseClass = require('./BaseClass')
 const mssql = require("mssql");
-class NCRAutoAdminTopicVO extends BaseClass.BaseVO {
+class NCRAutoAdminApplyVO extends BaseClass.BaseVO {
     constructor() {
         super()
         this._ID = 0
-        this._ID_NCRAutoTopic = 0
-        this._Name = ''
-        this._NCR_Message_TH = ''
-        this._NCR_Message_EN = ''
-        this._Formula = ''
-        this._Cancel = 0
+        this._ID_ProductItem = 0
+        this._ID_NCRAutoAdminTopic = 0
+        this._ID_NCRAutoAdminProjectApply = 0
+        this._StartTime = new Date()
+        this._EndTime = new Date()
+        this._ID_EmployeeRequest = 0
+        this._Reason = ''
         this._Remark = ''
         this._Detail = ''
         this._AddWhen = new Date()
@@ -34,33 +35,40 @@ class NCRAutoAdminTopicVO extends BaseClass.BaseVO {
         this._ID = parseInt(value)
     }
 
-    get ID_NCRAutoTopic() {
-        return parseInt(this._ID_NCRAutoTopic);
+    get ID_ProductItem() {
+        return parseInt(this._ID_ProductItem);
     }
-    set ID_NCRAutoTopic(value) {
-        this._ID_NCRAutoTopic = parseInt(value)
+    set ID_ProductItem(value) {
+        this._ID_ProductItem = parseInt(value)
+    }
+
+    get ID_NCRAutoAdminTopic() {
+        return parseInt(this._ID_NCRAutoAdminTopic);
+    }
+    set ID_NCRAutoAdminTopic(value) {
+        this._ID_NCRAutoAdminTopic = parseInt(value)
+    }
+
+    get ID_NCRAutoAdminProjectApply() {
+        return parseInt(this._ID_NCRAutoAdminProjectApply);
+    }
+    set ID_NCRAutoAdminProjectApply(value) {
+        this._ID_NCRAutoAdminProjectApply = parseInt(value)
     }
 
 
-    get Name() {
-        return this._Name;
+    get StartTime() {
+        return this._StartTime;
     }
-    set Name(value) {
-        this._Name = value
-    }
-
-    get NCR_Message_TH() {
-        return this._NCR_Message_TH;
-    }
-    set NCR_Message_TH(value) {
-        this._NCR_Message_TH = value
+    set StartTime(value) {
+        this._StartTime = value
     }
 
-    get NCR_Message_EN() {
-        return this._NCR_Message_EN;
+    get EndTime() {
+        return this._EndTime;
     }
-    set NCR_Message_EN(value) {
-        this._NCR_Message_EN = value
+    set EndTime(value) {
+        this._EndTime = value
     }
 
     get Remark() {
@@ -77,18 +85,18 @@ class NCRAutoAdminTopicVO extends BaseClass.BaseVO {
         this._Detail = value
     }
 
-    get Formula() {
-        return this._Formula;
+    get Reason() {
+        return this._Reason;
     }
-    set Formula(value) {
-        this._Formula = value
+    set Reason(value) {
+        this._Reason = value
     }
 
-    get Cancel() {
-        return parseInt(this._Cancel);
+    get ID_EmployeeRequest() {
+        return parseInt(this._ID_EmployeeRequest);
     }
-    set Cancel(value) {
-        this._Cancel = parseInt(value)
+    set ID_EmployeeRequest(value) {
+        this._ID_EmployeeRequest = parseInt(value)
     }
 
     get AddWhen() {
@@ -136,10 +144,10 @@ class NCRAutoAdminTopicVO extends BaseClass.BaseVO {
 }
 
 
-class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
+class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
     constructor(connDetail) {
         super(connDetail)
-        this.result = new NCRAutoAdminTopicVO()
+        this.result = new NCRAutoAdminApplyVO()
     }
 
     async get(ID) {
@@ -147,7 +155,7 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
                 .input('ID', ID)
-                .execute('ncr_auto_admin_topic_get');
+                .execute('ncr_auto_admin_apply_project_get');
             this.dataSet = request.recordsets[0];
 
             if (this.dataSet.length > 0) {
@@ -159,25 +167,11 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             }
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_topic_get : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_project_get : ' + error + '******')
             this.dataSet = []
             return null
         }
-        // try {
 
-        //     await this.callSp('ncr_auto_topic_get', [ID])
-        //     if (this.dataSet.length > 0) {
-        //         this.result.jsonAssignToAttr(this.dataSet[0])
-        //         return this.result
-        //     }
-        //     else {
-        //         return null
-        //     }
-        // } catch (error) {
-        //     this.logErrorExec('****** Error ncr_auto_topic_get : ' + error + '******')
-        //     this.dataSet = []
-        //     return null
-        // }
     }
 
     async add(DataVO) {
@@ -187,48 +181,22 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             let request = await pool.request()
                 .input('ProcessNo', DataVO.ProcessNo)
                 .input('ProcessCaseNo', DataVO.ProcessCaseNo)
-                .input('Name', DataVO.Name)
+                .input('IsDry', DataVO.IsDry)
                 .input('ConditionDetial_EN', DataVO.ConditionDetial_EN)
-                .input('NCR_Message_TH', DataVO.NCR_Message_TH)
-                .input('NCR_Message_EN', DataVO.NCR_Message_EN)
-                .input('Formula', DataVO.Formula)
-                .input('Cancel', DataVO.Cancel)
+                .input('StartTime', DataVO.StartTime)
+                .input('EndTime', DataVO.EndTime)
+                .input('Reason', DataVO.Reason)
+                .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
                 .input('Remark', DataVO.Remark)
                 .input('Detail', DataVO.Detail)
                 .input('AddBy', DataVO.AddBy)
-                .execute('ncr_auto_topic_add');
+                .execute('ncr_auto_admin_apply_project_add');
             this.dataSet = request.recordsets[0];
             let ID = request.recordsets[0][0].ID
             return this.get(ID)
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_topic_add : ' + error + '******')
-            this.dataSet = []
-        }
-
-    }
-
-    async clone_ncr_master(DataVO) {
-
-        try {
-            let pool = await this.db.connect(this.connDetail);
-            let request = await pool.request()
-                .input('ID_NCRAutoTopic', DataVO.ID_NCRAutoTopic)
-                .input('Name', DataVO.Name)
-                .input('NCR_Message_TH', DataVO.NCR_Message_TH)
-                .input('NCR_Message_EN', DataVO.NCR_Message_EN)
-                .input('Formula', DataVO.Formula)
-                .input('Cancel', DataVO.Cancel)
-                .input('Remark', DataVO.Remark)
-                .input('Detail', DataVO.Detail)
-                .input('AddBy', DataVO.AddBy)
-                .execute('ncr_auto_admin_topic_clone_ncr_master');
-            this.dataSet = request.recordsets[0];
-            let ID = request.recordsets[0][0].ID
-            return this.get(ID)
-        }
-        catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_topic_clone_ncr_master : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_project_add : ' + error + '******')
             this.dataSet = []
         }
 
@@ -239,21 +207,21 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
                 .input('ID', DataVO.ID)
-                .input('ID_NCRAutoTopic', DataVO.ID_NCRAutoTopic)
-                .input('Name', DataVO.Name)
-                .input('NCR_Message_TH', DataVO.NCR_Message_TH)
-                .input('NCR_Message_EN', DataVO.NCR_Message_EN)
-                .input('Formula', DataVO.Formula)
-                .input('Cancel', DataVO.Cancel)
+                .input('ID_NCRAutoAdminTopic', DataVO.ID_NCRAutoAdminTopic)
+                .input('IsDry', DataVO.IsDry)
+                .input('StartTime', DataVO.StartTime)
+                .input('EndTime', DataVO.EndTime)
+                .input('Reason', DataVO.Reason)
+                .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
                 .input('Remark', DataVO.Remark)
                 .input('Detail', DataVO.Detail)
                 .input('UpdateBy', DataVO.UpdateBy)
-                .execute('ncr_auto_admin_topic_edit');
+                .execute('ncr_auto_admin_apply_project_edit');
 
             return this.get(DataVO.ID)
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_topic_edit : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_project_edit : ' + error + '******')
             this.dataSet = []
             return null
         }
@@ -266,12 +234,12 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             let request = await pool.request()
                 .input('ID', ID)
                 
-                .execute('ncr_auto_topic_delete');
+                .execute('ncr_auto_admin_apply_project_delete');
 
             return true
 
         } catch (error) {
-            this.logErrorExec('****** Error ncr_auto_topic_delete : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_project_delete : ' + error + '******')
             return false
         }
     }
@@ -280,15 +248,37 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
         try {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
-                .input('Name', DataVO.Name)
-                .input('NCR_Message_TH', DataVO.NCR_Message_TH)
-                .input('NCR_Message_EN', DataVO.NCR_Message_EN)
-                .input('Cancel', DataVO.Cancel)
-                .execute('ncr_auto_admin_topic_search');
+                .input('ID_ProductItem', DataVO.ID_ProductItem)
+                .input('ID_NCRAutoAdminTopic', DataVO.ID_NCRAutoAdminTopic)
+                .input('ID_NCRAutoAdminProjectApply', DataVO.ID_NCRAutoAdminProjectApply)
+                .input('StartTime', DataVO.StartTime)
+                .input('EndTime', DataVO.EndTime)
+                .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
+                .input('Reason', DataVO.Reason)
+                .input('ID_Admin', DataVO.ID_Admin)
+                
+                .execute('ncr_auto_admin_apply_search');
             this.dataSet = request.recordsets[0];
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_topic_search : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_search : ' + error + '******')
+            this.dataSet = []
+        }
+        return this.dataSet
+    }
+
+    async product_item_list(Project,ProductItemNo,ProductType) {
+        try {
+            let pool = await this.db.connect(this.connDetail);
+            let request = await pool.request()
+                .input('Project', Project)
+                .input('ProductItemNo', ProductItemNo)
+                .input('ProductType', ProductType)
+                .execute('product_item_list');
+            this.dataSet = request.recordsets[0];
+        }
+        catch (error) {
+            this.logErrorExec('****** Error product_item_list : ' + error + '******')
             this.dataSet = []
         }
         return this.dataSet
@@ -297,5 +287,5 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
 
 }
 
-module.exports.NCRAutoAdminTopicVO = NCRAutoAdminTopicVO
-module.exports.NCRAutoAdminTopicEXE = NCRAutoAdminTopicEXE
+module.exports.NCRAutoAdminApplyVO = NCRAutoAdminApplyVO
+module.exports.NCRAutoAdminApplyEXE = NCRAutoAdminApplyEXE

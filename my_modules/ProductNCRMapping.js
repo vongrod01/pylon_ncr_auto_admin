@@ -17,12 +17,12 @@ class ProductNCRMappingVO extends BaseClass.BaseVO {
         this._IsDry = 0
         this._Active = 0
         this._Detail = ''
-        this._AddDate = new Date()
-        this._UpdateDate = new Date()
+        this._AddWhen = new Date()
+        this._UpdateWhen = new Date()
         this._AddBy = 0
         this._UpdateBy = new Date()
         this._DeleteBy = 0
-        this._DeleteDate = new Date()
+        this._DeleteWhen = new Date()
     }
 
     get ID() {
@@ -76,18 +76,18 @@ class ProductNCRMappingVO extends BaseClass.BaseVO {
         this._Active = parseInt(value)
     }
 
-    get AddDate() {
-        return this._AddDate;
+    get AddWhen() {
+        return this._AddWhen;
     }
-    set AddDate(value) {
-        this._AddDate = value
+    set AddWhen(value) {
+        this._AddWhen = value
     }
 
-    get UpdateDate() {
-        return this._UpdateDate;
+    get UpdateWhen() {
+        return this._UpdateWhen;
     }
-    set UpdateDate(value) {
-        this._UpdateDate = value
+    set UpdateWhen(value) {
+        this._UpdateWhen = value
     }
 
     get AddBy() {
@@ -111,11 +111,11 @@ class ProductNCRMappingVO extends BaseClass.BaseVO {
         this._DeleteBy = value
     }
 
-    get DeleteDate() {
-        return this._DeleteDate;
+    get DeleteWhen() {
+        return this._DeleteWhen;
     }
-    set DeleteDate(value) {
-        this._DeleteDate = value
+    set DeleteWhen(value) {
+        this._DeleteWhen = value
     }
 
 }
@@ -243,8 +243,8 @@ class ProductNCRMappingEXE extends BaseClass.BaseEXE {
         //         DataVO.Detail,
         //         DataVO.Formula,
         //         DataVO.Active,
-        //         // DataVO.AddDate,
-        //         // DataVO.UpdateDate,
+        //         // DataVO.AddWhen,
+        //         // DataVO.UpdateWhen,
         //         DataVO.AddBy,
         //         DataVO.UpdateBy,
 

@@ -43,6 +43,12 @@ router.get('/pylon_ncr_auto_admin/', (req, res) => {
     initData.host = systemConfig.server.host
     res.render('ncr_auto_admin.ejs', initData)
 })
+router.get('/pylon_ncr_auto_admin_apply/', (req, res) => {
+    let initData = systemConfig.description
+    initData.port = systemConfig.server.port
+    initData.host = systemConfig.server.host
+    res.render('ncr_auto_admin_apply.ejs', initData)
+})
 
 
 

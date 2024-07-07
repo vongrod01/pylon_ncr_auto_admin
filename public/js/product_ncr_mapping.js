@@ -7,11 +7,11 @@ let objProductNCRMappingEntry = {
     "Active": 0,
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 
 let dataControlProductNCRMappingEntry = ''

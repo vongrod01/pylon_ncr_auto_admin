@@ -9,11 +9,11 @@ let objParamFormulaMappingEntry = {
     "Active": 0,
     "Detail": "",
     "AddBy": 0,
-    "AddDate": "",
+    "AddWhen": "",
     "UpdateBy": 0,
-    "UpdateDate": "",
+    "UpdateWhen": "",
     "DeleteBy": 0,
-    "DeleteDate": "",
+    "DeleteWhen": "",
 }
 
 let dataControlParamFormulaMappingEntry = ''
@@ -107,7 +107,7 @@ async function showDataSearch() {
                     data.ConstVal,
                     data.Active,
                     data.Detail,
-                    data.UpdateDate,
+                    data.UpdateWhen,
                     
                     
                 ]
