@@ -45,23 +45,24 @@ router.route("/ncr_auto_admin_apply_api")
         try {
             let NCRAutoAdminApply = new NCRAutoAdminApplyClass.NCRAutoAdminApplyVO();
             let NCRAutoAdminApplyEXE = new NCRAutoAdminApplyClass.NCRAutoAdminApplyEXE(connDetail);
+            let ID_ProductItem_List = []
             res.status(201)
             if (req.rawHeaders.includes('application/json') && Object.keys(req.body).length > 0) {
                 NCRAutoAdminApply.jsonAssignToAttr(req.body)
+                ID_ProductItem_List = req.body.ID_ProductItem_List
             }
             else {
                 NCRAutoAdminApply.jsonAssignToAttr(req.query)
+                ID_ProductItem_List = req.query.ID_ProductItem_List
             }
-            // console.table([NCRAutoAdminApply.toJson(),NCRAutoAdminApply.toJson()])
-            if (await NCRAutoAdminApplyEXE.clone_ncr_master(NCRAutoAdminApply) !== null) {
-                NCRAutoAdminApplyEXE.result.assignTo(NCRAutoAdminApply)
-                res.json(NCRAutoAdminApply.toJson())
-
-            }
-            else {
-                res.status(404)
-                res.json({})
-            }
+            // console.log(req.body)
+            let DataVoSet = []
+            ID_ProductItem_List.forEach(ID_ProductItem => {
+                NCRAutoAdminApply.ID_ProductItem = ID_ProductItem
+                DataVoSet.push(NCRAutoAdminApply.toJson())
+            });
+            await NCRAutoAdminApplyEXE.addAll(DataVoSet)
+            res.json({addAll:'Success'})
         } catch (error) {
             res.status(404)
             res.json({})

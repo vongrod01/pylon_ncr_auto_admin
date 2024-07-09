@@ -202,6 +202,43 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
 
     }
 
+    async addAll(DataVOList) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                DataVOList.forEach(async (DataVO) => {
+                    // console.table([DataVO])
+                    let pool = await this.db.connect(this.connDetail);
+                    let request = await pool.request()
+                        .input('ID_ProductItem', DataVO.ID_ProductItem)
+                        .input('ID_NCRAutoAdminTopic', DataVO.ID_NCRAutoAdminTopic)
+                        .input('ID_NCRAutoAdminProjectApply', DataVO.ID_NCRAutoAdminProjectApply)
+                        .input('StartTime', DataVO.StartTime)
+                        .input('Endtime', DataVO.EndTime)
+                        // .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
+                        .input('ID_EmployeeRequest', 0)
+                        .input('Reason', DataVO.Reason)
+                        .input('Remark', DataVO.Remark)
+                        .input('Detail', DataVO.Detail)
+                        .input('AddBy', DataVO.AddBy)
+                        .execute('ncr_auto_admin_apply_add');
+                    // this.dataSet = request.recordsets[0];
+                    // let ID = request.recordsets[0][0].ID
+                });
+                // console.log(`ID Add : ${ID}`)
+                // return this.get(ID)
+                resolve(true)
+
+            }
+            catch (error) {
+                this.logErrorExec('****** Error ncr_auto_admin_apply_add : ' + error + '******')
+                this.dataSet = []
+                reject(error)
+            }
+        })
+
+
+    }
+
     async edit(DataVO) {
         try {
             let pool = await this.db.connect(this.connDetail);
@@ -234,18 +271,19 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
             let request = await pool.request()
                 .input('ID', ID)
                 
-                .execute('ncr_auto_admin_apply_project_delete');
+                .execute('ncr_auto_admin_apply_delete');
 
             return true
 
         } catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_apply_project_delete : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_delete : ' + error + '******')
             return false
         }
     }
 
     async search(DataVO) {
         try {
+            console.log(DataVO.toJson())
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
                 .input('ID_ProductItem', DataVO.ID_ProductItem)
@@ -255,7 +293,7 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
                 .input('EndTime', DataVO.EndTime)
                 .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
                 .input('Reason', DataVO.Reason)
-                .input('ID_Admin', DataVO.ID_Admin)
+                .input('ID_Admin', DataVO.AddBy)
                 
                 .execute('ncr_auto_admin_apply_search');
             this.dataSet = request.recordsets[0];

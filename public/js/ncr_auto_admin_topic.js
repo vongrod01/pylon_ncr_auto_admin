@@ -260,6 +260,15 @@ document.getElementById('btnNCRAutoAdminTopicEdit').onclick = function () {
     })
 }
 
+document.getElementById('btnNCRAutoAdminTopicDelete').onclick = function () {
+    try {
+        dataControlNCRAutoAdminTopicEntry = 'Delete'
+        dataEntry_NCRAutoAdminTopic()
+    } catch (error) {
+        
+    }
+}
+
 // document.getElementById('btnSearchNCRAutoTopic').onclick = function () {
 //     showDataTopic()
 // }

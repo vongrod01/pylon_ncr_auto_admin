@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/ncr_auto_report.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="Datatables/datatables.min.css" />
+    <link rel="stylesheet" href="css/jquery/jquery-ui.css">
+
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="Datatables/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="css/datetimepicker/jquery.datetimepicker.min.css">
+    <script type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.js"></script>
+
+    <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/fontawesome/all.min.js"></script>
+
+    <script type="text/javascript" src="js/sweetalert/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="js/helper.js"></script>
+
+    <title>NCR Auto Report</title>
+</head>
+
+<body>
+    <div class="mb-1" id="pnlHeader">
+        <h2 class="ms-2 fw-bold">NCR AUTO REPORT</h2>
+    </div>
+
+
+
+
+
+
+    <div class="d-flex" id="pnlContentTableView">
+        <div class="box-shadow4 rounded m-1" style="width: 35%;">
+            <div class="title text-center fs-4 bg-secondary fw-bold" style="color: white;">
+                เลือกเสาเข็ม
+            </div>
+
+            <div class="box-shadow4 m-1 mb-2 rounded-2 p-2 overflow-auto d-flex" id="pnlApplySearch">
+                <div class="w-75">
+
+                    <div class="input-group me-1 mb-1">
+                        <span for="edtProject_Search"
+                            class="input-group-text span-layout search-border text-end"
+                            style="width: 100px;">ชื่อโครงการ</span>
+                        <input type="text" class="form-control search-border" name="edtProject_Search"
+                            id="edtProject_Search" placeholder="ชื่อโครงการ" />
+                    </div>
+                    <div class="d-flex w-100">
+
+                        <div class="input-group me-1 mb-1 w-50">
+                            <span for="edtProductItemNo_Search"
+                                class="input-group-text span-layout search-border text-end"
+                                style="width: 100px;">เลขเสาเข็ม</span>
+                            <input type="text" class="form-control search-border"
+                                name="edtProductItemNo_Search" id="edtProductItemNo_Search"
+                                placeholder="เลขเสาเข็ม" />
+                        </div>
+                        <div class="input-group me-1 mb-1 w-50">
+                            <span for="edtProductType_Search"
+                                class="input-group-text span-layout search-border text-end"
+                                style="width: 100px;">ประเภทเข็ม</span>
+                            <input type="text" class="form-control search-border"
+                                name="edtProductType_Search" id="edtProductType_Search"
+                                placeholder="ประเภทเข็ม" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w-25 ms-1">
+                    <div class="mb-1">
+
+                        <button type="button" class="btn btn-primary me-2 rounded-2 w-100" role="button"
+                            onclick="showDataProductItemList()" id="btnSearchSelectProductItem">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                    <div class="mb-1">
+
+                        <button class="btn btn-secondary me-2 w-100" onclick="resetProductItem()"
+                            id="btnResetSelectProductItem">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-content m-1 p-1 box-shadow4 rounded overflow-auto"
+                id="pnlTableSelectProduct">
+                <table id="select_apply_table"
+                    class="table table-striped table-bordered table-hover w-100">
+                    <thead class="position-sticky top-0">
+                        <tr>
+                            
+                            <th class="text-center align-middle">ID</th>
+                            <th class="text-center align-middle">ItemNo</th>
+                            <th class="text-center align-middle">Project</th>
+                            <th class="text-center align-middle">ProductType</th>
+                        </tr>
+                    </thead>
+                    <tbody id="selecting_apply_body">
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+        <div class="ncr-report">
+
+            <div class="box-shadow4 rounded m-1" style="height: 50%;">
+                <div class="title text-center fs-4 bg-secondary fw-bold" style="color: white;">
+                    รายละเอียดพารามิเตอร์
+                </div>
+    
+                
+    
+                <div class="table-content m-2 p-1 box-shadow4 rounded" id="pnlTableParam">
+                    <table id="param_detail_table" class="table table-striped table-bordered table-hover w-100">
+                        <thead class="position-sticky top-0">
+    
+                            <tr>
+                                <th class="text-center align-middle">Is NCR Admin</th>
+                                <th class="text-center align-middle">NCR Admin Name</th>
+                                <th class="text-center align-middle">Topic</th>
+                                <th class="text-center align-middle">ParamName</th>
+                                <th class="text-center align-middle">Type</th>
+                                <th class="text-center align-middle">Detail</th>
+                                <th class="text-center align-middle">IsConst</th>
+                                <th class="text-center align-middle">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="param_detail_body">
+    
+                        </tbody>
+                    </table>
+    
+                </div>
+    
+            </div>
+            <div class="box-shadow4 rounded m-1 mt-1" style="height: 50%;">
+                <div class="title text-center fs-4 bg-secondary fw-bold" style="color: white;">
+                    NCR Report
+                </div>
+    
+                
+    
+                <div class="table-content m-2 p-1 box-shadow4 rounded" id="pnlNCRReport">
+                    <table id="report_table" class="table table-striped table-bordered table-hover w-100">
+                        <thead class="position-sticky top-0">
+                            <tr>
+                                <th class="text-center align-middle">Topic</th>
+                                <th class="text-center align-middle">Condition</th>
+                                <th class="text-center align-middle">Formula</th>
+                                <th class="text-center align-middle">AssignValueToFormula</th>
+                                <th class="text-center align-middle">NCR Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report_body">
+    
+                        </tbody>
+                    </table>
+    
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between" id="pnlDetail">
+
+        <div class="ms-2">
+            <i class="fas fa-user me-1"></i>
+            Login by : FName LName<b> [ Role/Plant ] </b>
+        </div>
+        <div class="me-2">
+            Developed by : <b>
+                <%=developer%>
+            </b>
+            <!-- <img src="file/img/redtech_logo.png" class="img-fluid" style="height: 30px;width: 80px;"> -->
+        </div>
+
+
+    </div>
+
+   
+
+
+
+
+</body>
+<script>
+    let myDomain = '<%=host%>:<%=port%>'
+    let urlNCRAutoReportParam = `http://${myDomain}/ncr_auto_report_param_api/`
+    let urlNCRAutoReport = `http://${myDomain}/ncr_auto_report_api/`
+    let urlProductItemList = `http://${myDomain}/product_item_list_api/`
+   
+
+</script>
+
+<script type="text/javascript" src="js/ncr_auto_report.js"></script>
+<!-- <script type="text/javascript" src="js/ncr_auto_admin_project_apply.js"></script> -->
+
+</html>

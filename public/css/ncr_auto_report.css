@@ -11,7 +11,7 @@
     --h-header: 60px;
     --h-button: 55px;
     --h-footer: 30px;
-    --h-content-table-view: calc(100vh - var(--h-search) - var(--h-footer) - var(--h-header) - var(--h-button) - 46px);
+    --h-content-table-view: calc(100vh - var(--h-footer) - 66px);
     
     --theme-table-view-color: #15053a;
    
@@ -149,7 +149,9 @@
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-part-font-color) !important;
   } */
-  
+  #pnlContentTableView{
+    height: var(--h-content-table-view);
+  }
   #boxApplyProjectTable,#boxApplyTable {
     height: calc(var(--h-content-table-view) - 50px);
     overflow: auto;
@@ -160,13 +162,13 @@
   }
 
   #pnlTableSelectProduct{
-    height: calc(100vh - 345px);
+    height: calc(100vh - 258px);
   }
   #pnlTableSelectedProduct{
     height: calc(100vh - 233px);
   }
 
-  :where(#pnlTableSelectProduct,#pnlTableSelectedProduct) table thead tr th {
+  :where(#pnlTableSelectProduct,#pnlTableSelectedProduct,#pnlTableParam,#pnlNCRReport) table thead tr th {
     background-color: black !important;
     color: white !important;
   }
@@ -179,4 +181,33 @@
     justify-content: center;
     flex-direction: column;
   }
+
+  .ncr-report{
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #pnlTableParam{
+    height: calc(var(--h-content-table-view) / 2 - 50px);
+    overflow: auto;
+  }
+  #pnlNCRReport{
+    height: calc(var(--h-content-table-view) / 2 - 70px);
+    overflow: auto;
+  }
   
+  .is-not-ncr{
+    background-color:#50C878	 !important;
+    color: white !important;
+  }
+  .is-ncr{
+    background-color: red !important;
+    color: white !important;
+  }
+
+  .selected td{
+    background-color: var(--bs-gray-700) !important;
+    color: white !important;
+  }

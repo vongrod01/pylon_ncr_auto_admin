@@ -266,12 +266,12 @@ class NCRAutoAdminTopicEXE extends BaseClass.BaseEXE {
             let request = await pool.request()
                 .input('ID', ID)
                 
-                .execute('ncr_auto_topic_delete');
+                .execute('ncr_auto_admin_topic_delete');
 
             return true
 
         } catch (error) {
-            this.logErrorExec('****** Error ncr_auto_topic_delete : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_topic_delete : ' + error + '******')
             return false
         }
     }
