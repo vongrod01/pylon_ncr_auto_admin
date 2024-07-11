@@ -2,6 +2,7 @@ let productItemIDSelectedList = []
 let objNCRAutoAdminApplyEntry = {
     "ID": 0,
     "ID_ProductItem_List": [],
+    "ID_ProductItem":0,
     "ID_NCRAutoAdminTopic": 0,
     "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
@@ -20,6 +21,7 @@ let objNCRAutoAdminApplyEntry = {
 let objNCRAutoAdminApplySearch = {
     "ID": 0,
     "ID_ProductItem_List": [],
+    "ID_ProductItem":0,
     "ID_NCRAutoAdminTopic": 0,
     "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
@@ -85,6 +87,31 @@ objNCRAutoAdminApplyEntry.EndTime = document.getElementById('dtpEndDate').value.
 objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
 objNCRAutoAdminApplyEntry.Reason = document.getElementById('edtReason').value
 }
+function clearNCRAutoAdminApplyEntry() {
+    objNCRAutoAdminApplyEntry.ID_ProductItem_List = []
+    objNCRAutoAdminApplyEntry.ID_ProductItem = 0
+    objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic = 0
+    objNCRAutoAdminApplyEntry.ID_NCRAutoAdminProjectApply = 0
+    objNCRAutoAdminApplyEntry.StartTime = ''
+    objNCRAutoAdminApplyEntry.EndTime = ''
+    objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
+    objNCRAutoAdminApplyEntry.Reason = ''
+    objNCRAutoAdminApplyEntry.Detail = ''
+    objNCRAutoAdminApplyEntry.Remark = ''
+    objNCRAutoAdminApplyEntry.AddBy = 0
+    objNCRAutoAdminApplyEntry.AddWhen = ''
+    objNCRAutoAdminApplyEntry.UpdateBy = 0
+    objNCRAutoAdminApplyEntry.UpdateWhen = ''
+    objNCRAutoAdminApplyEntry.DeleteBy = 0
+    objNCRAutoAdminApplyEntry.DeleteWhen = '' 
+}
+
+function displayNCRAutoAdminApplyEntry(){
+    document.getElementById('dtpStartDate').value = ''
+    document.getElementById('dtpEndDate').value = ''
+    document.getElementById('edtEmployeeRequest').value = objNCRAutoAdminApplyEntry.ID_EmployeeRequest
+    document.getElementById('edtReason').value = objNCRAutoAdminApplyEntry.Reason
+}
 
 
 async function dataEntry_NCRAutoAdminApply() {
@@ -139,7 +166,7 @@ async function showDataApply() {
                     data.NCRAutoAdminName,
                     data.Reason,
                     data.StartTime,
-                    data.Endtime,
+                    data.EndTime == null?'':data.EndTime,
                 ]
             )
         });
@@ -228,7 +255,6 @@ function selectedProductItem() {
         e.checked = false
         productItemIDSelectedList.push(parseInt(e.value))
     });
-    console.log(productItemIDSelectedList)
 }
 
 function deselectedProductItem() {
@@ -244,17 +270,19 @@ function deselectedProductItem() {
             productItemIDSelectedList.splice(index, 1); // 2nd parameter means remove one item only
         }
     });
-    console.log(productItemIDSelectedList)
 
 }
 
 function modalConfirm(level){
-    if(level==='PRODUCT'){
 
-        let myModal = new bootstrap.Modal(document.getElementById('modalConfirmApply'), { 
-            keyboard: false 
-          }) 
-          myModal.show() 
+    if(level==='PRODUCT'){
+        if(document.querySelectorAll(`#selected_apply_body tr`).length > 0){
+
+            let myModal = new bootstrap.Modal(document.getElementById('modalConfirmApply'), { 
+                keyboard: false 
+              }) 
+              myModal.show() 
+        }
     }
 
 }
@@ -262,9 +290,27 @@ function modalConfirm(level){
 document.getElementById('btnNCRAutoAdminApplyAdd').onclick = function () {
     dataControlNCRAutoAdminApplyEntry = 'Add'
     document.getElementById('modal-title-label-control-product').innerHTML = 'ADD'
+    clearNCRAutoAdminApplyEntry()
+    displayNCRAutoAdminApplyEntry()
     productItemIDSelectedList = []
     resetProductItem()
     // displayNCRAutoAdminApplyEntry()
+}
+document.getElementById('btnNCRAutoAdminApplyEdit').onclick = function () {
+    // document.getElementById('modal-title-label-control-product').innerHTML = 'ADD'
+    // productItemIDSelectedList = []
+    
+    reqAndRes(urlNCRAutoAdminApply, 'GET', {ID:objNCRAutoAdminApplyEntry.ID}, function (dataRes) {
+        clearNCRAutoAdminApplyEntry()
+        console.log(dataRes)
+        objNCRAutoAdminApplyEntry = dataRes
+        displayNCRAutoAdminApplyEntry()
+        dataControlNCRAutoAdminApplyEntry = 'Edit'
+        // document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
+    })
+    clearNCRAutoAdminApplyEntry()
+    // resetProductItem()
+    displayNCRAutoAdminApplyEntry()
 }
 
 document.getElementById('btnNCRAutoAdminApplyDelete').onclick = function () {

@@ -155,7 +155,7 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
                 .input('ID', ID)
-                .execute('ncr_auto_admin_apply_project_get');
+                .execute('ncr_auto_admin_apply_get');
             this.dataSet = request.recordsets[0];
 
             if (this.dataSet.length > 0) {
@@ -167,7 +167,7 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
             }
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_apply_project_get : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_get : ' + error + '******')
             this.dataSet = []
             return null
         }
@@ -213,7 +213,7 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
                         .input('ID_NCRAutoAdminTopic', DataVO.ID_NCRAutoAdminTopic)
                         .input('ID_NCRAutoAdminProjectApply', DataVO.ID_NCRAutoAdminProjectApply)
                         .input('StartTime', DataVO.StartTime)
-                        .input('Endtime', DataVO.EndTime)
+                        .input('EndTime', DataVO.EndTime)
                         // .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
                         .input('ID_EmployeeRequest', 0)
                         .input('Reason', DataVO.Reason)
@@ -244,21 +244,19 @@ class NCRAutoAdminApplyEXE extends BaseClass.BaseEXE {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()
                 .input('ID', DataVO.ID)
-                .input('ID_NCRAutoAdminTopic', DataVO.ID_NCRAutoAdminTopic)
-                .input('IsDry', DataVO.IsDry)
                 .input('StartTime', DataVO.StartTime)
                 .input('EndTime', DataVO.EndTime)
-                .input('Reason', DataVO.Reason)
                 .input('ID_EmployeeRequest', DataVO.ID_EmployeeRequest)
+                .input('Reason', DataVO.Reason)
                 .input('Remark', DataVO.Remark)
                 .input('Detail', DataVO.Detail)
                 .input('UpdateBy', DataVO.UpdateBy)
-                .execute('ncr_auto_admin_apply_project_edit');
+                .execute('ncr_auto_admin_apply_edit');
 
             return this.get(DataVO.ID)
         }
         catch (error) {
-            this.logErrorExec('****** Error ncr_auto_admin_apply_project_edit : ' + error + '******')
+            this.logErrorExec('****** Error ncr_auto_admin_apply_edit : ' + error + '******')
             this.dataSet = []
             return null
         }

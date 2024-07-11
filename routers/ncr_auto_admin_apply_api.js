@@ -59,6 +59,7 @@ router.route("/ncr_auto_admin_apply_api")
             let DataVoSet = []
             ID_ProductItem_List.forEach(ID_ProductItem => {
                 NCRAutoAdminApply.ID_ProductItem = ID_ProductItem
+                NCRAutoAdminApply.EndTime = null
                 DataVoSet.push(NCRAutoAdminApply.toJson())
             });
             await NCRAutoAdminApplyEXE.addAll(DataVoSet)

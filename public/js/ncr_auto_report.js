@@ -50,7 +50,7 @@ function showNcrReport(e,ID_ProductItem) {
             innerHTML += `
                 <tr>
                     <td class="text-center"><input class="form-check-input" type="checkbox" ${param.ID_NCRAutoAdminApply == null ? '' : 'checked'} disabled></td>
-                    <td> ${param.NCRAdminName}</td>
+                    <td> ${param.NCRAdminName==null?'':param.NCRAdminName}</td>
                     <td> ${param.ProcessNo}.${param.ProcessCaseNo}</td>
                     <td> ${param.ParamName}</td>
                     <td> ${param.ParamType}</td>
