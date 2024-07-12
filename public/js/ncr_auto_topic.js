@@ -55,22 +55,42 @@ function clearNCRAutoTopicSearch() {
     document.getElementById('edtPrcessCaseNo_Search').value = 0
 }
 
+// function collectNCRAutoTopicEntry() {
+//     objNCRAutoTopicEntry.ProcessNo = document.getElementById('edtProcessNo_Entry').value
+//     objNCRAutoTopicEntry.ProcessCaseNo = document.getElementById('edtProcessCaseNo_Entry').value
+//     objNCRAutoTopicEntry.ConditionDetial_TH = document.getElementById('edtConditionDetial_TH_Entry').value
+//     objNCRAutoTopicEntry.ConditionDetial_EN = document.getElementById('edtConditionDetial_EN_Entry').value
+//     objNCRAutoTopicEntry.NCR_Message_TH = document.getElementById('edtNCR_Message_TH_Entry').value
+//     objNCRAutoTopicEntry.NCR_Message_EN = document.getElementById('edtNCR_Message_EN_Entry').value
+//     objNCRAutoTopicEntry.Formula = document.getElementById('edtFormula_Entry').value
+//     objNCRAutoTopicEntry.Detail = document.getElementById('edtDetail_Entry').value
+//     objNCRAutoTopicEntry.Remark = document.getElementById('edtRemark_Entry').value
+//     objNCRAutoTopicEntry.Active = document.getElementById('chkActive_Entry').checked ? 1 : 0
+// }
 function collectNCRAutoTopicEntry() {
-    objNCRAutoTopicEntry.ProcessNo = document.getElementById('edtProcessNo_Entry').value
-    objNCRAutoTopicEntry.ProcessCaseNo = document.getElementById('edtProcessCaseNo_Entry').value
-    objNCRAutoTopicEntry.ConditionDetial_TH = document.getElementById('edtConditionDetial_TH_Entry').value
-    objNCRAutoTopicEntry.ConditionDetial_EN = document.getElementById('edtConditionDetial_EN_Entry').value
-    objNCRAutoTopicEntry.NCR_Message_TH = document.getElementById('edtNCR_Message_TH_Entry').value
-    objNCRAutoTopicEntry.NCR_Message_EN = document.getElementById('edtNCR_Message_EN_Entry').value
-    objNCRAutoTopicEntry.Formula = document.getElementById('edtFormula_Entry').value
-    objNCRAutoTopicEntry.Detail = document.getElementById('edtDetail_Entry').value
-    objNCRAutoTopicEntry.Remark = document.getElementById('edtRemark_Entry').value
-    objNCRAutoTopicEntry.Active = document.getElementById('chkActive_Entry').checked ? 1 : 0
+    try {
+        objNCRAutoTopicEntry = {
+            ...objNCRAutoTopicEntry,
+            ProcessNo: document.getElementById('edtProcessNo_Entry').value,
+            ProcessCaseNo: document.getElementById('edtProcessCaseNo_Entry').value,
+            ConditionDetial_TH: document.getElementById('edtConditionDetial_TH_Entry').value,
+            ConditionDetial_EN: document.getElementById('edtConditionDetial_EN_Entry').value,
+            NCR_Message_TH: document.getElementById('edtNCR_Message_TH_Entry').value,
+            NCR_Message_EN: document.getElementById('edtNCR_Message_EN_Entry').value,
+            Formula: document.getElementById('edtFormula_Entry').value,
+            Detail: document.getElementById('edtDetail_Entry').value,
+            Remark: document.getElementById('edtRemark_Entry').value,
+            Active: document.getElementById('chkActive_Entry').checked ? 1 : 0,
+        };
+    } catch (error) {
+        console.error("Error collecting NCR Auto Topic Entry:", error);
+    }
 }
+
 function collectNCRAutoTopicSearch() {
     // objNCRAutoTopicSearch.RxNo = document.getElementById('edtRxNo_Search').value
     objNCRAutoTopicSearch.ProcessNo = document.getElementById('edtPrcessNo_Search').value
-    objNCRAutoTopicSearch.ProcessNo = document.getElementById('edtPrcessCaseNo_Search').value
+    objNCRAutoTopicSearch.ProcessCaseNo  = document.getElementById('edtPrcessCaseNo_Search').value
     // objNCRAutoTopicSearch.Model = document.getElementById('edtModel_Search').value
     // objNCRAutoTopicSearch.Production = document.getElementById('edtProduction_Search').value
     // objNCRAutoTopicSearch.SectionCode = document.getElementById('edtSectionCode_Search').value
