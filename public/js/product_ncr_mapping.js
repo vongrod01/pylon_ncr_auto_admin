@@ -50,14 +50,15 @@ async function displayProductNCRMappingEntry() {
         document.getElementById('rdoDry').checked = false
         document.getElementById('rdoWet').checked = true
     }
-
-    document.getElementById('selProduct_Entry').value = objProductNCRMappingEntry.ID_Product
-
+    
+    // document.getElementById('selProduct_Entry').value = objProductNCRMappingEntry.ID_Product
+    
     objProductNCRMappingEntry.ID_NCRAutoTopic_List.forEach(ID_NCRAutoTopic => {
         let e = document.getElementById(`chkNCRTopic_${ID_NCRAutoTopic}`)
         e.checked = true
-
+        
     });
+  
 
 }
 
@@ -109,7 +110,7 @@ async function showDataProduct() {
 
     let rows = []
     await reqAndRes(urlProductNCRMapping_ListOfProduct, 'GET', {}, function (dataRes) {
-        console.table(dataRes)
+        // console.table(dataRes)
         dataSet = dataRes
 
         dataSet.forEach(data => {
@@ -184,7 +185,7 @@ async function showDataProduct() {
     // } );
     document.querySelectorAll(`#product_table tbody tr`).forEach(element => {
         element.onclick = function(){
-            console.log(element)
+            // console.log(element)
             showDataNCR(element)
         }
     });
@@ -262,7 +263,7 @@ function startPage() {
 }
 
 async function setSelectProduct() {
-    reqAndRes(urlProductNCR_List, 'GET', {}, async function (dataRes) {
+    await reqAndRes(urlProductNCR_List, 'GET', {}, async function (dataRes) {
         let innerHTML = ''
         dataRes.forEach(product => {
             innerHTML += `<option value=${product.id_product}>${product.product_name} (${product.product_no})</option>`
@@ -270,6 +271,8 @@ async function setSelectProduct() {
         document.getElementById('selProduct_Entry').innerHTML = innerHTML
 
     })
+
+    await checkListNCRAutoTopic()
 
 
 }
@@ -295,6 +298,32 @@ async function setSelectNCRTopic() {
 
 
 }
+async function checkListNCRAutoTopic(){
+
+    let dataReq = {
+        ID_Product:document.getElementById('selProduct_Entry').value,
+        IsDry:document.getElementById('rdoDry').checked ? 1 : 0
+    }
+    // console.log(dataReq)
+    await reqAndRes(urlProductNCRMapping_NCRListByProduct, 'GET', dataReq, function (dataRes) {
+        // console.table(dataRes)
+        document.getElementById('chkSelectAll_NCR').checked = true
+        document.getElementById('chkSelectAll_NCR').click()
+        dataRes.forEach(topic => {
+            document.getElementById(`chkNCRTopic_${topic.ID}`).checked = true
+        });
+    })
+}
+
+document.getElementById('selProduct_Entry').onchange = function(){
+    checkListNCRAutoTopic()
+}
+document.getElementById('rdoDry').onchange = function(){
+    checkListNCRAutoTopic()
+}
+document.getElementById('rdoWet').onchange = function(){
+    checkListNCRAutoTopic()
+}
 
 document.getElementById('chkSelectAll_NCR').onchange = function () {
     if (document.getElementById('chkSelectAll_NCR').checked) {
@@ -310,11 +339,12 @@ document.getElementById('chkSelectAll_NCR').onchange = function () {
 
 }
 
-document.getElementById('btnProductNCRMappingAdd').onclick = function () {
+document.getElementById('btnProductNCRMappingAdd').onclick = async function () {
     dataControlProductNCRMappingEntry = 'Add'
     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
-    clearProductNCRMappingEntry()
-    displayProductNCRMappingEntry()
+    await clearProductNCRMappingEntry()
+    await displayProductNCRMappingEntry()
+ 
 }
 document.getElementById('btnProductNCRMappingEdit').onclick = function () {
     // let table = new DataTable('#product_table');
