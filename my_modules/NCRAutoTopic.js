@@ -19,6 +19,7 @@ class NCRAutoTopicVO extends BaseClass.BaseVO {
         this._NCR_Message_EN = ''
         this._Formula = ''
         this._Active = 0
+        this._Ready = 0
         this._Remark = ''
         this._Detail = ''
         this._AddWhen = new Date()
@@ -104,6 +105,13 @@ class NCRAutoTopicVO extends BaseClass.BaseVO {
     }
     set Active(value) {
         this._Active = parseInt(value)
+    }
+
+    get Ready() {
+        return parseInt(this._Ready);
+    }
+    set Ready(value) {
+        this._Ready = parseInt(value)
     }
 
     get AddWhen() {

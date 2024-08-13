@@ -199,7 +199,7 @@ document.getElementById('btnAdminParamFormulaMappingEdit').onclick = function ()
 
 
 async function showDataAdminParam(ID_NCRAutoAdminTopic) {
-
+   
     let dataReq = {
         ID_NCRAutoAdminTopic: ID_NCRAutoAdminTopic,
         IsConst: 2,

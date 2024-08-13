@@ -17,6 +17,7 @@ class ParamFormulaMappingVO extends BaseClass.BaseVO {
         this._IsConst = 0
         this._ConstVal = ''
         this._Active = 0
+        this._Remark = ''
         this._Detail = ''
         this._AddWhen = new Date()
         this._UpdateWhen = new Date()
@@ -174,6 +175,7 @@ class ParamFormulaMappingEXE extends BaseClass.BaseEXE {
                 .input('IsConst', DataVO.IsConst)
                 .input('ConstVal', DataVO.ConstVal)
                 .input('Active', DataVO.Active)
+                .input('Remark', DataVO.Remark)
                 .input('Detail', DataVO.Detail)
                 .input('AddBy', DataVO.AddBy)
                 .execute('param_formula_mapping_add');
@@ -199,6 +201,7 @@ class ParamFormulaMappingEXE extends BaseClass.BaseEXE {
                 .input('IsConst', DataVO.IsConst)
                 .input('ConstVal', DataVO.ConstVal)
                 .input('Active', DataVO.Active)
+                .input('Remark', DataVO.Remark)
                 .input('Detail', DataVO.Detail)
                 .input('UpdateBy', DataVO.UpdateBy)
                 .execute('param_formula_mapping_edit');
