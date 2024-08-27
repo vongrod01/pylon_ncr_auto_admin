@@ -354,10 +354,16 @@
 </body>
 <script>
     let myDomain = '<%=host%>:<%=port%>'
-    let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
-    let urlNCRAutoAdminTopic = `http://${myDomain}/ncr_auto_admin_topic_api/`
-    let urlAdminParamFormulaMapping = `http://${myDomain}/admin_param_formula_mapping_api/`
-    let urlAdminParamFormulaMapping_Topic = `http://${myDomain}/product_ncr_mapping_api/`
+    let myAPI1 = '<%=api1_host%>:<%=api1_port%>'
+    // let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
+    // let urlNCRAutoAdminTopic = `http://${myDomain}/ncr_auto_admin_topic_api/`
+    // let urlAdminParamFormulaMapping = `http://${myDomain}/admin_param_formula_mapping_api/`
+    // let urlAdminParamFormulaMapping_Topic = `http://${myDomain}/product_ncr_mapping_api/`
+
+    let urlNCRAutoTopic = `http://${myAPI1}/api_v1/ncr_auto_topic/`
+    let urlNCRAutoAdminTopic = `http://${myAPI1}/api_v1/ncr_auto_admin_topic/`
+    let urlAdminParamFormulaMapping = `http://${myAPI1}/api_v1/admin_param_formula_mapping/`
+    // let urlAdminParamFormulaMapping_Topic = `http://${myAPI1}/api_v1/product_ncr_mapping/`
 </script>
 
 <script type="text/javascript" src="js/admin_param_formula_mapping.js"></script>

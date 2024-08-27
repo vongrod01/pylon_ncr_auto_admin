@@ -232,7 +232,9 @@
 </body>
 <script>
     let myDomain = '<%=host%>:<%=port%>'
-    let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
+    let myAPI1 = '<%=api1_host%>:<%=api1_port%>'
+    // let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
+    let urlNCRAutoTopic = `http://${myAPI1}/api_v1/ncr_auto_topic/`
     let urlNCRParam = `http://${myDomain}/pylon_ncr_auto_param`
 </script>
 <script type="text/javascript" src="js/ncr_auto_topic.js"></script>

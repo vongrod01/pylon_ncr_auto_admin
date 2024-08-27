@@ -3,6 +3,12 @@
         "port":8080,
         "host":"localhost"
     },
+    "api":[
+        {
+            "port":1000,
+            "host":"localhost"
+        }
+    ],
     "description":{
         "titleHeader":"GENARATE  MODEL",
         "version":"1.0.0",

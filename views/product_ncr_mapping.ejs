@@ -262,11 +262,16 @@
 
 <script>
     let myDomain = '<%=host%>:<%=port%>'
+    let myAPI1 = '<%=api1_host%>:<%=api1_port%>'
     let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
-    let urlProductNCRMapping = `http://${myDomain}/product_ncr_mapping_api/`
-    let urlProductNCR_List = `http://${myDomain}/product_ncr_list/`
-    let urlProductNCRMapping_ListOfProduct = `http://${myDomain}/product_ncr_mapping_list_listof_product/`
-    let urlProductNCRMapping_NCRListByProduct = `http://${myDomain}/product_ncr_mapping_ncr_list_listby_product/`
+    // let urlProductNCRMapping = `http://${myDomain}/product_ncr_mapping_api/`
+    // let urlProductNCR_List = `http://${myDomain}/product_ncr_list/`
+    // let urlProductNCRMapping_ListOfProduct = `http://${myDomain}/product_ncr_mapping_list_listof_product/`
+    // let urlProductNCRMapping_NCRListByProduct = `http://${myDomain}/product_ncr_mapping_ncr_list_listby_product/`
+    let urlProductNCRMapping = `http://${myAPI1}/api_v1/product_ncr_mapping/`
+    let urlProductNCRMapping_ListOfProduct = `http://${myAPI1}/api_v1/product_ncr_mapping_listof_product/`
+    let urlProductNCRMapping_NCRListByProduct = `http://${myAPI1}/api_v1/product_ncr_mapping_ncr_list_listby_product/`
+    let urlProductNCR_List = `http://${myAPI1}/api_v1/product_ncr_list/`
 </script>
 <script type="text/javascript" src="js/product_ncr_mapping.js"></script>
 
