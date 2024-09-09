@@ -1,10 +1,10 @@
 {
     "server":{
         "port":8080,
-        "host":"localhost"
+        "host":"192.168.100.197"
     },
     "description":{
-        "titleHeader":"GENARATE  MODEL",
+        "titleHeader":"NCR Auto",
         "version":"1.0.0",
         "developer":"Adisorn Vongrod"
     },
