@@ -201,9 +201,15 @@
 </body>
 <script>
     let myDomain = '<%=host%>:<%=port%>'
-    let urlNCRAutoReportParam = `http://${myDomain}/ncr_auto_report_param_api/`
-    let urlNCRAutoReport = `http://${myDomain}/ncr_auto_report_api/`
-    let urlProductItemList = `http://${myDomain}/product_item_list_api/`
+    let myAPI1 = '<%=api1_host%>:<%=api1_port%>'
+
+    // let urlNCRAutoReportParam = `http://${myDomain}/ncr_auto_report_param_api/`
+    // let urlNCRAutoReport = `http://${myDomain}/ncr_auto_report_api/`
+    // let urlProductItemList = `http://${myDomain}/product_item_list_api/`
+
+    let urlNCRAutoReportParam = `http://${myAPI1}/api_v1/ncr_auto_report_param/`
+    let urlNCRAutoReport = `http://${myAPI1}/api_v1/ncr_auto_report/`
+    let urlProductItemList = `http://${myAPI1}/api_v1/product_item_list/`
    
 
 </script>

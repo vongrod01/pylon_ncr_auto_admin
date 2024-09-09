@@ -286,6 +286,7 @@ class NCRAutoTopicEXE extends BaseClass.BaseEXE {
     }
 
     async delete(ID) {
+        console.log('Delete : ',ID)
         try {
             let pool = await this.db.connect(this.connDetail);
             let request = await pool.request()

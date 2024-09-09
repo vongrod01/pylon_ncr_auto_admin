@@ -82,6 +82,7 @@ function runTooltipBootstrap() {
 
 
 async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError = null) {
+    const startTime = performance.now(); // หรือใช้ Date.now() ก็ได้
     let option
     let urlNew = ''
     if (reqMethod === 'GET' || reqMethod === 'get') {
@@ -91,7 +92,7 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
                 'Content-Type': 'application/json',
             }
         }
-        let  queryString = $.param(reqData)
+        let queryString = $.param(reqData)
         // urlNew = `${url}?req_json=${encodeURIComponent(JSON.stringify(reqData))}`
         urlNew = `${url}?${queryString}`
 
@@ -99,13 +100,24 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
     }
     else {
         urlNew = url
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify(reqData);
+
         option = {
             method: reqMethod,
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(reqData),
+            body:JSON.stringify(reqData)
         }
+        // option = {
+        //     method: reqMethod,
+        //     headers: myHeaders,
+        //     body: raw,
+        //     redirect: "follow"
+        // };
     }
 
     await fetch(urlNew, option)
@@ -122,7 +134,7 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
             await callBackSuccess(response)
         })
         .catch(async (err) => {
-            // errorDefault(err,url)
+            console.error(err)
             if (callBackError === null) {
 
                 Swal.fire(err.statusText, url, 'error');
@@ -130,6 +142,17 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
             else {
                 await callBackError(err)
             }
+        })
+        .finally(()=>{
+            // const endTime = performance.now(); // หรือใช้ Date.now() ก็ได้
+            // let duration = endTime - startTime;
+
+            // const minutes = Math.floor(duration / 60000);
+            // duration %= 60000;
+            // const seconds = Math.floor(duration / 1000);
+            // const milliseconds = duration % 1000;
+
+            // console.log(`ใช้เวลา: ${minutes} นาที ${seconds} วินาที ${milliseconds} มิลลิวินาที`);
         })
         ;
 }

@@ -9,6 +9,11 @@ router.get('/pylon_ncr_auto', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
+
+
     res.render('ncr_auto_topic.ejs', initData)
 })
 router.get('/pylon_ncr_auto_param/', (req, res) => {
@@ -16,6 +21,9 @@ router.get('/pylon_ncr_auto_param/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     initData.ID_NCRAutoTopic = req.query.ID
     // console.log(initData)
     res.render('param_formula_mapping.ejs', initData)
@@ -26,6 +34,9 @@ router.get('/pylon_product_ncr/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     // initData.ID_NCRAutoTopic = req.query.ID
     console.log(initData)
     res.render('product_ncr_mapping.ejs', initData)
@@ -35,24 +46,36 @@ router.get('/pylon_ncr_auto_index/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     res.render('index.ejs', initData)
 })
 router.get('/pylon_ncr_auto_admin/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     res.render('ncr_auto_admin.ejs', initData)
 })
 router.get('/pylon_ncr_auto_admin_apply/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     res.render('ncr_auto_admin_apply.ejs', initData)
 })
 router.get('/pylon_ncr_auto_report/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
     res.render('ncr_auto_report.ejs', initData)
 })
 

@@ -515,10 +515,17 @@
 </body>
 <script>
     let myDomain = '<%=host%>:<%=port%>'
+    let myAPI1 = '<%=api1_host%>:<%=api1_port%>'
     let urlNCRAutoAdminProjectApply = `http://${myDomain}/ncr_auto_admin_project_apply_api/`
-    let urlNCRAutoAdminApply = `http://${myDomain}/ncr_auto_admin_apply_api/`
-    let urlProductItemList = `http://${myDomain}/product_item_list_api/`
+    // let urlNCRAutoAdminApply = `http://${myDomain}/ncr_auto_admin_apply_api/`
+    // let urlProductItemList = `http://${myDomain}/product_item_list_api/`
     let urlNCRAutoAdminTopic = `http://${myDomain}/ncr_auto_admin_topic_api/`
+
+    // let urlNCRAutoAdminProjectApply = `http://${myAPI1}/api_v1/ncr_auto_admin_project_apply/`
+    let urlNCRAutoAdminApply = `http://${myAPI1}/api_v1/ncr_auto_admin_apply/`
+    let urlProductItemList = `http://${myAPI1}/api_v1/product_item_list/`
+    // let urlNCRAutoAdminTopic = `http://${myAPI1}/api_v1/ncr_auto_admin_topic/`
+
 
 </script>
 
