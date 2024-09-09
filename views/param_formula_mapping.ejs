@@ -153,6 +153,17 @@
                         <input type="text" class="form-control search-border" name="edtFormula2"
                             id="edtFormula2" readonly />
                     </div>
+
+                    <table id="param_rec_table" class="table table-striped table-bordered table-hover w-25">
+                        <thead class="position-sticky top-0 bs-dark">
+                            <tr class="bs-dark">
+                                <th class="text-center align-middle">ParamName_Rec</th>
+                            </tr>
+                        </thead>
+                        <tbody id="param_rec_body">
+                           
+                        </tbody>
+                    </table>
                     <br>
                     <br>
 
@@ -229,6 +240,7 @@
     // let urlParamFormulaMapping_ListByTopic = `http://${myDomain}/param_formula_mapping_listby_topic_api/`
     let urlParamFormulaMapping = `http://${myAPI1}/api_v1/param_formula_mapping/`
     let urlParamFormulaMapping_ListByTopic = `http://${myAPI1}/api_v1/param_formula_mapping_listby_topic/`
+    let urlParamFormulaMapping_Recommend = `http://${myAPI1}/api_v1/ncr_auto_topic_param_rec/`
     let g_ID_NCRAutoTopic = '<%=ID_NCRAutoTopic%>'
 </script>
 <script type="text/javascript" src="js/param_formula_mapping.js"></script>

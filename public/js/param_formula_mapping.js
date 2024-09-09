@@ -39,6 +39,7 @@ function collectParamFormulaMappingEntry() {
 }
 
 function displayParamFormulaMappingEntry() {
+    displayParamRecommend()
     document.getElementById('edtParamName_Entry').value = objParamFormulaMappingEntry.ParamName
     document.getElementById('selParamType_Entry').value = objParamFormulaMappingEntry.ParamType
     document.getElementById('chkIsConst_Entry').checked = objParamFormulaMappingEntry.IsConst
@@ -48,6 +49,23 @@ function displayParamFormulaMappingEntry() {
 
 }
 
+function displayParamRecommend(){
+    // urlParamFormulaMapping_Recommend
+    // g_ID_NCRAutoTopic
+    reqAndRes(urlParamFormulaMapping_Recommend,'GET', {ID_NCRAutoTopic : g_ID_NCRAutoTopic}, function(dataRes){
+        let tbody_param_rec = document.getElementById('param_rec_body')
+        let innerHTML = ''
+        console.table(dataRes)
+        dataRes.forEach(param_rec => {
+            innerHTML += `
+                <tr style="${param_rec.ParamName_Added == null?'color:#fff;background:#ff0000':'color:#000;background:#32CD32'}">
+                    <td>${param_rec.ParamName_Rec}</td>
+                </tr>
+            `
+        });
+        tbody_param_rec.innerHTML = innerHTML
+    })
+}
 async function dataEntry_ParamFormulaMapping() {
     // let url = `${myDomain}/ncr_auto_topic_api`
     let method = ''

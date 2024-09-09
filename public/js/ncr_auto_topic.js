@@ -186,6 +186,7 @@ async function showDataSearch() {
                 [
                     data.ID,
                     data.Active,
+                    data.Ready,
                     data.ProcessNo,
                     data.ProcessCaseNo,
                     data.ConditionDetial_TH,
