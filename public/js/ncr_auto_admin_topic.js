@@ -154,6 +154,7 @@ async function showDataTopic() {
             rows.push(
                 [
                     data.ID,
+                    data.Ready,
                     data.Cancel,
                     data.ID_NCRAutoTopic,
                     `${data.ProcessNo}.${data.ProcessCaseNo}`,
@@ -176,7 +177,7 @@ async function showDataTopic() {
             row.onclick = function () { 
                 objNCRAutoAdminTopicEntry.ID = data[0]
                 // console.table([objNCRAutoAdminTopicEntry])
-                document.getElementById('edtAdminFormula').value = data[5]
+                document.getElementById('edtAdminFormula').value = data[6]
                 showDataAdminParam(objNCRAutoAdminTopicEntry.ID) 
             }
 

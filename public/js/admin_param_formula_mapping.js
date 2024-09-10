@@ -40,7 +40,7 @@ function collectAdminParamFormulaMappingEntry() {
 }
 
 function displayAdminParamFormulaMappingEntry() {
-
+    displayParamRecommend()
     document.getElementById('edtAdminParamName_Entry').value = objAdminParamFormulaMappingEntry.ParamName
     document.getElementById('selAdminParamType_Entry').value = objAdminParamFormulaMappingEntry.ParamType
     document.getElementById('chkAdminIsConst_Entry').checked = objAdminParamFormulaMappingEntry.IsConst
@@ -78,108 +78,24 @@ async function dataEntry_AdminParamFormulaMapping() {
         })
     }
 }
-//     dataControlAdminParamFormulaMappingEntry = ''
-// }
-// async function displayNCRAutoTopic(){
-//     reqAndRes(urlNCRAutoTopic,'GET',{ID:g_ID_NCRAutoAdminTopic},(dataRes)=>{
-//         document.getElementById('edtTopic').value = `${dataRes.ProcessNo}.${dataRes.ProcessCaseNo}`
-//         document.getElementById('edtConditionDetail').value = dataRes.ConditionDetial_TH
-//         document.getElementById('edtFormula').value = dataRes.Formula
-//         document.getElementById('edtFormula2').value = dataRes.Formula
 
-//     })
-// }
-// async function showDataSearch() {
-//     $("#ncr_param_table").DataTable().destroy()
-//     let innerHTML = ''
-//     let tbody = document.getElementById('ncr_param_body')
-//     tbody.innerHTML = innerHTML
-
-//     let rows = []
-//     await reqAndRes(urlParamFormulaMapping_ListByTopic, 'GET', {ID_NCRAutoAdminTopic:g_ID_NCRAutoAdminTopic}, function (dataRes) {
-//         dataSet = dataRes
-
-//         dataSet.forEach(data => {
-//             rows.push(
-//                 [
-//                     data.ID,
-//                     data.ParamName,
-//                     data.ParamType,
-//                     data.IsConst,
-//                     data.ConstVal,
-//                     data.Active,
-//                     data.Detail,
-//                     data.UpdateWhen,
-
-
-//                 ]
-//             )
-//         });
-//     })
-
-//     $("#ncr_param_table").dataTable({
-//         data: rows,
-//         // createdRow: function (row, data, dataIndex) {
-//         //     // หลังจากสร้าง table เสร็จ
-//         // },
-//         ordering: false,
-//         "lengthMenu": [
-//             [25, 50, 100, -1],
-//             [25, 50, 100, "All"]
-//         ],
-//         "pageLength": 25,
-//         select: {
-//             items: 'row',
-
-//         },
-//     })
-
-//     // tbody.innerHTML = innerHTML
-
-
-//     // $("#ncr_param_table").dataTable({
-//     //     ordering: false,
-//     //     "lengthMenu": [
-//     //         [25, 50, 100, -1],
-//     //         [25, 50, 100, "All"]
-//     //     ],
-//     //     "pageLength": 25,
-//     //     select: {
-//     //         items: 'row',
-
-//     //     },
-
-//     // })
-
-//     // #tbTableTroubleAndActionHistory_wrapper <---- datatable genarate ขึ้นมา
-//     document.getElementById('ncr_param_table_wrapper').classList.add('p-2')
-//     // let thead = document.querySelector('#tbTableTroubleAndActionHistory thead')
-//     let row = document.querySelectorAll('#ncr_param_table_wrapper .row')
-
-//     row[1].classList.add('mb-2', 'mt-2')
-//     row[1].querySelector('div').id = 'boxParamFormulaMappingTable'
-//     row[1].classList.remove('row')
-
-//     document.querySelectorAll('#ncr_param_table_wrapper thead tr th.sorting_asc').forEach(th => {
-//         th.classList.remove('sorting_asc')
-//     });
-
-//     document.querySelectorAll('#ncr_param_body tr td')[0].click()
-// }
-
-
-// function startPage() {
-//     // clearParamFormulaMappingSearch()
-//     displayNCRAutoTopic()
-//     showDataSearch()
-// }
-
-// document.getElementById('btnParamFormulaMappingAdd').onclick = function () {
-//     dataControlAdminParamFormulaMappingEntry = 'Add'
-//     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
-//     clearParamFormulaMappingEntry()
-//     displayParamFormulaMappingEntry()
-// }
+function displayParamRecommend(){
+    // urlParamFormulaMapping_Recommend
+    // g_ID_NCRAutoTopic
+    reqAndRes(urlAdminParamFormulaMapping_Recommend,'GET', {ID_NCRAutoAdminTopic : objAdminParamFormulaMappingEntry.ID_NCRAutoAdminTopic}, function(dataRes){
+        let tbody_param_rec = document.getElementById('param_rec_body')
+        let innerHTML = ''
+        console.table(dataRes)
+        dataRes.forEach(param_rec => {
+            innerHTML += `
+                <tr style="${param_rec.ParamName_Added == null?'color:#fff;background:#ff0000':'color:#000;background:#32CD32'}">
+                    <td>${param_rec.ParamName_Rec}</td>
+                </tr>
+            `
+        });
+        tbody_param_rec.innerHTML = innerHTML
+    })
+}
 document.getElementById('btnAdminParamFormulaMappingEdit').onclick = function () {
     try {
 
