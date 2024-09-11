@@ -3,8 +3,8 @@ let objNCRAutoTopicEntry = {
     "ID": 0,
     "ProcessNo": "",
     "ProcessCaseNo": "",
-    "ConditionDetial_TH": "",
-    "ConditionDetial_EN": "",
+    "ConditionDetail_TH": "",
+    "ConditionDetail_EN": "",
     "NCR_Message_TH": "",
     "NCR_Message_EN": "",
     "Formula": "",
@@ -22,8 +22,8 @@ let objNCRAutoTopicSearch = {
     "ID": 0,
     "ProcessNo": 0,
     "ProcessCaseNo": 0,
-    "ConditionDetial_TH": "",
-    "ConditionDetial_EN": "",
+    "ConditionDetail_TH": "",
+    "ConditionDetail_EN": "",
     "NCR_Message_TH": "",
     "NCR_Message_EN": "",
     "Formula": "",
@@ -41,8 +41,8 @@ let dataControlNCRAutoTopicEntry = ''
 function clearNCRAutoTopicEntry() {
     objNCRAutoTopicEntry.ProcessNo = 0
     objNCRAutoTopicEntry.ProcessCaseNo = 0
-    objNCRAutoTopicEntry.ConditionDetial_TH = ''
-    objNCRAutoTopicEntry.ConditionDetial_EN = ''
+    objNCRAutoTopicEntry.ConditionDetail_TH = ''
+    objNCRAutoTopicEntry.ConditionDetail_EN = ''
     objNCRAutoTopicEntry.NCR_Message_TH = ''
     objNCRAutoTopicEntry.NCR_Message_EN = ''
     objNCRAutoTopicEntry.Formula = ''
@@ -58,8 +58,8 @@ function clearNCRAutoTopicSearch() {
 // function collectNCRAutoTopicEntry() {
 //     objNCRAutoTopicEntry.ProcessNo = document.getElementById('edtProcessNo_Entry').value
 //     objNCRAutoTopicEntry.ProcessCaseNo = document.getElementById('edtProcessCaseNo_Entry').value
-//     objNCRAutoTopicEntry.ConditionDetial_TH = document.getElementById('edtConditionDetial_TH_Entry').value
-//     objNCRAutoTopicEntry.ConditionDetial_EN = document.getElementById('edtConditionDetial_EN_Entry').value
+//     objNCRAutoTopicEntry.ConditionDetail_TH = document.getElementById('edtConditionDetail_TH_Entry').value
+//     objNCRAutoTopicEntry.ConditionDetail_EN = document.getElementById('edtConditionDetail_EN_Entry').value
 //     objNCRAutoTopicEntry.NCR_Message_TH = document.getElementById('edtNCR_Message_TH_Entry').value
 //     objNCRAutoTopicEntry.NCR_Message_EN = document.getElementById('edtNCR_Message_EN_Entry').value
 //     objNCRAutoTopicEntry.Formula = document.getElementById('edtFormula_Entry').value
@@ -73,8 +73,8 @@ function collectNCRAutoTopicEntry() {
             ...objNCRAutoTopicEntry,
             ProcessNo: document.getElementById('edtProcessNo_Entry').value,
             ProcessCaseNo: document.getElementById('edtProcessCaseNo_Entry').value,
-            ConditionDetial_TH: document.getElementById('edtConditionDetial_TH_Entry').value,
-            ConditionDetial_EN: document.getElementById('edtConditionDetial_EN_Entry').value,
+            ConditionDetail_TH: document.getElementById('edtConditionDetail_TH_Entry').value,
+            ConditionDetail_EN: document.getElementById('edtConditionDetail_EN_Entry').value,
             NCR_Message_TH: document.getElementById('edtNCR_Message_TH_Entry').value,
             NCR_Message_EN: document.getElementById('edtNCR_Message_EN_Entry').value,
             Formula: document.getElementById('edtFormula_Entry').value,
@@ -107,8 +107,8 @@ function collectNCRAutoTopicSearch() {
 function displayNCRAutoTopicEntry() {
     document.getElementById('edtProcessNo_Entry').value = objNCRAutoTopicEntry.ProcessNo
     document.getElementById('edtProcessCaseNo_Entry').value = objNCRAutoTopicEntry.ProcessCaseNo
-    document.getElementById('edtConditionDetial_TH_Entry').value = objNCRAutoTopicEntry.ConditionDetial_TH
-    document.getElementById('edtConditionDetial_EN_Entry').value = objNCRAutoTopicEntry.ConditionDetial_EN
+    document.getElementById('edtConditionDetail_TH_Entry').value = objNCRAutoTopicEntry.ConditionDetail_TH
+    document.getElementById('edtConditionDetail_EN_Entry').value = objNCRAutoTopicEntry.ConditionDetail_EN
     document.getElementById('edtNCR_Message_TH_Entry').value = objNCRAutoTopicEntry.NCR_Message_TH
     document.getElementById('edtNCR_Message_EN_Entry').value = objNCRAutoTopicEntry.NCR_Message_EN
     document.getElementById('edtFormula_Entry').value = objNCRAutoTopicEntry.Formula
@@ -160,6 +160,7 @@ async function showDataSearch() {
     let rows = []
     await reqAndRes(urlNCRAutoTopic, 'GET', objNCRAutoTopicSearch, function (dataRes) {
         dataSet = dataRes
+        console.table(dataSet)
         //     dataSet.forEach(data => {
         //         innerHTML += `
         //       <tr>
@@ -189,8 +190,8 @@ async function showDataSearch() {
                     data.Ready,
                     data.ProcessNo,
                     data.ProcessCaseNo,
-                    data.ConditionDetial_TH,
-                    data.ConditionDetial_EN,
+                    data.ConditionDetail_TH,
+                    data.ConditionDetail_EN,
                     data.NCR_Message_TH,
                     data.NCR_Message_EN,
                     data.Formula,
