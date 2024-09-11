@@ -70,7 +70,7 @@ function showNcrReport(e,ID_ProductItem) {
             innerHTML += `
                 <tr>
                     <td> ${report.ProcessNo}.${report.ProcessCaseNo}</td>
-                    <td> ${report.ConditionDetial_TH}</td>
+                    <td> ${report.ConditionDetail_TH}</td>
                     <td> ${report.Formula}</td>
                     <td> ${report.AssignValueToFormula}</td>
                     <td class="${report.NCR_Result == 0?'is-not-ncr':'is-ncr'}"> ${report.NCR_Result == 0?'':'NCR'}</td>
