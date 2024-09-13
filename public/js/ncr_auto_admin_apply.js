@@ -244,6 +244,7 @@ function setSelectNCRAutoAdminTopic() {
             innerHTML += `<option value=${ncrAdmin.ID}>[${ncrAdmin.ProcessNo}.${ncrAdmin.ProcessCaseNo}] ${ncrAdmin.Name}</option>`
         });
         document.getElementById('selNCRAutoAdminTopicProduct_Entry').innerHTML = innerHTML
+        $('#selNCRAutoAdminTopicProduct_Entry').selectize({normalize:true});
     })
 }
 

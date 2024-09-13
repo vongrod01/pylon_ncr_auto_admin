@@ -106,17 +106,17 @@
   }
   
   /* :nth-child */
-  :where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content .modal-body {
+  :where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content .modal-body {
     background-color: var(--bs-gray-500);
   }
-:where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content *:where(input[type=text],input[type=number],textarea,select)
+:where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content *:where(input[type=text],input[type=number],textarea,select)
 {
     border: var(--theme-part-color) solid 1px !important;
     margin-bottom: 2px;
     background-color: #fff;
     color: var(--theme-part-color);
 }
-:where(#ModalNCRAutoAdminApplyProject,#ModalNCRAutoAdminApply) .modal-content *:where(span.input-group-text)
+:where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content *:where(span.input-group-text)
 {
     border: var(--theme-part-color) solid 1px !important;
     margin-bottom: 2px;
@@ -150,7 +150,7 @@
     color: var(--theme-part-font-color) !important;
   } */
   
-  #boxApplyProjectTable,#boxApplyTable {
+  #boxJobApplytTable,#boxApplyTable {
     height: calc(var(--h-content-table-view) - 50px);
     overflow: auto;
   }

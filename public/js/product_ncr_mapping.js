@@ -96,7 +96,7 @@ async function dataEntry_ProductNCRMapping() {
 // async function displayProductNCRMapping(){
 //     reqAndRes(urlProductNCRMapping,'GET',{ID:g_ID_Product},(dataRes)=>{
 //         document.getElementById('edtTopic').value = `${dataRes.ProcessNo}.${dataRes.ProcessCaseNo}`
-//         document.getElementById('edtConditionDetail').value = dataRes.ConditionDetial_TH
+//         document.getElementById('edtConditionDetail').value = dataRes.ConditionDetail_TH
 //         document.getElementById('edtFormula').value = dataRes.Formula
 //         document.getElementById('edtFormula2').value = dataRes.Formula
 
@@ -213,7 +213,7 @@ async function showDataNCR(e) {
             rows.push(
                 [
                     `${data.ProcessNo}.${data.ProcessCaseNo}`,
-                    data.ConditionDetial_TH,
+                    data.ConditionDetail_TH,
                     data.Formula,
                     data.Remark,
                   
@@ -286,7 +286,7 @@ async function setSelectNCRTopic() {
                 <tr>
                     <td class="text-center"><input class="form-check-input" type="checkbox" value=${ncr.ID} id="chkNCRTopic_${ncr.ID}"></td>
                     <td>${ncr.ProcessNo}.${ncr.ProcessCaseNo}</td>
-                    <td>${ncr.ConditionDetial_TH}</td>
+                    <td>${ncr.ConditionDetail_TH}</td>
                     <td>${ncr.Formula}</td>
                     <td>${ncr.Remark}</td>
                 </tr>
