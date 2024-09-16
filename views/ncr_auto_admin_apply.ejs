@@ -82,27 +82,17 @@
             </div>
 
             <div class="table-content m-2 p-1 box-shadow4 rounded">
-                <table id="project_apply_table" class="table table-striped table-bordered table-hover w-100">
+                <table id="job_apply_table" class="table table-striped table-bordered table-hover w-100">
                     <thead class="position-sticky top-0">
                         <tr>
                             <th class="text-center align-middle">ID</th>
-                            <th class="text-center align-middle">ID_Job</th>
-                            <th class="text-center align-middle">JobName</th>
-                            <th class="text-center align-middle">ID_NAAT</th>
                             <th class="text-center align-middle">NCR Admin Name </th>
-                            <th class="text-center align-middle">ID_Product</th>
-                            <th class="text-center align-middle">Product</th>
+                            <th class="text-center align-middle">JobName</th>
                             <th class="text-center align-middle">IsDry</th>
-                            <th class="text-center align-middle">ID_Daimeter</th>
-                            <th class="text-center align-middle">Daimeter</th>
-                            <th class="text-center align-middle">ID_Zone</th>
+                            <th class="text-center align-middle">ProductName</th>
+                            <th class="text-center align-middle">Diameter</th>
                             <th class="text-center align-middle">Zone</th>
-                            <th class="text-center align-middle">ID_Type</th>
                             <th class="text-center align-middle">Type</th>
-                            <th class="text-center align-middle">Reason</th>
-                            <th class="text-center align-middle">Date Start</th>
-                            <th class="text-center align-middle">Date End</th>
-                            <th class="text-center align-middle">Update Date</th>
                         </tr>
                     </thead>
                     <tbody id="project_apply_body">
@@ -578,7 +568,7 @@
     let urlProductDiameterList = `http://${myAPI1}/api_v1/product_size_listby_product/`
     let urlJobZoneList = `http://${myAPI1}/api_v1/zone_listby_job/`
     let urlJobTypeList = `http://${myAPI1}/api_v1/type_listby_job/`
-    let urlProductNCR_List = `http://${myAPI1}/api_v1/product_ncr_list/`
+    let urlProductListForNCRApply = `http://${myAPI1}/api_v1/product_list_for_ncr_apply/`
 
 </script>
 

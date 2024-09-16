@@ -23,26 +23,15 @@ let objNCRAutoAdminJobApplyEntry = {
     "DeleteWhen": "",
 }
 let objNCRAutoAdminJobApplySearch = {
-    "ID": 0,
-    "ID_Job": 0,
-    "ID_NCRAutoAdminTopic": 0,
-    "ID_Product": "",
+    "NCRAdminName": "",
+    "JobName": "",
+    "ProductName": "",
     "IsDry": 2,
-    "ID_Diameter":0,
-    "ID_Zone":0,
-    "ID_Type":0,
-    "StartTime": "",
-    "EndTime": "",
-    "ID_EmployeeRequest": 0,
-    "Reason":"",
-    "Detail": "",
-    "Remark": "",
-    "AddBy": 0,
-    "AddWhen": "",
-    "UpdateBy": 0,
-    "UpdateWhen": "",
-    "DeleteBy": 0,
-    "DeleteWhen": "",
+    "Diameter": 0,
+    "Zone": "",
+    "Type": "",
+    "Reason": "",
+   
 }
 let dataControlNCRAutoAdminJobApplyEntry = ''
 function clearNCRAutoAdminJobApplyEntry() {
@@ -72,7 +61,7 @@ function clearNCRAutoAdminJobApplyEntry() {
 
 
 function collectNCRAutoAdminJobApplyEntry() {
-    objNCRAutoAdminJobApplyEntry.ID = 0
+    // objNCRAutoAdminJobApplyEntry.ID = 0
     objNCRAutoAdminJobApplyEntry.ID_Job = document.getElementById('selJob_Entry').value
     objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic = document.getElementById('selNCRAutoAdminTopicJob_Entry').value
     objNCRAutoAdminJobApplyEntry.ID_Product = document.getElementById('selProduct_Entry').value 
@@ -83,7 +72,7 @@ function collectNCRAutoAdminJobApplyEntry() {
     objNCRAutoAdminJobApplyEntry.StartTime = document.getElementById('dtpStartDateJob_Entry').value.replace('T',' ')
     objNCRAutoAdminJobApplyEntry.EndTime =document.getElementById('dtpEndDateJob_Entry').value.replace('T',' ')
     objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest = 0
-    objNCRAutoAdminJobApplyEntry.Reason =  document.getElementById('edtReasonJob_Entry').value.replace('T',' ')
+    objNCRAutoAdminJobApplyEntry.Reason =  document.getElementById('edtReasonJob_Entry').value
     objNCRAutoAdminJobApplyEntry.Detail = "" 
     objNCRAutoAdminJobApplyEntry.Remark = ""
     objNCRAutoAdminJobApplyEntry.AddBy = 0
@@ -109,16 +98,28 @@ function collectNCRAutoTopicSearch() {
 }
 
 async function displayNCRAutoAdminJobApplyEntry() {
-    // await setSelectNCRAutoTopic()
-    // document.getElementById('selNCRAutoTopic_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Job
-    // document.getElementById('edtID_NCRAutoAdminTopic_Entry').value = objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic
-    // document.getElementById('edtID_Product_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Product
-    // document.getElementById('edtIsDry_Entry').value = objNCRAutoAdminJobApplyEntry.IsDry
-    // document.getElementById('edtStartTime_Entry').value = objNCRAutoAdminJobApplyEntry.StartTime
-    // document.getElementById('edtDetail_Entry').value = objNCRAutoAdminJobApplyEntry.Detail
-    // document.getElementById('edtEndTime_Entry').value = objNCRAutoAdminJobApplyEntry.EndTime
-    // document.getElementById('chkID_EmployeeRequest_Entry').checked = objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest
+    // document.getElementById('selNCRAutoAdminTopicJob_Entry').value = objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic 
+    // document.getElementById('selJob_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Job
+    let selJob_Entry = $('#selJob_Entry').selectize();
+    selJob_Entry[0].selectize.setValue(objNCRAutoAdminJobApplyEntry.ID_Job); // สำหรับค่าเดียว
 
+    let selNCRAutoAdminTopicJob_Entry = $('#selNCRAutoAdminTopicJob_Entry').selectize();
+    selNCRAutoAdminTopicJob_Entry[0].selectize.setValue(objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic ); // สำหรับค่าเดียว
+
+
+
+    // await setSelectType()
+    // await setSelectZone()
+    document.getElementById('selProduct_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Product 
+    await setSelectDiameter()
+    document.getElementById('selDry_Entry').value  = objNCRAutoAdminJobApplyEntry.IsDry
+    document.getElementById('selDiameter_Entry').value  = objNCRAutoAdminJobApplyEntry.ID_Diameter
+    document.getElementById('selZone_Entry').value  = objNCRAutoAdminJobApplyEntry.ID_Zone
+    document.getElementById('selType_Entry').value  = objNCRAutoAdminJobApplyEntry.ID_Type 
+    // document.getElementById('dtpStartDateJob_Entry').value.replace('T',' ') = objNCRAutoAdminJobApplyEntry.StartTime 
+    document.getElementById('dtpStartDateJob_Entry').value = objNCRAutoAdminJobApplyEntry.StartTime 
+    document.getElementById('dtpEndDateJob_Entry').value = objNCRAutoAdminJobApplyEntry.EndTime 
+    document.getElementById('edtReasonJob_Entry').value = objNCRAutoAdminJobApplyEntry.Reason 
 }
 
 async function dataEntry_NCRAutoAdminJobApply() {
@@ -138,7 +139,7 @@ async function dataEntry_NCRAutoAdminJobApply() {
     }
     if (dataControlNCRAutoAdminJobApplyEntry !== '') {
         collectNCRAutoAdminJobApplyEntry()
-        console.log(objNCRAutoAdminJobApplyEntry)
+        // console.log(objNCRAutoAdminJobApplyEntry)
         await reqAndRes(urlNCRAutoAdminJobApply, method, objNCRAutoAdminJobApplyEntry, function (dataRes) {
             console.log(dataRes)
             if (method !== 'delete') {
@@ -154,7 +155,7 @@ async function dataEntry_NCRAutoAdminJobApply() {
 }
 
 async function showDataJobApply() {
-    $("#project_apply_table").DataTable().destroy()
+    $("#job_apply_table").DataTable().destroy()
     let innerHTML = ''
     let tbody = document.getElementById('project_apply_body')
     tbody.innerHTML = innerHTML
@@ -165,15 +166,32 @@ async function showDataJobApply() {
         dataSet = dataRes
         console.table(dataRes)
         dataSet.forEach(data => {
+            let isDryDisplay = ''
+            if(data.IsDry == 0){
+                isDryDisplay = 'เปียก'
+            }
+            else if(data.IsDry == 0){
+                isDryDisplay = 'แห้ง'
+            }
+            else{
+                isDryDisplay = 'ทั้งหมด'
+            }
             rows.push(
                 [
-                    
+                    data.ID,
+                    data.NCRAdminName,
+                    `${data.JobNo} : ${data.JobName}`,
+                    isDryDisplay,
+                    data.ProductNo == null?'ทั้งหมด':`(${data.ProductNo})${data.ProductName}`,
+                    data.Daimeter == null?'ทั้งหมด':data.Daimeter,
+                    data.Zone == null?'ทั้งหมด':data.Zone,
+                    data.Type == null?'ทั้งหมด':data.Type,
                 ]
             )
         });
     })
 
-    $("#project_apply_table").dataTable({
+    $("#job_apply_table").dataTable({
         data: rows,
         createdRow: function (row, data, dataIndex) {
             row.onclick = function () { 
@@ -197,7 +215,7 @@ async function showDataJobApply() {
     // tbody.innerHTML = innerHTML
 
 
-    // $("#project_apply_table").dataTable({
+    // $("#job_apply_table").dataTable({
     //     ordering: false,
     //     "lengthMenu": [
     //         [25, 50, 100, -1],
@@ -212,15 +230,15 @@ async function showDataJobApply() {
     // })
 
     // #tbTableTroubleAndActionHistory_wrapper <---- datatable genarate ขึ้นมา
-    document.getElementById('project_apply_table_wrapper').classList.add('p-2')
+    document.getElementById('job_apply_table_wrapper').classList.add('p-2')
     // let thead = document.querySelector('#tbTableTroubleAndActionHistory thead')
-    let row = document.querySelectorAll('#project_apply_table_wrapper .row')
+    let row = document.querySelectorAll('#job_apply_table_wrapper .row')
 
     row[1].classList.add('mb-2', 'mt-2')
     row[1].querySelector('div').id = 'boxJobApplytTable'
     row[1].classList.remove('row')
 
-    document.querySelectorAll('#project_apply_table_wrapper thead tr th.sorting_asc').forEach(th => {
+    document.querySelectorAll('#job_apply_table_wrapper thead tr th.sorting_asc').forEach(th => {
         th.classList.remove('sorting_asc')
     });
 
@@ -235,12 +253,12 @@ function startPageProjectApply() {
     setSelectProduct()
 }
 
-function setSelectNCRAutoAdminTopic() {
+async function setSelectNCRAutoAdminTopic() {
     // selNCRAutoAdminTopicProduct_Entry
     let dataReq = {
         Cancel : 2,
     }
-    reqAndRes(urlNCRAutoAdminTopic, 'GET', dataReq, function (dataRes) {
+   await reqAndRes(urlNCRAutoAdminTopic, 'GET', dataReq, function (dataRes) {
         // console.table(dataRes)
         let innerHTML = ''
         dataRes.forEach(ncrAdmin => {
@@ -251,10 +269,10 @@ function setSelectNCRAutoAdminTopic() {
     })
 }
 
-function setSelectJob() {
+async function setSelectJob() {
 
 
-    reqAndRes(urlJobListForNCRApply, 'GET', {}, function (dataRes) {
+    await reqAndRes(urlJobListForNCRApply, 'GET', {}, function (dataRes) {
         // console.table(dataRes)
         let innerHTML = ''
         dataRes.forEach(job => {
@@ -267,10 +285,10 @@ function setSelectJob() {
     })
 
 }
-function setSelectDiameter() {
+async function setSelectDiameter() {
 
 
-    reqAndRes(urlDiameterList, 'GET', {}, function (dataRes) {
+    await reqAndRes(urlDiameterList, 'GET', {}, function (dataRes) {
         // console.table(dataRes)
         let innerHTML = ''
         dataRes.forEach(job => {
@@ -281,10 +299,10 @@ function setSelectDiameter() {
     })
 }
 async function setSelectProduct() {
-    await reqAndRes(urlProductNCR_List, 'GET', {}, async function (dataRes) {
+    await await reqAndRes(urlProductListForNCRApply, 'GET', {}, async function (dataRes) {
         let innerHTML = ''
         dataRes.forEach(product => {
-            innerHTML += `<option value=${product.id_product}>${product.product_name} (${product.product_no})</option>`
+            innerHTML += `<option value=${product.ID_Product}>${product.ProductName}</option>`
         });
         document.getElementById('selProduct_Entry').innerHTML = innerHTML
         await setSelectDiameter()
@@ -335,6 +353,51 @@ document.getElementById('btnNCRAutoAdminJobApplytAdd').onclick = function () {
     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
     clearNCRAutoAdminJobApplyEntry()
     displayNCRAutoAdminJobApplyEntry()
+}
+document.getElementById('btnNCRAutoAdminJobApplytEdit').onclick = function () {
+
+    let rowData = new DataTable('#job_apply_table').rows({ selected: true }).data();
+    let id = rowData[0][0]
+    reqAndRes(urlNCRAutoAdminJobApply, 'GET', { ID: id }, function (dataRes) {
+
+        clearNCRAutoAdminJobApplyEntry()
+        objNCRAutoAdminJobApplyEntry = {...dataRes}
+        console.log(objNCRAutoAdminJobApplyEntry)
+        dataControlNCRAutoAdminJobApplyEntry = 'Edit'
+        document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
+        displayNCRAutoAdminJobApplyEntry()
+       
+    })
+}
+document.getElementById('btnNCRAutoAdminJobApplytDelete').onclick = function () {
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            let rowData = new DataTable('#job_apply_table').rows({ selected: true }).data();
+            try {
+                let id = rowData[0][0]
+                objNCRAutoAdminJobApplyEntry.ID = id
+                dataControlNCRAutoAdminJobApplyEntry = 'Delete'
+                dataEntry_NCRAutoAdminJobApply()
+            } catch (error) {
+                
+            }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+        }
+      });
+
 }
 
 // document.getElementById('selNCRAutoTopic_Entry').onchange = function (){

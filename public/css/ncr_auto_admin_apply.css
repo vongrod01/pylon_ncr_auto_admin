@@ -129,23 +129,23 @@
   }
 
 
-  :where(#project_apply_table,#apply_table) tbody tr.selected td {
+  :where(#job_apply_table,#apply_table) tbody tr.selected td {
     background-color: var(--theme-table-view-color) !important;
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-table-view-font-color);
   }
   
-  :where(#project_apply_table,#apply_table) tbody tr td {
+  :where(#job_apply_table,#apply_table) tbody tr td {
     white-space: nowrap;
   }
   
-  :where(#project_apply_table,#apply_table) {
+  :where(#job_apply_table,#apply_table) {
     border-collapse: separate;
   
     border-spacing: 0 !important;
     margin-top: 0 !important;
   }
-  /* :where(#project_apply_table,#apply_table) thead tr{
+  /* :where(#job_apply_table,#apply_table) thead tr{
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-part-font-color) !important;
   } */
