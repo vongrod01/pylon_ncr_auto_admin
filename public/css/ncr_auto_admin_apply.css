@@ -180,6 +180,7 @@ details {
   padding: 10px;
   background-color: var(--theme-part-color);
   border-radius: 5px;
+  border : 2px solid #fff ;
   
 }
 summary{
