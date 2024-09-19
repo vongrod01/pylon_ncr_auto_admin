@@ -1,182 +1,212 @@
 :root {
+  --theme-part-color: #15053a;
+  --theme-part-font-color: #fff;
 
-    --theme-part-color: #15053a;
-    --theme-part-font-color: #fff;
-  
-    --title-color: #59a3d4;
-  
-    --w-input-part-1:300px;
+  --title-color: #59a3d4;
 
-    --h-search: 100px;
-    --h-header: 60px;
-    --h-button: 55px;
-    --h-footer: 30px;
-    --h-content-table-view: calc(100vh - var(--h-search) - var(--h-footer) - var(--h-header) - var(--h-button) - 46px);
-    
-    --theme-table-view-color: #15053a;
-   
-    --theme-table-view-font-color: #fff;
+  --w-input-part-1: 300px;
+
+  --h-search: 100px;
+  --h-header: 60px;
+  --h-button: 55px;
+  --h-footer: 30px;
+  --h-content-table-view: calc(
+    100vh - var(--h-search) - var(--h-footer) - var(--h-header) -
+      var(--h-button) - 46px
+  );
+
+  --theme-table-view-color: #15053a;
+
+  --theme-table-view-font-color: #fff;
 }
-   
 
-  
-  #pnlSearch {
-    height: var(--h-search);
-  }
-
-  #pnlSearch *.input-group-text.span-layout{
-    background-color: var(--theme-table-view-color) !important;
-    color: var(--theme-table-view-font-color) !important;
-    border: 1px solid var(--theme-table-view-color) !important;
-    display: flex;
-    justify-content: end;
-  }
-  
-  
-  #pnlSearch:where(* input[type=text],select,select option)
-  {
-    background-color: #fff;
-    color: var(--theme-table-view-color);
-  
-  }
-  
-  #pnlSearch * :where(.form-select,.form-control) {
-    /* background-color: var(--theme-table-view-font-color) !important; */
-    color: var(--theme-table-view-color) !important;
-    border: 1px solid var(--theme-table-view-color) !important;
-  }
-  
-  #pnlSearch *{
-    white-space: nowrap;
-  }
-
-
-  #pnlHeader{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    background-color: var(--theme-table-view-color);
-    color: var(--theme-table-view-font-color);
-    height: var(--h-header);
-  }
-  
-  #pnlButton {
-    height: var(--h-button);
-  }
-  
-  #pnlFooter {
-    height: var(--h-footer);
-    /* background-color: yellow; */
-  }
-  
-  #pnlContent {
-    height: var(--h-content);
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
-  
-
-  
-  
-  
-  .display-ncr-auto-topic-header {
-    background-color: var(--theme-part-color);
-    color: var(--theme-part-font-color);
-  }
-  
-  .display-ncr-auto-topic-header .modal-title {
-    font-weight: bold;
-    margin: 5px;
-    padding: 5px 5px 5px 10px;
-    color: var(--theme-part-color);
-    background-color: var(--theme-part-font-color);
-    border-radius: 5px;
-  }
-  
-  .display-ncr-auto-topic-header .modal-title span:nth-child(2) {
-    color: var(--theme-part-font-color);
-    background-color: var(--theme-part-color);
-    padding: 5px 10px 5px 10px;
-    margin-left: 5px;
-    border-radius: 0px 5px 5px 0px;
-  }
-  
-  .display-ncr-auto-topic-header .btn {
-    color: inherit;
-  }
-  
-  /* :nth-child */
-  :where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content .modal-body {
-    background-color: var(--bs-gray-500);
-  }
-:where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content *:where(input[type=text],input[type=number],textarea,select)
-{
-    border: var(--theme-part-color) solid 1px !important;
-    margin-bottom: 2px;
-    background-color: #fff;
-    color: var(--theme-part-color);
+#pnlSearch {
+  height: var(--h-search);
 }
-:where(#ModalNCRAutoAdminJobApplyt,#ModalNCRAutoAdminApply) .modal-content *:where(span.input-group-text)
-{
-    border: var(--theme-part-color) solid 1px !important;
-    margin-bottom: 2px;
-    background-color: var(--theme-part-color) !important;
-    color: #fff !important;
-    font-weight: bold;
-    width: 190px;
-    display: flex;
-    justify-content: end;
-  }
 
+#pnlSearch *.input-group-text.span-layout {
+  background-color: var(--theme-table-view-color) !important;
+  color: var(--theme-table-view-font-color) !important;
+  border: 1px solid var(--theme-table-view-color) !important;
+  display: flex;
+  justify-content: end;
+}
 
-  :where(#job_apply_table,#apply_table) tbody tr.selected td {
-    background-color: var(--theme-table-view-color) !important;
-    background-color: var(--theme-table-view-color) !important;
-    color: var(--theme-table-view-font-color);
-  }
-  
-  :where(#job_apply_table,#apply_table) tbody tr td {
-    white-space: nowrap;
-  }
-  
-  :where(#job_apply_table,#apply_table) {
-    border-collapse: separate;
-  
-    border-spacing: 0 !important;
-    margin-top: 0 !important;
-  }
-  /* :where(#job_apply_table,#apply_table) thead tr{
+#pnlSearch:where(* input[type="text"], select, select option) {
+  background-color: #fff;
+  color: var(--theme-table-view-color);
+}
+
+#pnlSearch * :where(.form-select, .form-control) {
+  /* background-color: var(--theme-table-view-font-color) !important; */
+  color: var(--theme-table-view-color) !important;
+  border: 1px solid var(--theme-table-view-color) !important;
+}
+
+#pnlSearch * {
+  white-space: nowrap;
+}
+
+#pnlHeader {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: var(--theme-table-view-color);
+  color: var(--theme-table-view-font-color);
+  height: var(--h-header);
+}
+
+#pnlButton {
+  height: var(--h-button);
+}
+
+#pnlFooter {
+  height: var(--h-footer);
+  /* background-color: yellow; */
+}
+
+#pnlContent {
+  height: var(--h-content);
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.display-ncr-auto-topic-header {
+  background-color: var(--theme-part-color);
+  color: var(--theme-part-font-color);
+}
+
+.display-ncr-auto-topic-header .modal-title {
+  font-weight: bold;
+  margin: 5px;
+  padding: 5px 5px 5px 10px;
+  color: var(--theme-part-color);
+  background-color: var(--theme-part-font-color);
+  border-radius: 5px;
+}
+
+.display-ncr-auto-topic-header .modal-title span:nth-child(2) {
+  color: var(--theme-part-font-color);
+  background-color: var(--theme-part-color);
+  padding: 5px 10px 5px 10px;
+  margin-left: 5px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.display-ncr-auto-topic-header .btn {
+  color: inherit;
+}
+
+/* :nth-child */
+:where(#ModalNCRAutoAdminJobApplyt, #ModalNCRAutoAdminApply)
+  .modal-content
+  .modal-body {
+  background-color: var(--bs-gray-500);
+}
+:where(#ModalNCRAutoAdminJobApplyt, #ModalNCRAutoAdminApply)
+  .modal-content
+  *:where(input[type="text"], input[type="number"], textarea, select) {
+  border: var(--theme-part-color) solid 1px !important;
+  margin-bottom: 2px;
+  background-color: #fff;
+  color: var(--theme-part-color);
+}
+:where(#ModalNCRAutoAdminJobApplyt, #ModalNCRAutoAdminApply)
+  .modal-content
+  *:where(span.input-group-text) {
+  border: var(--theme-part-color) solid 1px !important;
+  margin-bottom: 2px;
+  background-color: var(--theme-part-color) !important;
+  color: #fff !important;
+  font-weight: bold;
+  width: 190px;
+  display: flex;
+  justify-content: end;
+}
+
+:where(#job_apply_table, #apply_table) tbody tr.selected td {
+  background-color: var(--theme-table-view-color) !important;
+  background-color: var(--theme-table-view-color) !important;
+  color: var(--theme-table-view-font-color);
+}
+
+:where(#job_apply_table, #apply_table) tbody tr td {
+  white-space: nowrap;
+}
+
+:where(#job_apply_table, #apply_table) {
+  border-collapse: separate;
+
+  border-spacing: 0 !important;
+  margin-top: 0 !important;
+}
+/* :where(#job_apply_table,#apply_table) thead tr{
     background-color: var(--theme-table-view-color) !important;
     color: var(--theme-part-font-color) !important;
   } */
+
+#boxJobApplytTable,
+#boxApplyTable {
+  height: calc(var(--h-content-table-view) - 50px);
+  overflow: auto;
+}
+
+#pnlSelectProductApply {
+  height: calc(100vh - 180px);
+}
+
+#pnlTableSelectProduct {
+  height: calc(100vh - 345px);
+}
+#pnlTableSelectedProduct {
+  height: calc(100vh - 233px);
+}
+
+:where(#pnlTableSelectProduct, #pnlTableSelectedProduct) table thead tr th {
+  background-color: black !important;
+  color: white !important;
+}
+:where(#pnlTableSelectProduct, #pnlTableSelectedProduct, #pnlApplySearch) {
+  background-color: white !important;
+}
+
+.box-btn-select-apply {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+details {
+  padding: 10px;
+  background-color: var(--theme-part-color);
+  border-radius: 5px;
   
-  #boxJobApplytTable,#boxApplyTable {
-    height: calc(var(--h-content-table-view) - 50px);
-    overflow: auto;
-  }
+}
+summary{
+  color: var(--theme-part-font-color);
+  cursor: pointer;
+}
 
-  #pnlSelectProductApply{
-    height: calc(100vh - 180px);
-  }
+details > *:not(summary) {
+  margin: 0.75em 0 0 0;
+}
+.sel-condition {
+  cursor: default;
+  color: #000;
+  background: #dee2e6;
+  padding: 1em;
+  border-radius: 5px;
+}
+details code {
+  font-size: 1.1em;
+}
 
-  #pnlTableSelectProduct{
-    height: calc(100vh - 345px);
-  }
-  #pnlTableSelectedProduct{
-    height: calc(100vh - 233px);
-  }
+.sel-condition * label{
+  white-space: nowrap !important;
+}
 
-  :where(#pnlTableSelectProduct,#pnlTableSelectedProduct) table thead tr th {
-    background-color: black !important;
-    color: white !important;
-  }
-  :where(#pnlTableSelectProduct,#pnlTableSelectedProduct,#pnlApplySearch){
-    background-color: white !important;
-  }
+#project_apply_body tr td:nth-child(3){
+  width : 200px;
+  white-space: pre-wrap;
 
-  .box-btn-select-apply{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-  
+}

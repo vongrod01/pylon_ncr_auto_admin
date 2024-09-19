@@ -156,7 +156,7 @@ async function showDataApply() {
     let rows = []
     await reqAndRes(urlNCRAutoAdminApply, 'GET', objNCRAutoAdminApplySearch, function (dataRes) {
         dataSet = dataRes
-        console.table(dataRes)
+        // console.table(dataRes)
         dataSet.forEach(data => {
             rows.push(
                 [

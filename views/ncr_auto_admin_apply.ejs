@@ -89,10 +89,10 @@
                             <th class="text-center align-middle">NCR Admin Name </th>
                             <th class="text-center align-middle">JobName</th>
                             <th class="text-center align-middle">IsDry</th>
-                            <th class="text-center align-middle">ProductName</th>
-                            <th class="text-center align-middle">Diameter</th>
-                            <th class="text-center align-middle">Zone</th>
-                            <th class="text-center align-middle">Type</th>
+                            <th class="text-center align-middle">Job Condition</th>
+                            <th class="text-center align-middle">Reason</th>
+                            <th class="text-center align-middle">Date Start</th>
+                            <th class="text-center align-middle">Date End</th>
                         </tr>
                     </thead>
                     <tbody id="project_apply_body">
@@ -117,8 +117,8 @@
                         <i class="fas fa-plus"></i>
                         Add
                     </button>
-                    <button class="btn btn-secondary me-2 " data-bs-toggle="modal"
-                        data-bs-target="#modalConfirmApply" role="button" id="btnNCRAutoAdminApplyEdit">
+                    <button class="btn btn-secondary me-2 " data-bs-toggle="modal" data-bs-target="#modalConfirmApply"
+                        role="button" id="btnNCRAutoAdminApplyEdit">
                         <i class="fas fa-edit"></i>
                         Edit
                     </button>
@@ -193,7 +193,7 @@
                         <i class="fas fa-window-close fa-2x"></i>
                     </div>
                 </div>
-                <div class="p-1 pb-0 modal-body overflow-hidden">
+                <div class="p-1 pb-0 modal-body" style="overflow-y: auto; overflow-x: hidden;">
                     <div class="input-group input-group-form me-4">
                         <span class="input-group-text span-layout text-end">NCR Auto Topic</span>
                         <select class="form-select" id="selNCRAutoAdminTopicJob_Entry">
@@ -208,71 +208,107 @@
                         </select>
 
                     </div>
-                    <br>
-                    <br>
-                    
-                    <div class="input-group input-group-form me-4">
-                        <span class="input-group-text span-layout text-end">Product</span>
-                        <select class="form-select" id="selProduct_Entry">
-                        
-                        </select>
-
-                    </div>
-
                     <div class="input-group input-group-form me-4">
                         <span class="input-group-text span-layout text-end">แห้ง/เปียก</span>
                         <select class="form-select" id="selDry_Entry">
-                             <option value="2" selected>ทั้งหมด</option>
+                            <option value="2" selected>ทั้งหมด</option>
                             <option value="1">แห้ง</option>
                             <option value="0">เปียก</option>
                         </select>
 
                     </div>
-
-                  
-                    <div class="input-group input-group-form me-4">
-                        <span class="input-group-text span-layout text-end">Pile Diameter</span>
-                        <select class="form-select" id="selDiameter_Entry">
-                        
-                        </select>
-
-                    </div>
-                    <div class="input-group input-group-form me-4">
-                        <span class="input-group-text span-layout text-end">Zone</span>
-                        <select class="form-select" id="selZone_Entry">
-                        
-                        </select>
-
-                    </div>
-                    <div class="input-group input-group-form me-4">
-                        <span class="input-group-text span-layout text-end">Type</span>
-                        <select class="form-select" id="selType_Entry">
-                        
-                        </select>
-
-                    </div>
-                  
                     <br>
                     <br>
+
+                   
+                    <details class="mb-1">
+                        <summary class="fw-bold">Product</summary>
+                        <div class="sel-condition">
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="selAllProduct" onclick="selectALLItem(this)">
+                                <label class="form-check-label" for="selAllProduct">
+                                    Select All
+                                </label>
+                            </div>
+                            <div class="d-flex flex-wrap" id="selProductList_Entry">
+
+                            
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="mb-1">
+                        <summary class="fw-bold">Pile Diameter</summary>
+                        <div class="sel-condition">
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="selAllDiameter" onclick="selectALLItem(this)">
+                                <label class="form-check-label" for="selAllDiameter">
+                                    Select All
+                                </label>
+                            </div>
+                            <div class="d-flex flex-wrap" id="selDiameterList_Entry">
+
+                            
+                            </div>
+                        </div>
+                    </details>
+                    
+                    <details class="mb-1">
+                        <summary class="fw-bold">Zone</summary>
+                        <div class="sel-condition">
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="selAllZone" onclick="selectALLItem(this)">
+                                <label class="form-check-label" for="selAllZone">
+                                    Select All
+                                </label>
+                            </div>
+                            <div class="d-flex flex-wrap" id="selZoneList_Entry">
+
+                            
+                            </div>
+                        </div>
+                    </details>
+                    <details class="mb-1">
+                        <summary class="fw-bold">Type</summary>
+                        <div class="sel-condition">
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="selAllType" onclick="selectALLItem(this)">
+                                <label class="form-check-label" for="selAllType">
+                                    Select All
+                                </label>
+                            </div>
+                            <div class="d-flex flex-wrap" id="selTypeList_Entry">
+
+                            
+                            </div>
+                        </div>
+                    </details>
+
+             
+
+                    <br>
+                    <br>
+
+
 
                     <div class="d-flex mb-1">
                         <div class="input-group input-group-form w-50">
                             <span class="input-group-text span-layout text-end">วันที่เริ่มใช้</span>
-                            <input type="datetime-local" class="form-control" name="dtpStartDateJob_Entry" id="dtpStartDateJob_Entry"
-                                />
-    
+                            <input type="datetime-local" class="form-control" name="dtpStartDateJob_Entry"
+                                id="dtpStartDateJob_Entry" />
+
                         </div>
                         <div class="input-group input-group-form w-50">
                             <span class="input-group-text span-layout text-end">วันที่สิ้นสุด</span>
-                            <input type="datetime-local" class="form-control" name="dtpEndDateJob_Entry" id="dtpEndDateJob_Entry"
-                                />
-    
+                            <input type="datetime-local" class="form-control" name="dtpEndDateJob_Entry"
+                                id="dtpEndDateJob_Entry" />
+
                         </div>
                     </div>
                     <div class="input-group input-group-form">
                         <span class="input-group-text span-layout text-end">พนักงานที่ร้องขอ</span>
-                        <input type="text" class="form-control" name="edtEmployeeRequestJob_Entry" id="edtEmployeeRequestJob_Entry"
-                            placeholder="พนักงานที่ร้องขอ" />
+                        <input type="text" class="form-control" name="edtEmployeeRequestJob_Entry"
+                            id="edtEmployeeRequestJob_Entry" placeholder="พนักงานที่ร้องขอ" />
 
                     </div>
                     <div class="input-group input-group-form">
@@ -282,7 +318,7 @@
                     </div>
 
 
-                    
+
 
 
 
@@ -507,15 +543,13 @@
                     <div class="d-flex mb-2">
                         <div class="input-group input-group-form w-50 me-2">
                             <span class="input-group-text span-layout text-end">วันที่เริ่มใช้</span>
-                            <input type="datetime-local" class="form-control" name="dtpStartDate" id="dtpStartDate"
-                                />
-    
+                            <input type="datetime-local" class="form-control" name="dtpStartDate" id="dtpStartDate" />
+
                         </div>
                         <div class="input-group input-group-form w-50">
                             <span class="input-group-text span-layout text-end">วันที่สิ้นสุด</span>
-                            <input type="datetime-local" class="form-control" name="dtpEndDate" id="dtpEndDate"
-                                />
-    
+                            <input type="datetime-local" class="form-control" name="dtpEndDate" id="dtpEndDate" />
+
                         </div>
                     </div>
                     <div class="input-group input-group-form mb-2">
@@ -526,8 +560,7 @@
                     </div>
                     <div class="input-group input-group-form mb-2">
                         <span class="input-group-text span-layout text-end">เหตุผล</span>
-                        <textarea class="form-control" name="edtReason" id="edtReason"
-                            placeholder="เหตุผล"></textarea>
+                        <textarea class="form-control" name="edtReason" id="edtReason" placeholder="เหตุผล"></textarea>
                     </div>
 
                 </div>
@@ -537,7 +570,8 @@
                         <i class="fas fa-check"></i>
                         Confirm
                     </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="btnConfirmApplyClose">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"
+                        id="btnConfirmApplyClose">
                         <i class="fas fa-window-close"></i>
                         Close
                     </button>
@@ -569,6 +603,8 @@
     let urlJobZoneList = `http://${myAPI1}/api_v1/zone_listby_job/`
     let urlJobTypeList = `http://${myAPI1}/api_v1/type_listby_job/`
     let urlProductListForNCRApply = `http://${myAPI1}/api_v1/product_list_for_ncr_apply/`
+
+    let urlNCRConditionJobApplyListByNCRAutoAdminJobApply = `http://${myAPI1}/api_v1/ncr_condition_job_apply_listby_ncr_auto_admin_job_apply/`
 
 </script>
 
