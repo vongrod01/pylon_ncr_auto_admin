@@ -185,7 +185,7 @@ details {
 }
 summary{
   color: var(--theme-part-font-color);
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 details > *:not(summary) {

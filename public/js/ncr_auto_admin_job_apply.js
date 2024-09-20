@@ -4,8 +4,10 @@ let objNCRAutoAdminJobApplyEntry = {
     "ID": 0,
     "ID_Job": 0,
     "ID_NCRAutoAdminTopic": 0,
-    "ID_Product_List": [0],
-    "IsDry": 2,
+    "ID_Product_List": {
+        dry:[0],
+        wet:[0]
+    },
     "ID_Diameter_List": [0],
     "ID_Zone_List": [0],
     "ID_Type_List": [0],
@@ -35,8 +37,9 @@ function clearNCRAutoAdminJobApplyEntry() {
     objNCRAutoAdminJobApplyEntry.ID = 0
     objNCRAutoAdminJobApplyEntry.ID_Job = 0
     objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic = 0
-    objNCRAutoAdminJobApplyEntry.ID_Product_List = [],
-        objNCRAutoAdminJobApplyEntry.IsDry = 2
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.dry = [],
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = [],
+
     objNCRAutoAdminJobApplyEntry.ID_Diameter_List = [],
         objNCRAutoAdminJobApplyEntry.ID_Zone_List = [],
         objNCRAutoAdminJobApplyEntry.ID_Type_List = [],
@@ -62,10 +65,12 @@ function collectNCRAutoAdminJobApplyEntry() {
     //     return parseInt(e.value)
     objNCRAutoAdminJobApplyEntry.ID_Job = document.getElementById('selJob_Entry').value
     objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic = document.getElementById('selNCRAutoAdminTopicJob_Entry').value
-    objNCRAutoAdminJobApplyEntry.ID_Product_List = [...document.querySelectorAll(`#selProductList_Entry * input[type=checkbox]:checked`)].map(function (e) {
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.dry = [...document.querySelectorAll(`#selProductList_Entry * input[type=checkbox]:checked.is-dry`)].map(function (e) {
         return parseInt(e.value)
     })
-    objNCRAutoAdminJobApplyEntry.IsDry = document.getElementById('selDry_Entry').value
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = [...document.querySelectorAll(`#selProductList_Entry * input[type=checkbox]:checked.is-wet`)].map(function (e) {
+        return parseInt(e.value)
+    })
     objNCRAutoAdminJobApplyEntry.ID_Diameter_List = [...document.querySelectorAll(`#selDiameterList_Entry * input[type=checkbox]:checked`)].map(function (e) {
         return parseInt(e.value)
     })
@@ -121,20 +126,26 @@ async function displayNCRAutoAdminJobApplyEntry() {
     // await setSelectType()
     // await setSelectZone()
     // document.getElementById('selProduct_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Product_List 
-    document.getElementById('selDry_Entry').value = objNCRAutoAdminJobApplyEntry.IsDry
+
     
-    objNCRAutoAdminJobApplyEntry.ID_Product_List.forEach(ID => {
-        document.querySelector(`#selProductList_Entry * input[type="checkbox"][value="${ID}"]`).click();
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.dry.forEach(ID => {
+        document.querySelector(`#selProductList_Entry * input[type="checkbox"][value="${ID}"].is-dry`).checked = true;
     });
+    objNCRAutoAdminJobApplyEntry.ID_Product_List.wet.forEach(ID => {
+        document.querySelector(`#selProductList_Entry * input[type="checkbox"][value="${ID}"].is-wet`).checked = true;
+    });
+    // objNCRAutoAdminJobApplyEntry.ID_Product_List.forEach(ID => {
+    //     document.querySelector(`#selProductList_Entry * input[type="checkbox"][value="${ID}"]`).click();
+    // });
     await setSelectDiameter()
     objNCRAutoAdminJobApplyEntry.ID_Diameter_List.forEach(ID => {
-        document.querySelector(`#selDiameterList_Entry * input[type="checkbox"][value="${ID}"]`).click();
+        document.querySelector(`#selDiameterList_Entry * input[type="checkbox"][value="${ID}"]`).checked = true;
     });
     objNCRAutoAdminJobApplyEntry.ID_Zone_List.forEach(ID => {
-        document.querySelector(`#selZoneList_Entry * input[type="checkbox"][value="${ID}"]`).click();
+        document.querySelector(`#selZoneList_Entry * input[type="checkbox"][value="${ID}"]`).checked = true;
     });
     objNCRAutoAdminJobApplyEntry.ID_Type_List.forEach(ID => {
-        document.querySelector(`#selTypeList_Entry * input[type="checkbox"][value="${ID}"]`).click();
+        document.querySelector(`#selTypeList_Entry * input[type="checkbox"][value="${ID}"]`).checked = true;
     });
   
     document.getElementById('dtpStartDateJob_Entry').value = objNCRAutoAdminJobApplyEntry.StartTime
@@ -186,22 +197,12 @@ async function showDataJobApply() {
         dataSet = dataRes
         console.table(dataRes)
         dataSet.forEach(data => {
-            let isDryDisplay = ''
-            if (data.IsDry == 0) {
-                isDryDisplay = 'เปียก'
-            }
-            else if (data.IsDry == 0) {
-                isDryDisplay = 'แห้ง'
-            }
-            else {
-                isDryDisplay = 'ทั้งหมด'
-            }
+            
             rows.push(
                 [
                     data.ID,
                     data.NCRAdminName,
                     `${data.JobNo} : ${data.JobName}`,
-                    isDryDisplay,
                     `
                     
                     <details onclick="showJobCondition(${data.ID},this)">
@@ -332,11 +333,29 @@ async function setSelectProduct() {
 
         dataRes.forEach(product => {
             innerHTML += `
-            <div class="form-check me-4" style="width:200px">
-                <input class="form-check-input" type="checkbox" value="${product.ID_Product}" onclick="setSelectDiameter()">
-                <label class="form-check-label" for="flexCheckChecked">
+            <div class="mb-2 me-2 border border-2 rounded border-secondary " style="width:220px;">
+                <div class="w-100 mb-1 fw-bold text-center bg-secondary" style="color:#fff">
+
                     ${product.ProductName}
-                </label>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <span class="form-check me-2" >
+                        <input class="form-check-input is-dry" type="checkbox" value="${product.ID_Product}" onclick="setSelectDiameter()" id="${product.ProductName}_${product.ID_Product}_1">
+                        <label class="form-check-label" for="${product.ProductName}_${product.ID_Product}_1">
+                            
+                            แห้ง
+                        </label>
+                
+                    </span>
+                    <div class="form-check me-2">
+                    
+                        <input class="form-check-input is-wet" type="checkbox" value="${product.ID_Product}" onclick="setSelectDiameter()" id="${product.ProductName}_${product.ID_Product}_0">
+                        <label class="form-check-label" for="${product.ProductName}_${product.ID_Product}_0">
+                    
+                            เปียก
+                        </label>
+                    </div>
+                </div>
             </div>
             `
         });
@@ -358,7 +377,7 @@ async function setSelectDiameter() {
 
 
             innerHTML += `
-            <div class="form-check me-4" style="width:200px">
+            <div class="form-check me-4" style="width:220px">
                 <input class="form-check-input" type="checkbox" value="${productSize.ID_ProductSize}">
                 <label class="form-check-label" for="flexCheckChecked">
                     ${productSize.Diameter_Display}
@@ -380,7 +399,7 @@ async function setSelectZone() {
         dataRes.forEach(zone => {
 
             innerHTML += `
-            <div class="form-check me-4" style="width:200px">
+            <div class="form-check me-4" style="width:220px">
                 <input class="form-check-input" type="checkbox" value="${zone.ID_Zone}">
                 <label class="form-check-label" for="flexCheckChecked">
                 ${zone.ZoneName}
@@ -460,41 +479,57 @@ document.getElementById('btnNCRAutoAdminJobApplytAdd').onclick = function () {
 }
 document.getElementById('btnNCRAutoAdminJobApplytEdit').onclick = function () {
 
-    let rowData = new DataTable('#job_apply_table').rows({ selected: true }).data();
-    let id = rowData[0][0]
-    clearNCRAutoAdminJobApplyEntry()
-    reqAndRes(urlNCRAutoAdminJobApply, 'GET', { ID: id },async function (dataResJobApply) {
-        objNCRAutoAdminJobApplyEntry = { ...dataResJobApply }
-        await reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply,'GET',{ID_NCRAutoAdminJobApply : id}, (dataResCondition)=>{
-            // console.table("ข้อมูลเตรียม EDIT : ",dataResCondition)
-            objNCRAutoAdminJobApplyEntry.ID_Product_List = []
-            objNCRAutoAdminJobApplyEntry.ID_Diameter_List = []
-            objNCRAutoAdminJobApplyEntry.ID_Type_List = []
-            objNCRAutoAdminJobApplyEntry.ID_Zone_List = []
-            dataResCondition.forEach(Condition => {
-                if(Condition.ConditionModule == 'PRODUCT'){
-                    objNCRAutoAdminJobApplyEntry.ID_Product_List.push(Condition.ID_ConditionModule)
-                }
-                else if(Condition.ConditionModule == 'DIAMETER'){
-                    objNCRAutoAdminJobApplyEntry.ID_Diameter_List.push(Condition.ID_ConditionModule)
-                }
-                else if(Condition.ConditionModule == 'TYPE'){
-                    objNCRAutoAdminJobApplyEntry.ID_Type_List.push(Condition.ID_ConditionModule)
-                }
-                else if(Condition.ConditionModule == 'ZONE'){
-                    objNCRAutoAdminJobApplyEntry.ID_Zone_List.push(Condition.ID_ConditionModule)
-                }
-            });
-
+    try {
         
+        let rowData = new DataTable('#job_apply_table').rows({ selected: true }).data();
+        let id = rowData[0][0]
+        clearNCRAutoAdminJobApplyEntry()
+        reqAndRes(urlNCRAutoAdminJobApply, 'GET', { ID: id },async function (dataResJobApply) {
+            objNCRAutoAdminJobApplyEntry = { ...dataResJobApply }
+            await reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply,'GET',{ID_NCRAutoAdminJobApply : id}, (dataResCondition)=>{
+                console.table("ข้อมูลเตรียม EDIT : ",dataResCondition)
+                // objNCRAutoAdminJobApplyEntry.ID_Product_List.dry = []
+                // objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = []
+                objNCRAutoAdminJobApplyEntry.ID_Product_List = {
+                    dry:[],
+                    wet:[],
+                }
+                objNCRAutoAdminJobApplyEntry.ID_Diameter_List = []
+                objNCRAutoAdminJobApplyEntry.ID_Type_List = []
+                objNCRAutoAdminJobApplyEntry.ID_Zone_List = []
+                dataResCondition.forEach(Condition => {
+                    if(Condition.ConditionModule == 'PRODUCT'  && Condition.ConditionExtend_1 == '1'){
+                        objNCRAutoAdminJobApplyEntry.ID_Product_List.dry.push(Condition.ID_ConditionModule)
+                    }
+                    if(Condition.ConditionModule == 'PRODUCT'  && Condition.ConditionExtend_1 == '0'){
+                        objNCRAutoAdminJobApplyEntry.ID_Product_List.wet.push(Condition.ID_ConditionModule)
+                    }
+                    else if(Condition.ConditionModule == 'DIAMETER'){
+                        objNCRAutoAdminJobApplyEntry.ID_Diameter_List.push(Condition.ID_ConditionModule)
+                    }
+                    else if(Condition.ConditionModule == 'TYPE'){
+                        objNCRAutoAdminJobApplyEntry.ID_Type_List.push(Condition.ID_ConditionModule)
+                    }
+                    else if(Condition.ConditionModule == 'ZONE'){
+                        objNCRAutoAdminJobApplyEntry.ID_Zone_List.push(Condition.ID_ConditionModule)
+                    }
+                });
+    
+            
+            })
+            
+            console.log(objNCRAutoAdminJobApplyEntry)
+            dataControlNCRAutoAdminJobApplyEntry = 'Edit'
+            document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
+            displayNCRAutoAdminJobApplyEntry()
+    
         })
-        
-        console.log(objNCRAutoAdminJobApplyEntry)
-        dataControlNCRAutoAdminJobApplyEntry = 'Edit'
-        document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
-        displayNCRAutoAdminJobApplyEntry()
-
-    })
+    } catch (error) {
+        setTimeout(() => {
+            
+            document.getElementById('btnNCRAutoAdminJobApplyClose').click()
+        }, 500);
+    }
 }
 document.getElementById('btnNCRAutoAdminJobApplytDelete').onclick = function () {
 
