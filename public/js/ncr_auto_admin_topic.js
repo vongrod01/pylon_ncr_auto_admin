@@ -159,8 +159,8 @@ async function showDataTopic() {
                     data.ID_NCRAutoTopic,
                     `${data.ProcessNo}.${data.ProcessCaseNo}`,
                     data.Name,
-                    // data.ConditionDetial_TH,
-                    // data.ConditionDetial_EN,
+                    // data.ConditionDetail_TH,
+                    // data.ConditionDetail_EN,
                     // data.NCR_Message_TH,
                     // data.NCR_Message_EN,
                     data.Formula,
@@ -302,7 +302,7 @@ async function setSelectNCRAutoTopic() {
         listNCRAUtoTopic = dataRes
         let innerHTML = ''
         listNCRAUtoTopic.forEach(ncr => {
-            innerHTML += `<option value=${ncr.ID}>[${ncr.ProcessNo}.${ncr.ProcessCaseNo}] ${ncr.ConditionDetial_TH} | Remark : ${ncr.Remark}</option>`
+            innerHTML += `<option value=${ncr.ID}>[${ncr.ProcessNo}.${ncr.ProcessCaseNo}] ${ncr.ConditionDetail_TH} | Remark : ${ncr.Remark}</option>`
         });
         document.getElementById('selNCRAutoTopic_Entry').innerHTML = innerHTML
     })

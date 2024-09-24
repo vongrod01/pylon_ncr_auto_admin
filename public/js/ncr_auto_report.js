@@ -47,10 +47,21 @@ function showNcrReport(e,ID_ProductItem) {
     reqAndRes(urlNCRAutoReportParam, 'GET', dataReq, function (dataRes) {
         let innerHTML = ''
         dataRes.forEach(param => {
+            ncrApplyDetail = ''
+            if(param.ID_NCRAutoAdminApply != null){
+                ncrApplyDetail = `[${param.ID_NCRAutoAdminApply}]ระดับเสาเข็ม`
+            }
+            else if(param.ID_NCRAutoAdminJobApply != null){
+                ncrApplyDetail = `[${param.ID_NCRAutoAdminJobApply}]ระดับเสาโครงการ`
+            }
+            else{
+                ncrApplyDetail = ''
+            }
             innerHTML += `
                 <tr>
-                    <td class="text-center"><input class="form-check-input" type="checkbox" ${param.ID_NCRAutoAdminApply == null ? '' : 'checked'} disabled></td>
+                    <td class="text-center"><input class="form-check-input" type="checkbox" ${param.ID_NCRAutoAdminApply == null && param.ID_NCRAutoAdminJobApply == null ? '' : 'checked'} disabled></td>
                     <td> ${param.NCRAdminName==null?'':param.NCRAdminName}</td>
+                    <td> ${ncrApplyDetail}</td>
                     <td> ${param.ProcessNo}.${param.ProcessCaseNo}</td>
                     <td> ${param.ParamName}</td>
                     <td> ${param.ParamType}</td>

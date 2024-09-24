@@ -91,7 +91,6 @@ function clearNCRAutoAdminApplyEntry() {
     objNCRAutoAdminApplyEntry.ID_ProductItem_List = []
     objNCRAutoAdminApplyEntry.ID_ProductItem = 0
     objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic = 0
-    objNCRAutoAdminApplyEntry.ID_NCRAutoAdminProjectApply = 0
     objNCRAutoAdminApplyEntry.StartTime = ''
     objNCRAutoAdminApplyEntry.EndTime = ''
     objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
@@ -107,8 +106,9 @@ function clearNCRAutoAdminApplyEntry() {
 }
 
 function displayNCRAutoAdminApplyEntry(){
-    document.getElementById('dtpStartDate').value = ''
-    document.getElementById('dtpEndDate').value = ''
+    document.getElementById('selNCRAutoAdminTopicProduct_Entry').value = objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic
+    document.getElementById('dtpStartDate').value = objNCRAutoAdminApplyEntry.StartTime
+    document.getElementById('dtpEndDate').value = objNCRAutoAdminApplyEntry.EndTime
     document.getElementById('edtEmployeeRequest').value = objNCRAutoAdminApplyEntry.ID_EmployeeRequest
     document.getElementById('edtReason').value = objNCRAutoAdminApplyEntry.Reason
 }
