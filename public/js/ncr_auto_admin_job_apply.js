@@ -87,16 +87,7 @@ async function collectNCRAutoAdminJobApplyEntry() {
     })
 
     let attachFile_List = []
-    // document.querySelectorAll(`#attach_file_job_body * input[type=file]`).forEach( async (elInputFile) => {
-    //     try {
-            
-    //         attachFile_List.push(await getFileDetail(elInputFile))
-    //     } catch (error) {
-            
-    //     }
-    //     // await getFileDetail(elInputFile).then((data)=>{
-    //     // })
-    // });
+   
 
      // กรองเฉพาะ input ที่มีไฟล์เลือกแล้ว
      const fileInputs = [...document.querySelectorAll(`#attach_file_job_body * input[type=file]`)]
@@ -112,8 +103,23 @@ async function collectNCRAutoAdminJobApplyEntry() {
         }
     });
 
+
     // รอให้ทุกไฟล์ถูกอ่าน
     await Promise.all(filePromises);
+
+    // id-master-file
+    document.querySelectorAll(`#attach_file_job_body * td.id-master-file`).forEach(td => {
+        if(parseInt(td.innerHTML) > 0){
+            attachFile_List.push({
+                ID_MasterFile:parseInt(td.innerHTML),
+                fileAddress:'',
+                fileName: '',
+                fileType: '',
+                fileSize: 0,
+                fileContent: ''
+            })
+        }
+    });
     objNCRAutoAdminJobApplyEntry.attachFile_List = attachFile_List
     objNCRAutoAdminJobApplyEntry.StartTime = document.getElementById('dtpStartDateJob_Entry').value.replace('T', ' ')
     objNCRAutoAdminJobApplyEntry.EndTime = document.getElementById('dtpEndDateJob_Entry').value.replace('T', ' ')
@@ -145,21 +151,73 @@ function collectNCRAutoTopicSearch() {
 
 async function displayNCRAutoAdminJobApplyEntry() {
 
-    document.getElementById('attach_file_job_body').innerHTML = `
+    if(objNCRAutoAdminJobApplyEntry.attachFile_List.length > 0){
+        let innerHTML = ''
+        objNCRAutoAdminJobApplyEntry.attachFile_List.forEach(fileDetail => {
+            innerHTML += `
+                <tr>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-danger" onclick="deleteFileJob(this)"><i class="fas fa-minus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file">${fileDetail.ID_MasterFile}</td>
+                    <td class="text-center align-middle">${fileDetail.fileName}</td>
+                    <td class="text-center align-middle">${fileDetail.fileType}</td>
+                    <td class="text-center align-middle">${fileDetail.fileSize} bytes</td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="http://${fileDetail.fileAddress}" target="_blank">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>
+            `
+        });
+
+        innerHTML+= `
             <tr>
-                <td class="text-center align-middle">
-                    <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
-                    
-                </td>
-                <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
-                <td class="text-center align-middle">0</td>
-                <td class="text-center align-middle"></td>
-                <td class="text-center align-middle"></td>
-                <td class="text-center align-middle"></td>
-                <td class="text-center align-middle"></td>
-            
-            </tr>
-    `
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file">0</td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>`
+
+            document.getElementById('attach_file_job_body').innerHTML =innerHTML
+    }
+    else{
+
+        document.getElementById('attach_file_job_body').innerHTML = `
+                <tr>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file">0</td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>
+        `
+    }
 
 
     const checkboxes = document.querySelectorAll('#ModalNCRAutoAdminJobApplyt * input[type="checkbox"]');
@@ -534,11 +592,16 @@ async function addFileJob(el) {
             
         </td>
         <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
-        <td class="text-center align-middle">0</td>
+        <td class="text-center align-middle id-master-file">0</td>
         <td class="text-center align-middle"></td>
         <td class="text-center align-middle"></td>
         <td class="text-center align-middle"></td>
-        <td class="text-center align-middle"></td>`
+        <td class="text-center align-middle">
+            <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+                <i class="fas fa-download"></i>
+            </a>
+        </td>
+    `
     tdAttachFile.querySelector('input').classList.remove('d-none')
     tdControl.innerHTML = `<button class="btn btn-danger" onclick="deleteFileJob(this)"><i class="fas fa-minus"></i></button>`
     tbody.appendChild(tr)
@@ -554,9 +617,16 @@ async function showFileDetail(event) {
     getFileDetail(event.target).then((data)=>{
         // console.table([data])
         let tr = event.target.parentElement.parentElement
+        tr.querySelectorAll('td')[2].innerHTML = 0
         tr.querySelectorAll('td')[3].innerHTML = data.fileName
         tr.querySelectorAll('td')[4].innerHTML = data.fileType
         tr.querySelectorAll('td')[5].innerHTML = `${data.fileSize} bytes`
+        tr.querySelectorAll('td')[6].innerHTML = ` <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+            <i class="fas fa-download"></i>
+        </a>`
+        // if(file){
+
+        // }
     }).catch((data)=>{
         
     })
@@ -633,6 +703,23 @@ async function getFileDetail(elFIle) {
             })
         }
     })
+}
+
+async function viewFile(el, address = null){
+    if(address == null){
+        let inputFile = el.parentElement.parentElement.querySelector('* input')
+        const file = inputFile.files[0]; // ดึงไฟล์แรกที่ถูกเลือก
+        if (file) {
+            // สร้าง blob URL จากไฟล์
+            const fileURL = URL.createObjectURL(file);
+
+            // เปิดไฟล์ในแท็บใหม่
+            window.open(fileURL, '_blank');
+
+            // ปล่อย URL เมื่อใช้งานเสร็จ เพื่อประหยัดหน่วยความจำ
+            URL.revokeObjectURL(fileURL);
+        }
+    }
 }
 
 
