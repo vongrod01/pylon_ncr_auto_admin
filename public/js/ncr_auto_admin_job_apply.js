@@ -1,12 +1,12 @@
 
-
+// let attachFile_List = []
 let objNCRAutoAdminJobApplyEntry = {
     "ID": 0,
     "ID_Job": 0,
     "ID_NCRAutoAdminTopic": 0,
     "ID_Product_List": {
-        dry:[0],
-        wet:[0]
+        dry: [0],
+        wet: [0]
     },
     "ID_Diameter_List": [0],
     "ID_Zone_List": [0],
@@ -15,6 +15,7 @@ let objNCRAutoAdminJobApplyEntry = {
     "EndTime": "",
     "ID_EmployeeRequest": 0,
     "Reason": "",
+    "attachFile_List":[],
     "Detail": "",
     "Remark": "",
     "AddBy": 0,
@@ -34,15 +35,19 @@ let objNCRAutoAdminJobApplySearch = {
 let dataControlNCRAutoAdminJobApplyEntry = ''
 function clearNCRAutoAdminJobApplyEntry() {
 
+    
+
     objNCRAutoAdminJobApplyEntry.ID = 0
     objNCRAutoAdminJobApplyEntry.ID_Job = 0
     objNCRAutoAdminJobApplyEntry.ID_NCRAutoAdminTopic = 0
     objNCRAutoAdminJobApplyEntry.ID_Product_List.dry = [],
-    objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = [],
+        objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = [],
 
-    objNCRAutoAdminJobApplyEntry.ID_Diameter_List = [],
+        objNCRAutoAdminJobApplyEntry.ID_Diameter_List = [],
         objNCRAutoAdminJobApplyEntry.ID_Zone_List = [],
         objNCRAutoAdminJobApplyEntry.ID_Type_List = [],
+
+        objNCRAutoAdminJobApplyEntry.attachFile_List = []
         objNCRAutoAdminJobApplyEntry.StartTime = ""
     objNCRAutoAdminJobApplyEntry.EndTime = ""
     objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest = 0
@@ -59,7 +64,7 @@ function clearNCRAutoAdminJobApplyEntry() {
 }
 
 
-function collectNCRAutoAdminJobApplyEntry() {
+async function collectNCRAutoAdminJobApplyEntry() {
     // objNCRAutoAdminJobApplyEntry.ID = 0
     // [...document.querySelectorAll(`#selProductList_Entry * input[type=checkbox]:checked`)].map(function (e) {
     //     return parseInt(e.value)
@@ -80,6 +85,36 @@ function collectNCRAutoAdminJobApplyEntry() {
     objNCRAutoAdminJobApplyEntry.ID_Type_List = [...document.querySelectorAll(`#selTypeList_Entry * input[type=checkbox]:checked`)].map(function (e) {
         return parseInt(e.value)
     })
+
+    let attachFile_List = []
+    // document.querySelectorAll(`#attach_file_job_body * input[type=file]`).forEach( async (elInputFile) => {
+    //     try {
+            
+    //         attachFile_List.push(await getFileDetail(elInputFile))
+    //     } catch (error) {
+            
+    //     }
+    //     // await getFileDetail(elInputFile).then((data)=>{
+    //     // })
+    // });
+
+     // กรองเฉพาะ input ที่มีไฟล์เลือกแล้ว
+     const fileInputs = [...document.querySelectorAll(`#attach_file_job_body * input[type=file]`)]
+     .filter(elInputFile => elInputFile.files.length > 0);
+
+     // ใช้ Promise.all เพื่อรอให้ทุกการอ่านไฟล์เสร็จสิ้น
+     const filePromises = fileInputs.map(async (elInputFile) => {
+        try {
+            const fileDetail = await getFileDetail(elInputFile);
+            attachFile_List.push(fileDetail);
+        } catch (error) {
+            console.error('Error reading file:', error);
+        }
+    });
+
+    // รอให้ทุกไฟล์ถูกอ่าน
+    await Promise.all(filePromises);
+    objNCRAutoAdminJobApplyEntry.attachFile_List = attachFile_List
     objNCRAutoAdminJobApplyEntry.StartTime = document.getElementById('dtpStartDateJob_Entry').value.replace('T', ' ')
     objNCRAutoAdminJobApplyEntry.EndTime = document.getElementById('dtpEndDateJob_Entry').value.replace('T', ' ')
     objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest = 0
@@ -109,6 +144,24 @@ function collectNCRAutoTopicSearch() {
 }
 
 async function displayNCRAutoAdminJobApplyEntry() {
+
+    document.getElementById('attach_file_job_body').innerHTML = `
+            <tr>
+                <td class="text-center align-middle">
+                    <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                    
+                </td>
+                <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                <td class="text-center align-middle">0</td>
+                <td class="text-center align-middle"></td>
+                <td class="text-center align-middle"></td>
+                <td class="text-center align-middle"></td>
+                <td class="text-center align-middle"></td>
+            
+            </tr>
+    `
+
+
     const checkboxes = document.querySelectorAll('#ModalNCRAutoAdminJobApplyt * input[type="checkbox"]');
 
     // วนลูปผ่าน checkboxes และตั้งค่า checked เป็น false
@@ -127,7 +180,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
     // await setSelectZone()
     // document.getElementById('selProduct_Entry').value = objNCRAutoAdminJobApplyEntry.ID_Product_List 
 
-    
+
     objNCRAutoAdminJobApplyEntry.ID_Product_List.dry.forEach(ID => {
         document.querySelector(`#selProductList_Entry * input[type="checkbox"][value="${ID}"].is-dry`).checked = true;
     });
@@ -147,7 +200,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
     objNCRAutoAdminJobApplyEntry.ID_Type_List.forEach(ID => {
         document.querySelector(`#selTypeList_Entry * input[type="checkbox"][value="${ID}"]`).checked = true;
     });
-  
+
     document.getElementById('dtpStartDateJob_Entry').value = objNCRAutoAdminJobApplyEntry.StartTime
     document.getElementById('dtpEndDateJob_Entry').value = objNCRAutoAdminJobApplyEntry.EndTime
     document.getElementById('edtReasonJob_Entry').value = objNCRAutoAdminJobApplyEntry.Reason
@@ -169,7 +222,7 @@ async function dataEntry_NCRAutoAdminJobApply() {
         method = 'delete'
     }
     if (dataControlNCRAutoAdminJobApplyEntry !== '') {
-        collectNCRAutoAdminJobApplyEntry()
+        await collectNCRAutoAdminJobApplyEntry()
         console.log("objNCRAutoAdminJobApplyEntry", objNCRAutoAdminJobApplyEntry)
         await reqAndRes(urlNCRAutoAdminJobApply, method, objNCRAutoAdminJobApplyEntry, function (dataRes) {
             console.log(dataRes)
@@ -197,7 +250,7 @@ async function showDataJobApply() {
         dataSet = dataRes
         console.table(dataRes)
         dataSet.forEach(data => {
-            
+
             rows.push(
                 [
                     data.ID,
@@ -281,7 +334,7 @@ function startPageProjectApply() {
     setSelectJob()
     setSelectProduct()
 }
-async function selectALLItem(el){
+async function selectALLItem(el) {
     console.log(el)
     let parentElement = el.parentElement.parentElement
     let checkboxes = parentElement.querySelectorAll('input[type="checkbox"]');
@@ -290,7 +343,7 @@ async function selectALLItem(el){
         checkbox.checked = el.checked;
     });
 
-    if(el.id == 'selAllProduct'){
+    if (el.id == 'selAllProduct') {
         setSelectDiameter()
     }
 }
@@ -433,35 +486,35 @@ async function setSelectType() {
 
     })
 }
-async function showJobCondition(ID_NCRAutoAdminJobApply,el){
-    console.log("ID_NCRAutoAdminJobApply : ",ID_NCRAutoAdminJobApply )
+async function showJobCondition(ID_NCRAutoAdminJobApply, el) {
+    console.log("ID_NCRAutoAdminJobApply : ", ID_NCRAutoAdminJobApply)
     // console.log(el)
-    reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply,'GET',{ID_NCRAutoAdminJobApply : ID_NCRAutoAdminJobApply}, (dataRes)=>{
+    reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply, 'GET', { ID_NCRAutoAdminJobApply: ID_NCRAutoAdminJobApply }, (dataRes) => {
         console.table(dataRes)
         let innerHTML = ''
         let product = ''
-        let diameter =''
-        let type =''
+        let diameter = ''
+        let type = ''
         let zone = ''
         dataRes.forEach(module => {
-            if(module.ConditionModule == 'PRODUCT'){
-                product+=`<li>${module.ModuleData}</li>`
+            if (module.ConditionModule == 'PRODUCT') {
+                product += `<li>${module.ModuleData}</li>`
             }
-            else if(module.ConditionModule == 'DIAMETER'){
-                diameter+=`<li>${module.ModuleData}</li>`
+            else if (module.ConditionModule == 'DIAMETER') {
+                diameter += `<li>${module.ModuleData}</li>`
             }
-            else if(module.ConditionModule == 'ZONE'){
-                zone+=`<li>${module.ModuleData}</li>`
+            else if (module.ConditionModule == 'ZONE') {
+                zone += `<li>${module.ModuleData}</li>`
             }
-            else if(module.ConditionModule == 'TYPE'){
-                type+=`<li>${module.ModuleData}</li>`
+            else if (module.ConditionModule == 'TYPE') {
+                type += `<li>${module.ModuleData}</li>`
             }
         });
         innerHTML = `
-        ${product != ''?`<ul><b>Product</b><br>${product}</ul>`:``}
-        ${diameter != ''?`<ul><b>Diameter</b><br>${diameter}</ul>`:``}
-        ${zone != ''?`<ul><b>Zone</b><br>${zone}</ul>`:``}
-        ${type != ''?`<ul><b>Type</b><br>${type}</ul>`:``}
+        ${product != '' ? `<ul><b>Product</b><br>${product}</ul>` : ``}
+        ${diameter != '' ? `<ul><b>Diameter</b><br>${diameter}</ul>` : ``}
+        ${zone != '' ? `<ul><b>Zone</b><br>${zone}</ul>` : ``}
+        ${type != '' ? `<ul><b>Type</b><br>${type}</ul>` : ``}
         
         
         `
@@ -471,62 +524,189 @@ async function showJobCondition(ID_NCRAutoAdminJobApply,el){
 
 }
 
+async function addFileJob(el) {
+    let tbody = el.parentElement.parentElement.parentElement
+    let tdControl = el.parentElement
+    let tdAttachFile = el.parentElement.parentElement.querySelectorAll('td')[1]
+    let tr = document.createElement('tr');
+    tr.innerHTML = `<td class="text-center align-middle">
+            <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+            
+        </td>
+        <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+        <td class="text-center align-middle">0</td>
+        <td class="text-center align-middle"></td>
+        <td class="text-center align-middle"></td>
+        <td class="text-center align-middle"></td>
+        <td class="text-center align-middle"></td>`
+    tdAttachFile.querySelector('input').classList.remove('d-none')
+    tdControl.innerHTML = `<button class="btn btn-danger" onclick="deleteFileJob(this)"><i class="fas fa-minus"></i></button>`
+    tbody.appendChild(tr)
+}
+
+async function deleteFileJob(el) {
+    let tr = el.parentElement.parentElement
+    tr.remove()
+}
+
+async function showFileDetail(event) {
+    const file = event.target.files[0];
+    getFileDetail(event.target).then((data)=>{
+        // console.table([data])
+        let tr = event.target.parentElement.parentElement
+        tr.querySelectorAll('td')[3].innerHTML = data.fileName
+        tr.querySelectorAll('td')[4].innerHTML = data.fileType
+        tr.querySelectorAll('td')[5].innerHTML = `${data.fileSize} bytes`
+    }).catch((data)=>{
+        
+    })
+   
+    // attachFile_List = []
+    //  document.querySelectorAll(`#attach_file_job_body * input[type=file]`).forEach( async (elInputFile) => {
+    //     try {
+            
+    //         attachFile_List.push(await getFileDetail(elInputFile))
+    //     } catch (error) {
+            
+    //     }
+    //     // await getFileDetail(elInputFile).then((data)=>{
+    //     // })
+    // });
+
+    
+}
+
+async function getFileDetail(elFIle) {
+    return new Promise(async (resolve, reject) => {
+        
+        const file = elFIle.files[0];
+        let ID_MasterFile = elFIle.parentElement.parentElement.querySelectorAll('td')[2].innerHTML
+        let result = {
+            ID_MasterFile:0,
+            fileAddress:'',
+            fileName: '',
+            fileType: '',
+            fileSize: 0,
+            fileContent: ''
+        }
+        if (file) {
+            // ดึงชื่อไฟล์พร้อมนามสกุล
+            const fullFileName = file.name;
+    
+            // ตัดนามสกุลไฟล์ออก (เอาเฉพาะชื่อไฟล์)
+            const fileName = fullFileName.substring(0, fullFileName.lastIndexOf('.'));
+    
+            // ดึงชนิดของไฟล์ (file extension)
+            const fileType = fullFileName.split('.').pop();
+    
+            // ดึงขนาดของไฟล์ (เป็น byte)
+            const fileSize = file.size;
+    
+            // สร้าง FileReader เพื่ออ่าน content ของไฟล์
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                // ดึง content ของไฟล์ในรูปแบบ base64
+                const fileContent = e.target.result;
+    
+
+                result.fileName = fileName
+                result.fileType = fileType
+                result.fileSize = fileSize
+                result.fileContent = fileContent
+                resolve(result)
+            };
+    
+            // อ่านไฟล์เป็น base64
+             reader.readAsDataURL(file);
+          
+        }
+        else{
+            
+            reject({
+                ID_MasterFile:0,
+                fileAddress:'',
+                fileName: '',
+                fileType: '',
+                fileSize: 0,
+                fileContent: ''
+            })
+        }
+    })
+}
+
+
 document.getElementById('btnNCRAutoAdminJobApplytAdd').onclick = function () {
     dataControlNCRAutoAdminJobApplyEntry = 'Add'
     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
+    
     clearNCRAutoAdminJobApplyEntry()
     displayNCRAutoAdminJobApplyEntry()
 }
 document.getElementById('btnNCRAutoAdminJobApplytEdit').onclick = function () {
 
     try {
-        
+
         let rowData = new DataTable('#job_apply_table').rows({ selected: true }).data();
         let id = rowData[0][0]
         clearNCRAutoAdminJobApplyEntry()
-        reqAndRes(urlNCRAutoAdminJobApply, 'GET', { ID: id },async function (dataResJobApply) {
+        reqAndRes(urlNCRAutoAdminJobApply, 'GET', { ID: id }, async function (dataResJobApply) {
             objNCRAutoAdminJobApplyEntry = { ...dataResJobApply }
-            await reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply,'GET',{ID_NCRAutoAdminJobApply : id}, (dataResCondition)=>{
-                console.table("ข้อมูลเตรียม EDIT : ",dataResCondition)
+            await reqAndRes(urlNCRConditionJobApplyListByNCRAutoAdminJobApply, 'GET', { ID_NCRAutoAdminJobApply: id }, (dataResCondition) => {
+                console.table("ข้อมูลเตรียม EDIT : ", dataResCondition)
                 // objNCRAutoAdminJobApplyEntry.ID_Product_List.dry = []
                 // objNCRAutoAdminJobApplyEntry.ID_Product_List.wet = []
                 objNCRAutoAdminJobApplyEntry.ID_Product_List = {
-                    dry:[],
-                    wet:[],
+                    dry: [],
+                    wet: [],
                 }
                 objNCRAutoAdminJobApplyEntry.ID_Diameter_List = []
                 objNCRAutoAdminJobApplyEntry.ID_Type_List = []
                 objNCRAutoAdminJobApplyEntry.ID_Zone_List = []
                 dataResCondition.forEach(Condition => {
-                    if(Condition.ConditionModule == 'PRODUCT'  && Condition.ConditionExtend_1 == '1'){
+                    if (Condition.ConditionModule == 'PRODUCT' && Condition.ConditionExtend_1 == '1') {
                         objNCRAutoAdminJobApplyEntry.ID_Product_List.dry.push(Condition.ID_ConditionModule)
                     }
-                    if(Condition.ConditionModule == 'PRODUCT'  && Condition.ConditionExtend_1 == '0'){
+                    if (Condition.ConditionModule == 'PRODUCT' && Condition.ConditionExtend_1 == '0') {
                         objNCRAutoAdminJobApplyEntry.ID_Product_List.wet.push(Condition.ID_ConditionModule)
                     }
-                    else if(Condition.ConditionModule == 'DIAMETER'){
+                    else if (Condition.ConditionModule == 'DIAMETER') {
                         objNCRAutoAdminJobApplyEntry.ID_Diameter_List.push(Condition.ID_ConditionModule)
                     }
-                    else if(Condition.ConditionModule == 'TYPE'){
+                    else if (Condition.ConditionModule == 'TYPE') {
                         objNCRAutoAdminJobApplyEntry.ID_Type_List.push(Condition.ID_ConditionModule)
                     }
-                    else if(Condition.ConditionModule == 'ZONE'){
+                    else if (Condition.ConditionModule == 'ZONE') {
                         objNCRAutoAdminJobApplyEntry.ID_Zone_List.push(Condition.ID_ConditionModule)
                     }
                 });
-    
-            
+
+
             })
-            
+            await reqAndRes(urlModuleJobApplyListByJobApply,'GET',{ID_NCRAutoAdminApplyJob:id}, async function(dataRes){
+                let attachFile_List = []
+                dataRes.forEach(masterFile => {
+                    attachFile_List.push({
+                        ID_MasterFile:masterFile.ID,
+                        fileAddress:masterFile.Address,
+                        fileName: masterFile.FileName,
+                        fileType: masterFile.FileType,
+                        fileSize: masterFile.FileSize,
+                        fileContent: ''
+                    })
+                });
+                objNCRAutoAdminJobApplyEntry.attachFile_List = attachFile_List
+            })
+
             console.log(objNCRAutoAdminJobApplyEntry)
             dataControlNCRAutoAdminJobApplyEntry = 'Edit'
             document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
             displayNCRAutoAdminJobApplyEntry()
-    
+
         })
     } catch (error) {
         setTimeout(() => {
-            
+
             document.getElementById('btnNCRAutoAdminJobApplyClose').click()
         }, 500);
     }

@@ -162,11 +162,11 @@
   height: calc(100vh - 233px);
 }
 
-:where(#pnlTableSelectProduct, #pnlTableSelectedProduct) table thead tr th {
+:where(#pnlTableSelectProduct, #pnlTableSelectedProduct, #pnlTableAttachFile) table thead tr th {
   background-color: black !important;
   color: white !important;
 }
-:where(#pnlTableSelectProduct, #pnlTableSelectedProduct, #pnlApplySearch) {
+:where(#pnlTableSelectProduct, #pnlTableSelectedProduct, #pnlApplySearch, #pnlTableAttachFile) {
   background-color: white !important;
 }
 
