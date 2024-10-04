@@ -15,7 +15,7 @@ let objNCRAutoAdminJobApplyEntry = {
     "EndTime": "",
     "ID_EmployeeRequest": 0,
     "Reason": "",
-    "attachFile_List":[],
+    "attachFile_List": [],
     "Detail": "",
     "Remark": "",
     "AddBy": 0,
@@ -35,7 +35,7 @@ let objNCRAutoAdminJobApplySearch = {
 let dataControlNCRAutoAdminJobApplyEntry = ''
 function clearNCRAutoAdminJobApplyEntry() {
 
-    
+
 
     objNCRAutoAdminJobApplyEntry.ID = 0
     objNCRAutoAdminJobApplyEntry.ID_Job = 0
@@ -48,7 +48,7 @@ function clearNCRAutoAdminJobApplyEntry() {
         objNCRAutoAdminJobApplyEntry.ID_Type_List = [],
 
         objNCRAutoAdminJobApplyEntry.attachFile_List = []
-        objNCRAutoAdminJobApplyEntry.StartTime = ""
+    objNCRAutoAdminJobApplyEntry.StartTime = ""
     objNCRAutoAdminJobApplyEntry.EndTime = ""
     objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest = 0
     objNCRAutoAdminJobApplyEntry.Reason = ""
@@ -86,41 +86,7 @@ async function collectNCRAutoAdminJobApplyEntry() {
         return parseInt(e.value)
     })
 
-    let attachFile_List = []
-   
 
-     // กรองเฉพาะ input ที่มีไฟล์เลือกแล้ว
-     const fileInputs = [...document.querySelectorAll(`#attach_file_job_body * input[type=file]`)]
-     .filter(elInputFile => elInputFile.files.length > 0);
-
-     // ใช้ Promise.all เพื่อรอให้ทุกการอ่านไฟล์เสร็จสิ้น
-     const filePromises = fileInputs.map(async (elInputFile) => {
-        try {
-            const fileDetail = await getFileDetail(elInputFile);
-            attachFile_List.push(fileDetail);
-        } catch (error) {
-            console.error('Error reading file:', error);
-        }
-    });
-
-
-    // รอให้ทุกไฟล์ถูกอ่าน
-    await Promise.all(filePromises);
-
-    // id-master-file
-    document.querySelectorAll(`#attach_file_job_body * td.id-master-file`).forEach(td => {
-        if(parseInt(td.innerHTML) > 0){
-            attachFile_List.push({
-                ID_MasterFile:parseInt(td.innerHTML),
-                fileAddress:'',
-                fileName: '',
-                fileType: '',
-                fileSize: 0,
-                fileContent: ''
-            })
-        }
-    });
-    objNCRAutoAdminJobApplyEntry.attachFile_List = attachFile_List
     objNCRAutoAdminJobApplyEntry.StartTime = document.getElementById('dtpStartDateJob_Entry').value.replace('T', ' ')
     objNCRAutoAdminJobApplyEntry.EndTime = document.getElementById('dtpEndDateJob_Entry').value.replace('T', ' ')
     objNCRAutoAdminJobApplyEntry.ID_EmployeeRequest = 0
@@ -151,7 +117,7 @@ function collectNCRAutoTopicSearch() {
 
 async function displayNCRAutoAdminJobApplyEntry() {
 
-    if(objNCRAutoAdminJobApplyEntry.attachFile_List.length > 0){
+    if (objNCRAutoAdminJobApplyEntry.attachFile_List.length > 0) {
         let innerHTML = ''
         objNCRAutoAdminJobApplyEntry.attachFile_List.forEach(fileDetail => {
             innerHTML += `
@@ -175,7 +141,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
             `
         });
 
-        innerHTML+= `
+        innerHTML += `
             <tr>
                     <td class="text-center align-middle">
                         <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
@@ -194,9 +160,9 @@ async function displayNCRAutoAdminJobApplyEntry() {
                 
                 </tr>`
 
-            document.getElementById('attach_file_job_body').innerHTML =innerHTML
+        document.getElementById('attach_file_job_body').innerHTML = innerHTML
     }
-    else{
+    else {
 
         document.getElementById('attach_file_job_body').innerHTML = `
                 <tr>
@@ -282,12 +248,48 @@ async function dataEntry_NCRAutoAdminJobApply() {
     if (dataControlNCRAutoAdminJobApplyEntry !== '') {
         await collectNCRAutoAdminJobApplyEntry()
         console.log("objNCRAutoAdminJobApplyEntry", objNCRAutoAdminJobApplyEntry)
-        await reqAndRes(urlNCRAutoAdminJobApply, method, objNCRAutoAdminJobApplyEntry, function (dataRes) {
+        await reqAndRes(urlNCRAutoAdminJobApply, method, objNCRAutoAdminJobApplyEntry, async function (dataRes) {
             console.log(dataRes)
-            if (method !== 'delete') {
+            let ID_NCRAutoAdminJobApply = dataRes.ID
+            if (method == 'put' || method == 'post') {
+                const formData = new FormData();
+                formData.append('ID_NCRAutoAdminJobApply', ID_NCRAutoAdminJobApply)
+                document.querySelectorAll(`#attach_file_job_body * td.id-master-file`).forEach(td => {
+                    if (parseInt(td.innerHTML) > 0) {
+                        // ID_MasterFile_List.push(parseInt(td.innerHTML))
+                        formData.append('ID_MasterFile_List[]', parseInt(td.innerHTML))
 
+                    }
+                });
+                // กรองเฉพาะ input ที่มีไฟล์เลือกแล้ว
+                const fileInputs = [...document.querySelectorAll(`#attach_file_job_body * input[type=file]`)]
+                    .filter(elInputFile => elInputFile.files.length > 0);
+
+                fileInputs.forEach(input => {
+                    const file = input.files[0];
+                    formData.append('files[]', file); // ส่งไฟล์ในชื่อ 'files[]'
+                });
+
+
+                formData.forEach((value, key) => {
+                    console.log(`${key}:`, value); // ตรวจสอบค่าในแต่ละ key
+                });
+                await fetch(urlNCRAutoAdminJobApply_AttachFile, {
+                    method: 'post',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
                 document.getElementById('btnNCRAutoAdminJobApplyClose').click()
             }
+
+           
+           
             document.getElementById('modal-title-label-control').innerHTML = 'NONE'
             showDataJobApply()
         })
@@ -614,11 +616,11 @@ async function deleteFileJob(el) {
 
 async function showFileDetail(event) {
     const file = event.target.files[0];
-    getFileDetail(event.target).then((data)=>{
+    getFileDetail(event.target).then((data) => {
         // console.table([data])
         let tr = event.target.parentElement.parentElement
         let tdMasterFile = tr.querySelectorAll('td')[2]
-        if(tdMasterFile.classList.contains('is-master')){
+        if (tdMasterFile.classList.contains('is-master')) {
             tdMasterFile.classList.remove('is-master')
             tdMasterFile.classList.add('is-not-master')
         }
@@ -632,75 +634,79 @@ async function showFileDetail(event) {
         // if(file){
 
         // }
-    }).catch((data)=>{
-        
+    }).catch((data) => {
+
     })
-   
+
     // attachFile_List = []
     //  document.querySelectorAll(`#attach_file_job_body * input[type=file]`).forEach( async (elInputFile) => {
     //     try {
-            
+
     //         attachFile_List.push(await getFileDetail(elInputFile))
     //     } catch (error) {
-            
+
     //     }
     //     // await getFileDetail(elInputFile).then((data)=>{
     //     // })
     // });
 
-    
+
 }
 
 async function getFileDetail(elFIle) {
     return new Promise(async (resolve, reject) => {
-        
+
         const file = elFIle.files[0];
         let ID_MasterFile = elFIle.parentElement.parentElement.querySelectorAll('td')[2].innerHTML
         let result = {
-            ID_MasterFile:0,
-            fileAddress:'',
+            ID_MasterFile: 0,
+            fileAddress: '',
             fileName: '',
             fileType: '',
             fileSize: 0,
             fileContent: ''
         }
         if (file) {
+            const formData = new FormData();
+
+
             // ดึงชื่อไฟล์พร้อมนามสกุล
             const fullFileName = file.name;
-    
+
             // ตัดนามสกุลไฟล์ออก (เอาเฉพาะชื่อไฟล์)
             const fileName = fullFileName.substring(0, fullFileName.lastIndexOf('.'));
-    
+
             // ดึงชนิดของไฟล์ (file extension)
             const fileType = fullFileName.split('.').pop();
-    
+
             // ดึงขนาดของไฟล์ (เป็น byte)
             const fileSize = file.size;
-    
+
             // สร้าง FileReader เพื่ออ่าน content ของไฟล์
             const reader = new FileReader();
-    
+
             reader.onload = function (e) {
                 // ดึง content ของไฟล์ในรูปแบบ base64
                 const fileContent = e.target.result;
-    
+
 
                 result.fileName = fileName
                 result.fileType = fileType
                 result.fileSize = fileSize
-                result.fileContent = fileContent
+                // result.fileContent = fileContent
+                result.fileContent = formData.append('file', file);
                 resolve(result)
             };
-    
+
             // อ่านไฟล์เป็น base64
-             reader.readAsDataURL(file);
-          
+            reader.readAsDataURL(file);
+
         }
-        else{
-            
+        else {
+
             reject({
-                ID_MasterFile:0,
-                fileAddress:'',
+                ID_MasterFile: 0,
+                fileAddress: '',
                 fileName: '',
                 fileType: '',
                 fileSize: 0,
@@ -710,8 +716,8 @@ async function getFileDetail(elFIle) {
     })
 }
 
-async function viewFile(el, address = null){
-    if(address == null){
+async function viewFile(el, address = null) {
+    if (address == null) {
         let inputFile = el.parentElement.parentElement.querySelector('* input')
         const file = inputFile.files[0]; // ดึงไฟล์แรกที่ถูกเลือก
         if (file) {
@@ -731,7 +737,7 @@ async function viewFile(el, address = null){
 document.getElementById('btnNCRAutoAdminJobApplytAdd').onclick = function () {
     dataControlNCRAutoAdminJobApplyEntry = 'Add'
     document.getElementById('modal-title-label-control').innerHTML = 'ADD'
-    
+
     clearNCRAutoAdminJobApplyEntry()
     displayNCRAutoAdminJobApplyEntry()
 }
@@ -775,12 +781,12 @@ document.getElementById('btnNCRAutoAdminJobApplytEdit').onclick = function () {
 
 
             })
-            await reqAndRes(urlModuleJobApplyListByJobApply,'GET',{ID_NCRAutoAdminApplyJob:id}, async function(dataRes){
+            await reqAndRes(urlModuleJobApplyListByJobApply, 'GET', { ID_NCRAutoAdminApplyJob: id }, async function (dataRes) {
                 let attachFile_List = []
                 dataRes.forEach(masterFile => {
                     attachFile_List.push({
-                        ID_MasterFile:masterFile.ID,
-                        fileAddress:masterFile.Address,
+                        ID_MasterFile: masterFile.ID,
+                        fileAddress: masterFile.Address,
                         fileName: masterFile.FileName,
                         fileType: masterFile.FileType,
                         fileSize: masterFile.FileSize,
