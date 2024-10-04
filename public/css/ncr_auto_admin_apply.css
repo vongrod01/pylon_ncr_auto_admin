@@ -211,3 +211,13 @@ details code {
   white-space: pre-wrap;
 
 }
+
+.id-master-file.is-master{
+  background-color: #228B22;
+  color: #fff;
+}
+
+.id-master-file.is-not-master{
+  background-color: #fff;
+  color: #000;
+}

@@ -161,7 +161,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
                         
                     </td>
                     <td class="text-center align-middle"><input class="form-control" type="file" onchange="showFileDetail(event)"></td>
-                    <td class="text-center align-middle id-master-file">${fileDetail.ID_MasterFile}</td>
+                    <td class="text-center align-middle id-master-file is-master">${fileDetail.ID_MasterFile}</td>
                     <td class="text-center align-middle">${fileDetail.fileName}</td>
                     <td class="text-center align-middle">${fileDetail.fileType}</td>
                     <td class="text-center align-middle">${fileDetail.fileSize} bytes</td>
@@ -182,7 +182,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
                         
                     </td>
                     <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
-                    <td class="text-center align-middle id-master-file">0</td>
+                    <td class="text-center align-middle id-master-file is-not-master">0</td>
                     <td class="text-center align-middle"></td>
                     <td class="text-center align-middle"></td>
                     <td class="text-center align-middle"></td>
@@ -205,7 +205,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
                         
                     </td>
                     <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
-                    <td class="text-center align-middle id-master-file">0</td>
+                    <td class="text-center align-middle id-master-file is-not-master">0</td>
                     <td class="text-center align-middle"></td>
                     <td class="text-center align-middle"></td>
                     <td class="text-center align-middle"></td>
@@ -592,7 +592,7 @@ async function addFileJob(el) {
             
         </td>
         <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
-        <td class="text-center align-middle id-master-file">0</td>
+        <td class="text-center align-middle id-master-file is-not_master">0</td>
         <td class="text-center align-middle"></td>
         <td class="text-center align-middle"></td>
         <td class="text-center align-middle"></td>
@@ -617,7 +617,12 @@ async function showFileDetail(event) {
     getFileDetail(event.target).then((data)=>{
         // console.table([data])
         let tr = event.target.parentElement.parentElement
-        tr.querySelectorAll('td')[2].innerHTML = 0
+        let tdMasterFile = tr.querySelectorAll('td')[2]
+        if(tdMasterFile.classList.contains('is-master')){
+            tdMasterFile.classList.remove('is-master')
+            tdMasterFile.classList.add('is-not-master')
+        }
+        tdMasterFile.innerHTML = 0
         tr.querySelectorAll('td')[3].innerHTML = data.fileName
         tr.querySelectorAll('td')[4].innerHTML = data.fileType
         tr.querySelectorAll('td')[5].innerHTML = `${data.fileSize} bytes`
