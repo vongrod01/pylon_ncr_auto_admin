@@ -2,13 +2,14 @@ let productItemIDSelectedList = []
 let objNCRAutoAdminApplyEntry = {
     "ID": 0,
     "ID_ProductItem_List": [],
-    "ID_ProductItem":0,
+    "ID_ProductItem": 0,
     "ID_NCRAutoAdminTopic": 0,
     "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
     "EndTime": "",
     "ID_EmployeeRequest": 0,
     "Reason": "",
+    "attachFile_List": [],
     "Detail": "",
     "Remark": "",
     "AddBy": 0,
@@ -21,7 +22,7 @@ let objNCRAutoAdminApplyEntry = {
 let objNCRAutoAdminApplySearch = {
     "ID": 0,
     "ID_ProductItem_List": [],
-    "ID_ProductItem":0,
+    "ID_ProductItem": 0,
     "ID_NCRAutoAdminTopic": 0,
     "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
@@ -77,15 +78,15 @@ function showDataProductItemList() {
 
 
 function collectNCRAutoAdminApplyEntry() {
-objNCRAutoAdminApplyEntry.ID_ProductItem_List = productItemIDSelectedList
-objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic = parseInt(document.getElementById('selNCRAutoAdminTopicProduct_Entry').value)
+    objNCRAutoAdminApplyEntry.ID_ProductItem_List = productItemIDSelectedList
+    objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic = parseInt(document.getElementById('selNCRAutoAdminTopicPile_Entry').value)
 
-// objNCRAutoAdminApplyEntry.ID_NCRAutoAdminProjectApply = 0
+    // objNCRAutoAdminApplyEntry.ID_NCRAutoAdminProjectApply = 0
 
-objNCRAutoAdminApplyEntry.StartTime = document.getElementById('dtpStartDate').value.replace('T',' ')
-objNCRAutoAdminApplyEntry.EndTime = document.getElementById('dtpEndDate').value.replace('T',' ')
-objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
-objNCRAutoAdminApplyEntry.Reason = document.getElementById('edtReason').value
+    objNCRAutoAdminApplyEntry.StartTime = document.getElementById('dtpStartDate').value.replace('T', ' ')
+    objNCRAutoAdminApplyEntry.EndTime = document.getElementById('dtpEndDate').value.replace('T', ' ')
+    objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
+    objNCRAutoAdminApplyEntry.Reason = document.getElementById('edtReason').value
 }
 function clearNCRAutoAdminApplyEntry() {
     objNCRAutoAdminApplyEntry.ID_ProductItem_List = []
@@ -94,6 +95,7 @@ function clearNCRAutoAdminApplyEntry() {
     objNCRAutoAdminApplyEntry.StartTime = ''
     objNCRAutoAdminApplyEntry.EndTime = ''
     objNCRAutoAdminApplyEntry.ID_EmployeeRequest = 0
+    objNCRAutoAdminApplyEntry.attachFile_List = []
     objNCRAutoAdminApplyEntry.Reason = ''
     objNCRAutoAdminApplyEntry.Detail = ''
     objNCRAutoAdminApplyEntry.Remark = ''
@@ -102,11 +104,84 @@ function clearNCRAutoAdminApplyEntry() {
     objNCRAutoAdminApplyEntry.UpdateBy = 0
     objNCRAutoAdminApplyEntry.UpdateWhen = ''
     objNCRAutoAdminApplyEntry.DeleteBy = 0
-    objNCRAutoAdminApplyEntry.DeleteWhen = '' 
+    objNCRAutoAdminApplyEntry.DeleteWhen = ''
 }
 
-function displayNCRAutoAdminApplyEntry(){
-    document.getElementById('selNCRAutoAdminTopicProduct_Entry').value = objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic
+function displayNCRAutoAdminApplyEntry() {
+
+    if (objNCRAutoAdminApplyEntry.attachFile_List.length > 0) {
+        let innerHTML = ''
+        objNCRAutoAdminApplyEntry.attachFile_List.forEach(fileDetail => {
+            innerHTML += `
+                <tr>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-danger" onclick="deleteFileJob(this)"><i class="fas fa-minus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file is-master">${fileDetail.ID_MasterFile}</td>
+                    <td class="text-center align-middle">${fileDetail.fileName}</td>
+                    <td class="text-center align-middle">${fileDetail.fileType}</td>
+                    <td class="text-center align-middle">${fileDetail.fileSize} bytes</td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="http://${fileDetail.fileAddress}" target="_blank">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>
+            `
+        });
+
+        innerHTML += `
+            <tr>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file is-not-master">0</td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>`
+
+        document.getElementById('attach_file_pile_body').innerHTML = innerHTML
+    }
+    else {
+
+        document.getElementById('attach_file_pile_body').innerHTML = `
+                <tr>
+                    <td class="text-center align-middle">
+                        <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                        
+                    </td>
+                    <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                    <td class="text-center align-middle id-master-file is-not-master">0</td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                     <td class="text-center align-middle">
+                        <a class="btn btn-secondary" href="#" onclick="viewFile(this,null)">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                
+                </tr>
+        `
+    }
+
+
+    let selNCRAutoAdminTopicPile_Entry = $('#selNCRAutoAdminTopicPile_Entry').selectize();
+    selNCRAutoAdminTopicPile_Entry[0].selectize.setValue(objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic); // สำหรับค่าเดียว
+
+    // document.getElementById('selNCRAutoAdminTopicPile_Entry').value = objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic
     document.getElementById('dtpStartDate').value = objNCRAutoAdminApplyEntry.StartTime
     document.getElementById('dtpEndDate').value = objNCRAutoAdminApplyEntry.EndTime
     document.getElementById('edtEmployeeRequest').value = objNCRAutoAdminApplyEntry.ID_EmployeeRequest
@@ -131,13 +206,62 @@ async function dataEntry_NCRAutoAdminApply() {
     }
     if (dataControlNCRAutoAdminApplyEntry !== '') {
         collectNCRAutoAdminApplyEntry()
-        await reqAndRes(urlNCRAutoAdminApply, method, objNCRAutoAdminApplyEntry, function (dataRes) {
-            console.log(dataRes)
-            if (method !== 'delete') {
+        await reqAndRes(urlNCRAutoAdminApply, method, objNCRAutoAdminApplyEntry, async function (dataRes) {
+            console.log('data add plie apply : ', dataRes)
+           
+            if (method == 'post' || method == 'put') {
+                const formData = new FormData();
+                // formData.append('ID_NCRAutoAdminApply_List', ID_NCRAutoAdminApply_List)
+                if(Array.isArray(dataRes)){
+
+                    dataRes.forEach(obj => {
+                        formData.append('ID_NCRAutoAdminApply_List[]', obj.ID)
+                    });
+                }
+                else{
+                    formData.append('ID_NCRAutoAdminApply_List[]', dataRes.ID)
+                }
+
+                document.querySelectorAll(`#attach_file_pile_body * td.id-master-file`).forEach(td => {
+                    if (parseInt(td.innerHTML) > 0) {
+                        // ID_MasterFile_List.push(parseInt(td.innerHTML))
+                        formData.append('ID_MasterFile_List[]', parseInt(td.innerHTML))
+
+                    }
+                });
+                // กรองเฉพาะ input ที่มีไฟล์เลือกแล้ว
+                const fileInputs = [...document.querySelectorAll(`#attach_file_pile_body * input[type=file]`)]
+                    .filter(elInputFile => elInputFile.files.length > 0);
+
+                fileInputs.forEach(input => {
+                    const file = input.files[0];
+                    formData.append('files[]', file); // ส่งไฟล์ในชื่อ 'files[]'
+                });
+
+
+                formData.forEach((value, key) => {
+                    console.log(`${key}:`, value); // ตรวจสอบค่าในแต่ละ key
+                });
+                await fetch(urlNCRAutoAdminApply_AttachFile, {
+                    method: 'post',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
 
                 document.getElementById('btnConfirmApplyClose').click()
                 document.getElementById('btnNCRAutoAdminApplyClose').click()
             }
+            
+
+            // document.getElementById('btnConfirmApplyClose').click()
+            // document.getElementById('btnNCRAutoAdminApplyClose').click()
             document.getElementById('modal-title-label-control').innerHTML = 'NONE'
             showDataApply()
         })
@@ -166,7 +290,7 @@ async function showDataApply() {
                     data.NCRAutoAdminName,
                     data.Reason,
                     data.StartTime,
-                    data.EndTime == null?'':data.EndTime,
+                    data.EndTime == null ? '' : data.EndTime,
                 ]
             )
         });
@@ -233,9 +357,9 @@ function startPageApply() {
 }
 
 function setSelectNCRAutoAdminTopic() {
-    // selNCRAutoAdminTopicProduct_Entry
+    // selNCRAutoAdminTopicPile_Entry
     let dataReq = {
-        Cancel : 2,
+        Cancel: 2,
     }
     reqAndRes(urlNCRAutoAdminTopic, 'GET', dataReq, function (dataRes) {
         // console.table(dataRes)
@@ -243,8 +367,8 @@ function setSelectNCRAutoAdminTopic() {
         dataRes.forEach(ncrAdmin => {
             innerHTML += `<option value=${ncrAdmin.ID}>[${ncrAdmin.ProcessNo}.${ncrAdmin.ProcessCaseNo}] ${ncrAdmin.Name}</option>`
         });
-        document.getElementById('selNCRAutoAdminTopicProduct_Entry').innerHTML = innerHTML
-        $('#selNCRAutoAdminTopicProduct_Entry').selectize({normalize:true});
+        document.getElementById('selNCRAutoAdminTopicPile_Entry').innerHTML = innerHTML
+        $('#selNCRAutoAdminTopicPile_Entry').selectize({ normalize: true });
     })
 }
 
@@ -274,15 +398,15 @@ function deselectedProductItem() {
 
 }
 
-function modalConfirm(level){
+function modalConfirm(level) {
 
-    if(level==='PRODUCT'){
-        if(document.querySelectorAll(`#selected_apply_body tr`).length > 0){
+    if (level === 'PRODUCT') {
+        if (document.querySelectorAll(`#selected_apply_body tr`).length > 0) {
 
-            let myModal = new bootstrap.Modal(document.getElementById('modalConfirmApply'), { 
-                keyboard: false 
-              }) 
-              myModal.show() 
+            let myModal = new bootstrap.Modal(document.getElementById('modalConfirmApply'), {
+                keyboard: false
+            })
+            myModal.show()
         }
     }
 
@@ -300,11 +424,26 @@ document.getElementById('btnNCRAutoAdminApplyAdd').onclick = function () {
 document.getElementById('btnNCRAutoAdminApplyEdit').onclick = function () {
     // document.getElementById('modal-title-label-control-product').innerHTML = 'ADD'
     // productItemIDSelectedList = []
-    
-    reqAndRes(urlNCRAutoAdminApply, 'GET', {ID:objNCRAutoAdminApplyEntry.ID}, function (dataRes) {
+
+    reqAndRes(urlNCRAutoAdminApply, 'GET', { ID: objNCRAutoAdminApplyEntry.ID }, async function (dataRes) {
         clearNCRAutoAdminApplyEntry()
         console.log(dataRes)
         objNCRAutoAdminApplyEntry = dataRes
+
+        await reqAndRes(urlMasterFileListByPlieApply, 'GET', { ID_NCRAutoAdminApply: objNCRAutoAdminApplyEntry.ID }, async function (dataRes) {
+            let attachFile_List = []
+            dataRes.forEach(masterFile => {
+                attachFile_List.push({
+                    ID_MasterFile: masterFile.ID,
+                    fileAddress: masterFile.Address,
+                    fileName: masterFile.FileName,
+                    fileType: masterFile.FileType,
+                    fileSize: masterFile.FileSize,
+                    fileContent: ''
+                })
+            });
+            objNCRAutoAdminApplyEntry.attachFile_List = attachFile_List
+        })
         displayNCRAutoAdminApplyEntry()
         dataControlNCRAutoAdminApplyEntry = 'Edit'
         // document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
@@ -319,7 +458,7 @@ document.getElementById('btnNCRAutoAdminApplyDelete').onclick = function () {
         dataControlNCRAutoAdminApplyEntry = 'Delete'
         dataEntry_NCRAutoAdminApply()
     } catch (error) {
-        
+
     }
 }
 
@@ -350,65 +489,6 @@ document.getElementById('chkDeselectAll_ProductItem').onchange = function () {
 
 }
 
-// document.getElementById('selNCRAutoTopic_Entry').onchange = function (){
-//     let ncr = listNCRAUtoTopic.find((o)=> o.ID == parseInt(document.getElementById('selNCRAutoTopic_Entry').value))
-//     document.getElementById('edtID_NCRAutoAdminProjectApply_Entry').value = ncr.ID_NCRAutoAdminProjectApply
-//     document.getElementById('edtIsDry_Entry').value = ncr.IsDry
-//     document.getElementById('edtStartTime_Entry').value = ncr.StartTime
-//     document.getElementById('edtDetail_Entry').value = ncr.Detail
-//     document.getElementById('edtEndTime_Entry').value = ncr.EndTime
-
-// }
-
-// document.getElementById('btnNCRAutoAdminApplyEdit').onclick = function () {
-
-//     reqAndRes(urlNCRAutoAdminApply, 'GET', objNCRAutoAdminApplyEntry, function (dataRes) {
-//         resetProductItem()
-//         console.log(dataRes)
-//         objNCRAutoAdminApplyEntry = dataRes
-//         displayNCRAutoAdminApplyEntry()
-//         dataControlNCRAutoAdminApplyEntry = 'Edit'
-//         document.getElementById('modal-title-label-control').innerHTML = 'EDIT'
-//     })
-// }
-
-// document.getElementById('btnSearchNCRAutoTopic').onclick = function () {
-//     showDataApply()
-// }
-// document.getElementById('btnResetNCRAutoTopic').onclick = function () {
-//     clearNCRAutoTopicSearch()
-//     showDataApply()
-// }
-
-// document.getElementById('btnParam').onclick = function (){
-//     let rowData = new DataTable('#topic_table').rows({ selected: true }).data();
-//     let id = rowData[0][0]
-//     window.open(`${urlNCRParam}?ID=${id}`);
-// }
-
-// document.getElementById('btnNCRAutoTopicDelete').onclick = function () {
-//     let rowData = new DataTable('#topic_table').rows({ selected: true }).data();
-
-//     try {
-
-//         let id = rowData[0][0]
-//         objNCRAutoAdminApplyEntry.ID = id
-//         dataControlNCRAutoAdminApplyEntry = 'Delete'
-//         dataEntry_NCRAutoTopic()
-//     } catch (error) {
-
-//     }
-// }
-// async function setSelectNCRAutoTopic() {
-//     await reqAndRes(urlNCRAutoTopic, 'GET', {Active:1}, function (dataRes) {
-//         listNCRAUtoTopic = dataRes
-//         let innerHTML = ''
-//         listNCRAUtoTopic.forEach(ncr => {
-//             innerHTML += `<option value=${ncr.ID}>[${ncr.ProcessNo}.${ncr.ProcessCaseNo}] ${ncr.ConditionDetial_TH} | EndTime : ${ncr.EndTime}</option>`
-//         });
-//         document.getElementById('selNCRAutoTopic_Entry').innerHTML = innerHTML
-//     })
-// }
 
 
 

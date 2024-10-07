@@ -781,7 +781,7 @@ document.getElementById('btnNCRAutoAdminJobApplytEdit').onclick = function () {
 
 
             })
-            await reqAndRes(urlModuleJobApplyListByJobApply, 'GET', { ID_NCRAutoAdminApplyJob: id }, async function (dataRes) {
+            await reqAndRes(urlMasterFileListByJobApply, 'GET', { ID_NCRAutoAdminApplyJob: id }, async function (dataRes) {
                 let attachFile_List = []
                 dataRes.forEach(masterFile => {
                     attachFile_List.push({

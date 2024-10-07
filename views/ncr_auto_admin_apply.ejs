@@ -395,7 +395,7 @@
                 <div class="p-1 pb-0 modal-body overflow-hidden">
                     <div class="input-group input-group-form me-4">
                         <span class="input-group-text span-layout text-end">NCR Auto Admin Topic</span>
-                        <select class="form-select" id="selNCRAutoAdminTopicProduct_Entry">
+                        <select class="form-select" id="selNCRAutoAdminTopicPile_Entry">
 
                         </select>
 
@@ -555,7 +555,7 @@
 
     <!-- modal confirm -->
     <div class="modal fade " id="modalConfirmApply" aria-hidden="true" aria-labelledby="exampleModalToggleLabel">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg  page_font_family "
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl  page_font_family "
             id="ModalConfirmApply">
             <div class="modal-content">
                 <div class="modal-header display-ncr-auto-topic-header p-0">
@@ -595,6 +595,50 @@
                         <textarea class="form-control" name="edtReason" id="edtReason" placeholder="เหตุผล"></textarea>
                     </div>
 
+                    <br>
+                    <details class="mb-1">
+                        <summary class="fw-bold">แนบไฟล์</summary>
+                        <div class="sel-condition" id="pnlTableAttachFile">
+                            <table id="attach_file_pile_table" class="table table-striped table-bordered table-hover w-100">
+                                <thead class="position-sticky top-0">
+                                    <tr>
+
+                                        <th class="text-center align-middle">Control</th>
+                                        <th class="text-center align-middle">Attach File</th>
+                                        <th class="text-center align-middle">ID_MasterFile</th>
+                                        <th class="text-center align-middle">Name</th>
+                                        <th class="text-center align-middle">Type</th>
+                                        <th class="text-center align-middle">Size</th>
+                                        <th class="text-center align-middle">View</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attach_file_pile_body">
+                                    <tr>
+                                        <td class="text-center align-middle">
+                                            <button class="btn btn-primary" onclick="addFileJob(this)"><i class="fas fa-plus"></i></button>
+                                            
+                                        </td>
+                                        <td class="text-center align-middle"><input class="form-control d-none" type="file" onchange="showFileDetail(event)"></td>
+                                        <td class="text-center align-middle">0</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-info" href="#" onclick="viewFile(this,null)">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                               
+                            </table>
+            
+                           
+                        </div>
+                    </details>
+
+                    
                 </div>
 
                 <div class="modal-footer">
@@ -628,6 +672,8 @@
     let urlNCRAutoAdminJobApply_AttachFile = `http://${myAPI1}/api_v1/ncr_auto_admin_job_apply_attach_file/`
     
     let urlNCRAutoAdminApply = `http://${myAPI1}/api_v1/ncr_auto_admin_apply/`
+    let urlNCRAutoAdminApply_AttachFile = `http://${myAPI1}/api_v1/ncr_auto_admin_pile_apply_attach_file/`
+
     let urlProductItemList = `http://${myAPI1}/api_v1/product_item_list/`
     let urlNCRAutoAdminTopic = `http://${myAPI1}/api_v1/ncr_auto_admin_topic/`
 
@@ -640,7 +686,8 @@
 
     let urlNCRConditionJobApplyListByNCRAutoAdminJobApply = `http://${myAPI1}/api_v1/ncr_condition_job_apply_listby_ncr_auto_admin_job_apply/`
 
-    let urlModuleJobApplyListByJobApply = `http://${myAPI1}/api_v1/master_file_job_apply_listby_id_job_apply/`
+    let urlMasterFileListByJobApply = `http://${myAPI1}/api_v1/master_file_job_apply_listby_id_job_apply/`
+    let urlMasterFileListByPlieApply = `http://${myAPI1}/api_v1/master_file_pile_apply_listby_id_pile_apply/`
 
 </script>
 
