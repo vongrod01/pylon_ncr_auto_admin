@@ -276,7 +276,11 @@ async function dataEntry_NCRAutoAdminJobApply() {
                 });
                 await fetch(urlNCRAutoAdminJobApply_AttachFile, {
                     method: 'post',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Authorization': global_token, // ส่ง Authorization token
+                        // 'Content-Type': 'application/json',
+                    },
                 })
                 .then(response => response.json())
                 .then(data => {

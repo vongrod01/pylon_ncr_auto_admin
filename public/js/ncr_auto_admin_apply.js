@@ -4,7 +4,6 @@ let objNCRAutoAdminApplyEntry = {
     "ID_ProductItem_List": [],
     "ID_ProductItem": 0,
     "ID_NCRAutoAdminTopic": 0,
-    "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
     "EndTime": "",
     "ID_EmployeeRequest": 0,
@@ -24,7 +23,6 @@ let objNCRAutoAdminApplySearch = {
     "ID_ProductItem_List": [],
     "ID_ProductItem": 0,
     "ID_NCRAutoAdminTopic": 0,
-    "ID_NCRAutoAdminProjectApply": 0,
     "StartTime": "",
     "EndTime": "",
     "ID_EmployeeRequest": 0,
@@ -80,8 +78,6 @@ function showDataProductItemList() {
 function collectNCRAutoAdminApplyEntry() {
     objNCRAutoAdminApplyEntry.ID_ProductItem_List = productItemIDSelectedList
     objNCRAutoAdminApplyEntry.ID_NCRAutoAdminTopic = parseInt(document.getElementById('selNCRAutoAdminTopicPile_Entry').value)
-
-    // objNCRAutoAdminApplyEntry.ID_NCRAutoAdminProjectApply = 0
 
     objNCRAutoAdminApplyEntry.StartTime = document.getElementById('dtpStartDate').value.replace('T', ' ')
     objNCRAutoAdminApplyEntry.EndTime = document.getElementById('dtpEndDate').value.replace('T', ' ')
@@ -244,7 +240,11 @@ async function dataEntry_NCRAutoAdminApply() {
                 });
                 await fetch(urlNCRAutoAdminApply_AttachFile, {
                     method: 'post',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Authorization': global_token, // ส่ง Authorization token
+                        // 'Content-Type': 'application/json',
+                    },
                 })
                     .then(response => response.json())
                     .then(data => {

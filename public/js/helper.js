@@ -1,4 +1,6 @@
 let root_css = document.querySelector(':root');
+let global_token = 'AUTH_DEV'
+// let global_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXNfdXNlcnNfaWQiOiIxMTAwIiwibG9naW5uYW1lIjoiYWRpc29ybi52byIsImNtX3VzZXJpZCI6IjQ2MyIsImNtX2VtcGlkIjoiMTk2MCIsInRrX2RhdGUiOiIxMC84LzIwMjQgMToxMDo1MiBQTSIsIm5iZiI6MTcyODM2Nzg1MiwiZXhwIjoxNzU5OTAzODUyLCJpYXQiOjE3MjgzNjc4NTIsImlzcyI6IlB5bG9uIiwiYXVkIjoiUHlsb24ifQ.58QTKSGHrQy5iLzZkmaMko2tLV3mqgTtoI52Ex-ZdUI'
 async function imgToBase64(file) {
     let data;
     await getBase64(file).then(
@@ -89,8 +91,9 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
         option = {
             method: "GET",
             headers: {
+                'Authorization': global_token, // ส่ง Authorization token
                 'Content-Type': 'application/json',
-            }
+            },
         }
         let queryString = $.param(reqData)
         // urlNew = `${url}?req_json=${encodeURIComponent(JSON.stringify(reqData))}`
@@ -108,9 +111,10 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
         option = {
             method: reqMethod,
             headers: {
+                'Authorization': global_token, // ส่ง Authorization token
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify(reqData)
+            body: JSON.stringify(reqData)
         }
         // option = {
         //     method: reqMethod,
@@ -123,18 +127,24 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
     await fetch(urlNew, option)
 
         .then((response) => {
-            if (response.ok) {
-                return response.json();
+            // ตรวจสอบว่า response มีสถานะเป็น error หรือไม่
+            if (!response.ok) {
+                // ถ้า response ไม่ใช่สถานะ 200 (หมายถึงเกิด error)
+                // ดึงข้อมูล error ออกมา
+                return response.json().then(error => {
+                    // แสดงข้อความ error ที่ได้รับจากหลังบ้าน
+                    throw new Error(error.error || 'Something went wrong');
+                });
             }
-            else {
-                return false;
-            }
+            // ถ้า response OK ให้แปลงเป็น JSON
+            return response.json();
         })
         .then(async (response) => {
             await callBackSuccess(response)
         })
         .catch(async (err) => {
-            console.error(err)
+
+            console.error('Error:', err.message);
             if (callBackError === null) {
 
                 Swal.fire(err.statusText, url, 'error');
@@ -143,7 +153,7 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
                 await callBackError(err)
             }
         })
-        .finally(()=>{
+        .finally(() => {
             // const endTime = performance.now(); // หรือใช้ Date.now() ก็ได้
             // let duration = endTime - startTime;
 
