@@ -147,7 +147,7 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
             console.error('Error:', err.message);
             if (callBackError === null) {
 
-                Swal.fire(err.statusText, url, 'error');
+                Swal.fire(url,err.message, 'error');
             }
             else {
                 await callBackError(err)
