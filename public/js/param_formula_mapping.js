@@ -185,6 +185,7 @@ async function showDataSearch() {
 
 
 function startPage() {
+    console.log('start page param_formula_mapping')
     // clearParamFormulaMappingSearch()
     displayNCRAutoTopic()
     showDataSearch()

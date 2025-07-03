@@ -40,15 +40,15 @@
         
     <div class="box-shadow4 m-1 rounded-1 p-2 mb-2" id="pnlContentTableView">
         <div class="my-container">
-            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto" target="_blank" class="my-btn">NCR Auto Master</a>
+            <a href="<%=host%>/pylon_ncr_auto" target="_blank" class="my-btn">NCR Auto Master</a>
             <br>
-            <a href="http://<%=host%>:<%=port%>/pylon_product_ncr" target="_blank" class="my-btn">Product NCR Mapping</a>
+            <a href="<%=host%>/pylon_product_ncr" target="_blank" class="my-btn">Product NCR Mapping</a>
             <br>
-            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto_admin" target="_blank" class="my-btn">NCR Auto Admin</a>
+            <a href="<%=host%>/pylon_ncr_auto_admin" target="_blank" class="my-btn">NCR Auto Admin</a>
             <br>
-            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto_admin_apply" target="_blank" class="my-btn">NCR Auto Admin Apply</a>
+            <a href="<%=host%>/pylon_ncr_auto_admin_apply" target="_blank" class="my-btn">NCR Auto Admin Apply</a>
             <br>
-            <a href="http://<%=host%>:<%=port%>/pylon_ncr_auto_report" target="_blank" class="my-btn">NCR Auto Report</a>
+            <a href="<%=host%>/pylon_ncr_auto_report" target="_blank" class="my-btn">NCR Auto Report</a>
         </div>
         
     </div>
@@ -72,9 +72,9 @@
 
 </body>
 <script>
-    let myDomain = '<%=host%>:<%=port%>'
-    let urlNCRAutoTopic = `http://${myDomain}/ncr_auto_topic_api/`
-    let urlNCRParam = `http://${myDomain}/pylon_ncr_auto_param`
+    let myDomain = '<%=host%>'
+    let urlNCRAutoTopic = `${myDomain}/ncr_auto_topic_api/`
+    let urlNCRParam = `${myDomain}/pylon_ncr_auto_param`
     // var url = window.location.origin  
     // console.log(url)
 </script>
