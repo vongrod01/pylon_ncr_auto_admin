@@ -84,9 +84,15 @@ function runTooltipBootstrap() {
 
 
 async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError = null) {
+    console.log('hepler')
     const startTime = performance.now(); // หรือใช้ Date.now() ก็ได้
     let option
     let urlNew = ''
+    if(!['get','post'].includes(reqMethod.toLowerCase())){
+        reqData = {...reqData,method:reqMethod.toLowerCase()}
+        reqMethod = 'post'
+    }
+
     if (reqMethod === 'GET' || reqMethod === 'get') {
         option = {
             method: "GET",

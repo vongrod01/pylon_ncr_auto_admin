@@ -42,14 +42,23 @@ router.get('/pylon_product_ncr/', (req, res) => {
     res.render('product_ncr_mapping.ejs', initData)
 
 })
-router.get('/pylon_ncr_auto_index/', (req, res) => {
+router.get('/login/', (req, res) => {
     let initData = systemConfig.description
     initData.port = systemConfig.server.port
     initData.host = systemConfig.server.host
 
     initData.api1_port = systemConfig.api[0].port
     initData.api1_host = systemConfig.api[0].host
-    res.render('index.ejs', initData)
+    res.render('login.ejs', initData)
+})
+router.get('/link/', (req, res) => {
+    let initData = systemConfig.description
+    initData.port = systemConfig.server.port
+    initData.host = systemConfig.server.host
+
+    initData.api1_port = systemConfig.api[0].port
+    initData.api1_host = systemConfig.api[0].host
+    res.render('link.ejs', initData)
 })
 router.get('/pylon_ncr_auto_admin/', (req, res) => {
     let initData = systemConfig.description
