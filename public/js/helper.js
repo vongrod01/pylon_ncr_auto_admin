@@ -1,6 +1,33 @@
 let root_css = document.querySelector(':root');
-let global_token = 'AUTH_DEV'
-// let global_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYXNfdXNlcnNfaWQiOiIxMTAwIiwibG9naW5uYW1lIjoiYWRpc29ybi52byIsImNtX3VzZXJpZCI6IjQ2MyIsImNtX2VtcGlkIjoiMTk2MCIsInRrX2RhdGUiOiIxMC84LzIwMjQgMToxMDo1MiBQTSIsIm5iZiI6MTcyODM2Nzg1MiwiZXhwIjoxNzU5OTAzODUyLCJpYXQiOjE3MjgzNjc4NTIsImlzcyI6IlB5bG9uIiwiYXVkIjoiUHlsb24ifQ.58QTKSGHrQy5iLzZkmaMko2tLV3mqgTtoI52Ex-ZdUI'
+let userDetail
+
+
+async function getSession() {
+    const origin = window.location.origin       
+    const pathname = window.location.pathname       
+    const basePath = pathname.split('/')[0]   
+    const baseURL = `${origin}/${basePath}`    
+
+    // ใช้กับ fetch ได้เลย
+    console.log(`url : ${baseURL}get_session`)
+    await fetch(`${baseURL}get_session`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Session get:', data)
+            userDetail = data.session.userDetail
+        })
+        .catch(err => {
+            console.error('Error getting session:', err)
+        })
+
+}
+
 async function imgToBase64(file) {
     let data;
     await getBase64(file).then(
@@ -85,11 +112,17 @@ function runTooltipBootstrap() {
 
 async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError = null) {
     console.log('hepler')
+    let global_token
+    try {
+        global_token = token || userDetail.Token 
+    } catch (error) {
+        global_token = ''
+    }
     const startTime = performance.now(); // หรือใช้ Date.now() ก็ได้
     let option
     let urlNew = ''
-    if(!['get','post'].includes(reqMethod.toLowerCase())){
-        reqData = {...reqData,method:reqMethod.toLowerCase()}
+    if (!['get', 'post'].includes(reqMethod.toLowerCase())) {
+        reqData = { ...reqData, method: reqMethod.toLowerCase() }
         reqMethod = 'post'
     }
 
@@ -153,7 +186,7 @@ async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError
             console.error('Error:', err.message);
             if (callBackError === null) {
 
-                Swal.fire(url,err.message, 'error');
+                Swal.fire(url, err.message, 'error');
             }
             else {
                 await callBackError(err)
@@ -292,3 +325,6 @@ const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
 function blobtoURL(b64Data, contentType) {
     return URL.createObjectURL(b64toBlob(b64Data, contentType))
 }
+
+
+getSession();

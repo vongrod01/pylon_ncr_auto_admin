@@ -6,8 +6,8 @@
     "api":[
         {
             "port":"",
-            "host":"http://localhost:1000",
-            "host1":"https://staging.pylon.co.th:4384/ncr-auto-admin-api"
+            "host1":"http://localhost:1000",
+            "host":"https://staging.pylon.co.th:4384/ncr-auto-admin-api"
         }
     ],
     "description":{
