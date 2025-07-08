@@ -1,7 +1,7 @@
 {
     "server":{
         "port":8080,
-        "host":"http://localhost:8080"
+        "host":"https://staging.pylon.co.th:4384/ncr-auto-admin"
     },
     "api":[
         {
