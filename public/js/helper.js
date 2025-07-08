@@ -1,15 +1,15 @@
 let root_css = document.querySelector(':root');
 let userDetail
-
+let global_token
 
 async function getSession() {
-    const origin = window.location.origin       
-    const pathname = window.location.pathname       
-    const basePath = pathname.split('/')[0]   
-    const baseURL = `${origin}/${basePath}`    
+    const origin = window.location.origin
+    const pathname = window.location.pathname
+    const basePath = pathname.split('/')[0]
+    const baseURL = `${origin}/${basePath}`
 
     // ใช้กับ fetch ได้เลย
-    console.log(`url : ${baseURL}get_session`)
+    // console.log(`url : ${baseURL}get_session`)
     await fetch(`${baseURL}get_session`, {
         method: 'GET',
         headers: {
@@ -19,7 +19,7 @@ async function getSession() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log('Session get:', data)
+            // console.log('Session get:', data)
             userDetail = data.session.userDetail
         })
         .catch(err => {
@@ -112,9 +112,9 @@ function runTooltipBootstrap() {
 
 async function reqAndRes(url, reqMethod, reqData, callBackSuccess, callBackError = null) {
     console.log('hepler')
-    let global_token
+
     try {
-        global_token = token || userDetail.Token 
+        global_token = token || userDetail.Token
     } catch (error) {
         global_token = ''
     }

@@ -132,7 +132,7 @@ async function displayNCRAutoAdminJobApplyEntry() {
                     <td class="text-center align-middle">${fileDetail.fileType}</td>
                     <td class="text-center align-middle">${fileDetail.fileSize} bytes</td>
                      <td class="text-center align-middle">
-                        <a class="btn btn-secondary" href="http://${fileDetail.fileAddress}" target="_blank">
+                        <a class="btn btn-secondary" href="${fileDetail.fileAddress}" target="_blank">
                             <i class="fas fa-download"></i>
                         </a>
                     </td>
